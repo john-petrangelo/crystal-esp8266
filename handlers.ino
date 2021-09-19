@@ -1,5 +1,10 @@
 void handleRoot() {
-  server.send(200, "text/plain", "hello from esp8266!\r\n");
+  String message = "hello from crystal.local!\r\n";
+  server.send(200, "text/plain", message);
+}
+
+void handleStatus() {
+  server.send(200, "text/plain", runner.describe());
 }
 
 void handleNotFound() {
