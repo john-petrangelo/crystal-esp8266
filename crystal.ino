@@ -24,7 +24,7 @@ PixelsArray pixels2;
 PixelsArray pixels3;
 Rotate rotate(8, RIGHT);
 Flame flame(pixels3);
-Runner runner = Runner::runForDurationMS(5000, &flame);
+Runner runner = Runner::runForever(&flame);
 
 void setup(void) {
   setupPixels();
