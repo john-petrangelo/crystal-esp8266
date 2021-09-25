@@ -3,7 +3,8 @@
 #include <ESP8266mDNS.h>
 #include <ArduinoOTA.h>
 #include <Adafruit_NeoPixel.h>
-#include "src/lumos-arduino/lumos-arduino/Effect.h"
+
+#include "src/lumos-arduino/lumos-arduino/Actions.h"
 #include "src/lumos-arduino/lumos-arduino/Patterns.h"
 #include "src/lumos-arduino/lumos-arduino/Runner.h"
 
