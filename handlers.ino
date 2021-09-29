@@ -4,7 +4,7 @@ void handleRoot() {
 }
 
 void handleStatus() {
-  server.send(200, "text/plain", runner.describe());
+  server.send(200, "text/plain", lumos.describe());
 }
 
 void handleNotFound() {
