@@ -15,21 +15,21 @@
 #include "secrets.h"
 
 // Configuration information about the NeoPixel strip we are using.
-int16_t const PIXELS_COUNT = 16;
+int16_t const PIXELS_COUNT = 24;
 int8_t const PIXELS_PIN = 2;
 
-//Adafruit_NeoPixel strip(NUM_PIXELS, PIXELS_PIN, NEO_GRB + NEO_KHZ800);
+String hostname = "crystal";
 ESP8266WebServer server(80);
 
 // Server used for logging.
 WiFiServer logServer(8000);
 WiFiClient logClient;
 
-Lumos lumos(16, PIXELS_PIN);
-PixelsArray pixels1;
-PixelsArray pixels2;
-PixelsArray pixels3;
-Flame flame(lumos.getStrip(), pixels3);
+Lumos lumos(PIXELS_COUNT, PIXELS_PIN);
+PixelsArray pixels;
+CrystalLight crystalLight(lumos.getStrip(), pixels);
+Flame flame(lumos.getStrip(), pixels);
+Rotate rotate(lumos.getStrip(), 5, RIGHT);
 
 void setup(void) {
   setupSerial();
@@ -40,17 +40,18 @@ void setup(void) {
 
   logServer.begin();
 
-  lumos.runForever(&flame);
+  lumos.runForever(&crystalLight);
 }
 
 int count = 0;
 
 void loop(void) {
+  // Check for network activity.
   server.handleClient();
   MDNS.update();
   ArduinoOTA.handle();
 
-//  runner.loop();
+  // Animate the LEDs. 
   lumos.loop();
 
   if (!logClient) {
@@ -87,16 +88,33 @@ void setupWiFi() {
   }
   Serial.println("");
 
+  // If we recognize the MAC address, use a different hostname specific to that MAC address
+  String macAddress = WiFi.macAddress();
+  if (macAddress == "E8:DB:84:98:7F:C3") {
+    hostname = "shard";
+  } else if (macAddress = "84:CC:A8:81:0A:53") {
+    hostname = "crystal";
+  } else {
+    hostname = WiFi.hostname();
+  }
   Serial.print("Network: ");
   Serial.println(SECRET_SSID);
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
+  Serial.print("MAC address: ");
+  Serial.println(WiFi.macAddress());
+  Serial.print("Hostname: ");
+  Serial.println(hostname);
 }
 
 // Setup the web server and handlers
 void setupHTTP() {
   server.on("/", HTTP_GET, handleRoot);
   server.on("/status", HTTP_GET, handleStatus);
+  server.on("/off", HTTP_GET, handleOff);
+  server.on("/darkcrystal", HTTP_GET, handleDarkCrystal);
+  server.on("/flame", HTTP_GET, handleFlame);
+  server.on("/rainbow", HTTP_GET, handleRainbow);
   server.onNotFound(handleNotFound);
   server.begin();
   Serial.println("HTTP server started");
@@ -104,7 +122,7 @@ void setupHTTP() {
 
 // Setup an MDNS responder so we can be found by <host>.local instead of IP address
 void setupMDNS() {
-  if (MDNS.begin("crystal")) {
+  if (MDNS.begin("hostname")) {
     Serial.println("MDNS responder started: crystal.local");
   }
 }
@@ -115,7 +133,7 @@ void setupOTA() {
   // ArduinoOTA.setPort(8266);
 
   // Hostname defaults to esp8266-[ChipID]
-  ArduinoOTA.setHostname("crystal");
+  ArduinoOTA.setHostname(hostname.c_str());
 
   // No authentication by default
   // ArduinoOTA.setPassword((const char *)"123");
@@ -123,9 +141,9 @@ void setupOTA() {
   ArduinoOTA.onStart([]() {
     Serial.println("OTA Start");
 
-    Patterns::setSolidColor(lumos.getStrip(), pixels1, BLACK);
-    Patterns::setSolidColor(pixels1, lumos.getStrip().numPixels()-1, lumos.getStrip().numPixels(), WHITE);
-    Patterns::applyPixels(lumos.getStrip(), pixels1);
+    Patterns::setSolidColor(lumos.getStrip(), pixels, BLACK);
+    Patterns::setSolidColor(pixels, lumos.getStrip().numPixels()-1, lumos.getStrip().numPixels(), WHITE);
+    Patterns::applyPixels(lumos.getStrip(), pixels);
     lumos.getStrip().show();
   });
   
@@ -134,16 +152,16 @@ void setupOTA() {
 
     int otaPixels = progress / (total / lumos.getStrip().numPixels());
     Serial.printf("progress: %u  total: %u  otaPixels: %u\r", progress, total, otaPixels);
-    Patterns::setSolidColor(pixels1, 0, otaPixels, GREEN);
-    Patterns::applyPixels(lumos.getStrip(), pixels1);
+    Patterns::setSolidColor(pixels, 0, otaPixels, GREEN);
+    Patterns::applyPixels(lumos.getStrip(), pixels);
     lumos.getStrip().show();
   });
   
   ArduinoOTA.onEnd([]() {
     Serial.println("\nOTA End");
 
-    Patterns::setSolidColor(lumos.getStrip(), pixels1, BLACK);
-    Patterns::applyPixels(lumos.getStrip(), pixels1);
+    Patterns::setSolidColor(lumos.getStrip(), pixels, BLACK);
+    Patterns::applyPixels(lumos.getStrip(), pixels);
     lumos.getStrip().show();
 });
   
@@ -155,8 +173,8 @@ void setupOTA() {
     else if (error == OTA_RECEIVE_ERROR) Serial.println("OTA Receive Failed");
     else if (error == OTA_END_ERROR) Serial.println("OTA End Failed");
 
-    Patterns::setSolidColor(lumos.getStrip(), pixels1, RED);
-    Patterns::applyPixels(lumos.getStrip(), pixels1);
+    Patterns::setSolidColor(lumos.getStrip(), pixels, RED);
+    Patterns::applyPixels(lumos.getStrip(), pixels);
     lumos.getStrip().show();
   });
   
