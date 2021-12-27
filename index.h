@@ -1,7 +1,7 @@
 char const MAIN_page[] PROGMEM = R"=====(
 <html>
   <head>
-    <title>Dark Crystal</title>
+    <title>Crystal Control</title>
     <meta name="viewport" content="initial-scale=2.0">
     <style>
       body { background-color: lavender; font-family: 'Brush Script MT', cursive; }
