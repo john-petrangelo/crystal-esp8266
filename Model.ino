@@ -12,21 +12,37 @@ class Model {
     virtual Color apply(float pos, float timeStamp) = 0;
 };
 
+/***** SOLID *****/
+
+/*
+ * Set a solid color pattern.
+ */
+class SolidModel : public Model {
+  public:
+    SolidModel(Color color) : color(color) { }
+    virtual Color apply(float pos, float timeStamp) {
+      printf("SolidModel::apply(%f, %f)\n", pos, timeStamp);
+      return color;
+    }
+
+  private:
+    Color color;
+};
+
+/***** GRADIENT *****/
+
 /*
  * Set a gradient color pattern. The number of defined color points is variable.
- * 
- * Example: to run a gradient from red to yellow to blue:
- *     setGradient(pixels, 0, strip.numPixels(), 3, RED, YELLOW, BLUE);
  */
 class GradientModel : public Model {
+  public:
+    GradientModel(int count, ...);
+    virtual Color apply(float pos, float timeStamp);
+
   private:
     static int const MAX_COLORS = 10;
     int count;
     Color colors[MAX_COLORS];
-
-  public:
-    GradientModel(int count, ...);
-    Color apply(float pos, float timeStamp);
 };
 
 GradientModel::GradientModel(int count, ...) : count(count) {
@@ -46,6 +62,8 @@ GradientModel::GradientModel(int count, ...) : count(count) {
 }
 
 Color GradientModel::apply(float pos, float timeStamp) {
+  printf("GradientModel::apply(%f, %f)\n", pos, timeStamp);
+
   // GradientModel is static and ignores timeStamp
 
   // Map the position from [0.0, 1.0] to [0, count-1]
@@ -62,4 +80,43 @@ Color GradientModel::apply(float pos, float timeStamp) {
 
   float ratio = (colorPos - lower) / (upper- lower);
   return Colors::blend(colors[lower], colors[upper], 100 * ratio);
+}
+
+/***** ROTATE *****/
+
+// An action that rotates or shifts lights to the left or right.
+// The speed is specified in revs per second, which is the same
+// how long it takes to move from position 0.0 to 1.0.
+// Rotate wraps around so that once a color reaches 1.0, then
+// continues at 0.0 again.
+class RotateModel : public Model {
+  public:
+    enum Direction {
+      UP, DOWN
+    };
+  
+    RotateModel(Model *predecessor, float revsPerSecond, Direction dir) 
+      : predecessor(predecessor), revsPerSecond(revsPerSecond), dir(dir) { }
+    virtual Color apply(float pos, float timeStamp);
+
+  private:
+    Model *predecessor;
+    float revsPerSecond;
+    Direction dir;
+};
+
+Color RotateModel::apply(float pos, float timeStamp) {
+  printf("RotateModel::apply(%f, %f)\n", pos, timeStamp);
+  float delta = timeStamp * revsPerSecond;
+  if (dir == UP) {
+    delta = -delta;
+  }
+
+  // "Rotate" really means look at a different position dependent on the time and rate of rotation.
+  float newPos = fmod(pos + delta, 1.0);
+  if (newPos < 0.0) {
+    newPos += 1.0;
+  }
+  
+  return predecessor->apply(newPos, timeStamp);
 }
