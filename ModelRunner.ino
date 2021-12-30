@@ -7,33 +7,35 @@ class ModelRunner {
     unsigned long startTimeMS;
 
   public:
-    ModelRunner();
+    ModelRunner(Model *model);
+    ModelRunner() : model(NULL) { }
     void loop(int numPixels, Pixels pixels);
+
+    void setModel(Model *model);
 };
 
-ModelRunner::ModelRunner() : startTimeMS(millis()) {
-  printf("ModelRunner::ModelRunner entered\n");
-
-  GradientModel *gm = new GradientModel(8, RED, VIOLET, INDIGO, BLUE, GREEN, YELLOW, ORANGE, RED);
-  RotateModel *rm = new RotateModel(gm, 0.3, RotateModel::UP);
-  printf("ModelRunner::ModelRunner gm=%p rm=%p\n", gm, rm);
-  
-  model = rm;
-
-  printf("ModelRunner::ModelRunner leaving\n");
-}
+ModelRunner::ModelRunner(Model *model) : model(model), startTimeMS(millis()) { }
 
 void ModelRunner::loop(int numPixels, Pixels pixels) {
-//  printf("ModelRunner::loop entered\n");
-
+  // If there's no model then there's nothing to do
+  if (model == NULL) {
+    return;
+  }
+  
   unsigned long nowMS = millis();
   float timeStamp = (nowMS - startTimeMS) / 1000.0;
-//  printf("ModelRunner::loop ms=%lu\n", timeStamp);
   for (int i = 0; i < numPixels; i++) {
     float pos = ((float)i) / (numPixels - 1);
     pixels[i] = model->apply(pos, timeStamp);
-//    printf("ModelRunner::loop pixels[%d]=0x%06X (pos=%f)\n", i, pixels[i], pos);
   }
 
-  printf("ModelRunner::loop leaving duration=%ums\n", millis() - nowMS);
+//  printf("ModelRunner::loop leaving duration=%ums\n", millis() - nowMS);
+}
+
+// Give the ModelRunner a new model to run. The old model will be deleted.
+void ModelRunner::setModel(Model *newModel) {
+  Logger::logMsgLn("Setting new model");
+
+  delete model;
+  model = newModel;
 }

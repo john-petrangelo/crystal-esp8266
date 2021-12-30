@@ -24,10 +24,8 @@ WiFiServer logServer(8000);
 WiFiClient logClient;
 
 Color pixels[PIXELS_COUNT];
-//Lumos lumos(PIXELS_COUNT, PIXELS_PIN);
 //CrystalLight crystalLight(lumos.getStrip(), pixels);
 //Flame flame(lumos.getStrip(), pixels);
-//Rotate rotate(lumos.getStrip(), 5, RIGHT);
 
 ModelRunner modelRunner;
 
@@ -43,7 +41,9 @@ void setup() {
   strip.setBrightness(255);
   strip.show(); // Initialize all pixels to 'off'
 
-//  lumos.runForever(&crystalLight);
+  GradientModel *gm = new GradientModel(8, RED, VIOLET, INDIGO, BLUE, GREEN, YELLOW, ORANGE, RED);
+  RotateModel *rm = new RotateModel(gm, 0.3, RotateModel::UP);
+  modelRunner.setModel(rm);
 }
 
 void loop() {

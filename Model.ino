@@ -1,6 +1,6 @@
 #include <math.h>
 #include "src/lumos-arduino/lumos-arduino/Colors.h"
-#include <stdio.h>
+#include "src/lumos-arduino/lumos-arduino/Logger.h"
 
 class Model {
   public:
@@ -10,6 +10,19 @@ class Model {
     // pos          the position along the strip for which we want to determine the color, given in range 0.0-1.0
     // timeStamp    time since the beginning of the run
     virtual Color apply(float pos, float timeStamp) = 0;
+
+    Model() {}
+    Model(Model *predecessor) : predecessor(predecessor) {}
+    virtual ~Model() {
+      if (predecessor != NULL) {
+        Logger::logMsgLn("Model::~Model deleting predecessor");
+        delete predecessor;
+        predecessor == NULL;
+      }
+    }
+
+   protected:
+    Model *predecessor = NULL;
 };
 
 /***** SOLID *****/
@@ -19,7 +32,7 @@ class Model {
  */
 class SolidModel : public Model {
   public:
-    SolidModel(Color color) : color(color) { }
+    SolidModel(Color color) : color(color) {}
     virtual Color apply(float pos, float timeStamp) {
       printf("SolidModel::apply(%f, %f)\n", pos, timeStamp);
       return color;
@@ -96,26 +109,25 @@ class RotateModel : public Model {
     };
   
     RotateModel(Model *predecessor, float revsPerSecond, Direction dir) 
-      : predecessor(predecessor), revsPerSecond(revsPerSecond), dir(dir) {
-          printf("RotateModel::RotateModel entered\n");
-          printf("RotateModel::RotateModel predecessor=%p\n", predecessor);
-        }
+      : Model(predecessor), revsPerSecond(revsPerSecond), dir(dir) {}
     Color apply(float pos, float timeStamp);
 
   private:
-    Model *predecessor;
     float revsPerSecond;
     Direction dir;
 };
 
 Color RotateModel::apply(float pos, float timeStamp) {
-//  printf("RotateModel::apply(pos=%f, timeStamp=%f) predecessor=%p\n", pos, timeStamp, predecessor);
+  // If there's no predecessor, then there's nothing to rotate. Bail out.
+  if (predecessor == NULL) {
+    Logger::logMsgLn("RotateModel::apply called when there is no predecessor\n");
+    return RED;
+  }
+  
   float delta = timeStamp * revsPerSecond;
   if (dir == UP) {
     delta = -delta;
   }
-
-//  printf("RotateModel::apply delta=%f\n", delta);
 
   // "Rotate" really means look at a different position dependent on the time and rate of rotation.
   float newPos = fmod(pos + delta, 1.0);
@@ -123,7 +135,7 @@ Color RotateModel::apply(float pos, float timeStamp) {
     newPos += 1.0;
   }
   
-//  printf("RotateModel::apply newPos=%f\n", newPos);
+//  printf("RotateModel::apply delta=%f newPos=%f\n", delta, newPos);
 
   return predecessor->apply(newPos, timeStamp);
 }
