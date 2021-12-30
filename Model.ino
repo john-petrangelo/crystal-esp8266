@@ -17,7 +17,7 @@ class Model {
       if (predecessor != NULL) {
         Logger::logMsgLn("Model::~Model deleting predecessor");
         delete predecessor;
-        predecessor == NULL;
+        predecessor = NULL;
       }
     }
 
