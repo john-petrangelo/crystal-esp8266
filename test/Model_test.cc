@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "../Model.ino"
 
-// Verify the GradientModel class.
+// Verify the GradientModel class
 TEST(ModelTest, VerifySolidModel) {
   SolidModel sm(RED);
 
@@ -10,7 +10,7 @@ TEST(ModelTest, VerifySolidModel) {
   EXPECT_EQ(sm.apply(1.00 /*pos*/, 0.0 /*ts*/), RED);
 }
 
-// Verify the GradientModel class.
+// Verify the GradientModel class
 TEST(ModelTest, VerifyGradientModel) {
   GradientModel gm(4, RED, GREEN, BLUE, RED);
 
@@ -21,7 +21,7 @@ TEST(ModelTest, VerifyGradientModel) {
   EXPECT_EQ(gm.apply(1.00 /*pos*/, 0.0 /*ts*/), 0xFF0000);
 }
 
-// Demonstrate some basic assertions.
+// Verify the RotateModel class
 TEST(ModelTest, VerifyRotateModel) {
   GradientModel gm(4, RED, GREEN, BLUE, RED);
   RotateModel rm_up(&gm, 1.0, RotateModel::DOWN);
