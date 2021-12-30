@@ -37,7 +37,7 @@ class SolidModel : public Model {
 class GradientModel : public Model {
   public:
     GradientModel(int count, ...);
-    virtual Color apply(float pos, float timeStamp);
+    Color apply(float pos, float timeStamp);
 
   private:
     static int const MAX_COLORS = 10;
@@ -62,7 +62,7 @@ GradientModel::GradientModel(int count, ...) : count(count) {
 }
 
 Color GradientModel::apply(float pos, float timeStamp) {
-  printf("GradientModel::apply(%f, %f)\n", pos, timeStamp);
+//  printf("GradientModel::apply(%f, %f)\n", pos, timeStamp);
 
   // GradientModel is static and ignores timeStamp
 
@@ -96,8 +96,11 @@ class RotateModel : public Model {
     };
   
     RotateModel(Model *predecessor, float revsPerSecond, Direction dir) 
-      : predecessor(predecessor), revsPerSecond(revsPerSecond), dir(dir) { }
-    virtual Color apply(float pos, float timeStamp);
+      : predecessor(predecessor), revsPerSecond(revsPerSecond), dir(dir) {
+          printf("RotateModel::RotateModel entered\n");
+          printf("RotateModel::RotateModel predecessor=%p\n", predecessor);
+        }
+    Color apply(float pos, float timeStamp);
 
   private:
     Model *predecessor;
@@ -106,11 +109,13 @@ class RotateModel : public Model {
 };
 
 Color RotateModel::apply(float pos, float timeStamp) {
-  printf("RotateModel::apply(%f, %f)\n", pos, timeStamp);
+//  printf("RotateModel::apply(pos=%f, timeStamp=%f) predecessor=%p\n", pos, timeStamp, predecessor);
   float delta = timeStamp * revsPerSecond;
   if (dir == UP) {
     delta = -delta;
   }
+
+//  printf("RotateModel::apply delta=%f\n", delta);
 
   // "Rotate" really means look at a different position dependent on the time and rate of rotation.
   float newPos = fmod(pos + delta, 1.0);
@@ -118,5 +123,7 @@ Color RotateModel::apply(float pos, float timeStamp) {
     newPos += 1.0;
   }
   
+//  printf("RotateModel::apply newPos=%f\n", newPos);
+
   return predecessor->apply(newPos, timeStamp);
 }

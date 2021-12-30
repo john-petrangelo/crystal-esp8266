@@ -15,8 +15,10 @@
 #include "secrets.h"
 
 // Configuration information about the NeoPixel strip we are using.
-int16_t const PIXELS_COUNT = 24;
+int const PIXELS_COUNT = 24;
 int8_t const PIXELS_PIN = 2;
+neoPixelType const STRIP_FLAGS = NEO_GRB + NEO_KHZ800;
+Adafruit_NeoPixel strip(PIXELS_COUNT, PIXELS_PIN, STRIP_FLAGS);
 
 String hostname = "crystal";
 ESP8266WebServer server(80);
@@ -25,11 +27,13 @@ ESP8266WebServer server(80);
 WiFiServer logServer(8000);
 WiFiClient logClient;
 
-Lumos lumos(PIXELS_COUNT, PIXELS_PIN);
-PixelsArray pixels;
-CrystalLight crystalLight(lumos.getStrip(), pixels);
-Flame flame(lumos.getStrip(), pixels);
-Rotate rotate(lumos.getStrip(), 5, RIGHT);
+Color pixels[PIXELS_COUNT];
+//Lumos lumos(PIXELS_COUNT, PIXELS_PIN);
+//CrystalLight crystalLight(lumos.getStrip(), pixels);
+//Flame flame(lumos.getStrip(), pixels);
+//Rotate rotate(lumos.getStrip(), 5, RIGHT);
+
+ModelRunner modelRunner;
 
 void setup(void) {
   setupSerial();
@@ -40,7 +44,11 @@ void setup(void) {
 
   logServer.begin();
 
-  lumos.runForever(&crystalLight);
+  strip.begin();
+  strip.setBrightness(255);
+  strip.show(); // Initialize all pixels to 'off'
+
+//  lumos.runForever(&crystalLight);
 }
 
 int count = 0;
@@ -52,23 +60,12 @@ void loop(void) {
   ArduinoOTA.handle();
 
   // Animate the LEDs. 
-  lumos.loop();
+  //  lumos.loop();
+  modelRunner.loop(PIXELS_COUNT, pixels);
+  Patterns::applyPixels(strip, pixels);
+  strip.show();
 
-  if (!logClient) {
-    // No log client. Check the server for new clients.
-    logClient = logServer.available();
-    if (logClient) {
-      // We've got a new log client.
-      Logger::setStream(&logClient);
-      Logger::logMsgLn("Connected to WiFi logging...");
-    }
-  }
-
-  if (logClient && !logClient.connected()) {
-    // Not connected anymore, switch logging back to serial.
-    Logger::setStream(&Serial);
-    logClient.stop();
-  }
+  loopLogger();
 }
 
 // Setup serial communications channel
@@ -111,10 +108,10 @@ void setupWiFi() {
 void setupHTTP() {
   server.on("/", HTTP_GET, handleRoot);
   server.on("/status", HTTP_GET, handleStatus);
-  server.on("/off", HTTP_GET, handleOff);
-  server.on("/darkcrystal", HTTP_GET, handleDarkCrystal);
-  server.on("/flame", HTTP_GET, handleFlame);
-  server.on("/rainbow", HTTP_GET, handleRainbow);
+//  server.on("/off", HTTP_GET, handleOff);
+//  server.on("/darkcrystal", HTTP_GET, handleDarkCrystal);
+//  server.on("/flame", HTTP_GET, handleFlame);
+//  server.on("/rainbow", HTTP_GET, handleRainbow);
   server.onNotFound(handleNotFound);
   server.begin();
   Serial.println("HTTP server started");
@@ -141,29 +138,29 @@ void setupOTA() {
   ArduinoOTA.onStart([]() {
     Serial.println("OTA Start");
 
-    Patterns::setSolidColor(lumos.getStrip(), pixels, BLACK);
-    Patterns::setSolidColor(pixels, lumos.getStrip().numPixels()-1, lumos.getStrip().numPixels(), WHITE);
-    Patterns::applyPixels(lumos.getStrip(), pixels);
-    lumos.getStrip().show();
+    Patterns::setSolidColor(strip, pixels, BLACK);
+    Patterns::setSolidColor(pixels, strip.numPixels()-1, strip.numPixels(), WHITE);
+    Patterns::applyPixels(strip, pixels);
+    strip.show();
   });
   
   ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
     Serial.printf("OTA Progress: %u%%\r", (progress / (total / 100)));
 
-    int otaPixels = progress / (total / lumos.getStrip().numPixels());
+    int otaPixels = progress / (total / strip.numPixels());
     Serial.printf("progress: %u  total: %u  otaPixels: %u\r", progress, total, otaPixels);
     Patterns::setSolidColor(pixels, 0, otaPixels, GREEN);
-    Patterns::applyPixels(lumos.getStrip(), pixels);
-    lumos.getStrip().show();
+    Patterns::applyPixels(strip, pixels);
+    strip.show();
   });
   
   ArduinoOTA.onEnd([]() {
     Serial.println("\nOTA End");
 
-    Patterns::setSolidColor(lumos.getStrip(), pixels, BLACK);
-    Patterns::applyPixels(lumos.getStrip(), pixels);
-    lumos.getStrip().show();
-});
+    Patterns::setSolidColor(strip, pixels, BLACK);
+    Patterns::applyPixels(strip, pixels);
+    strip.show();
+  });
   
   ArduinoOTA.onError([](ota_error_t error) {
     Serial.printf("OTA Error[%u]: ", error);
@@ -173,11 +170,30 @@ void setupOTA() {
     else if (error == OTA_RECEIVE_ERROR) Serial.println("OTA Receive Failed");
     else if (error == OTA_END_ERROR) Serial.println("OTA End Failed");
 
-    Patterns::setSolidColor(lumos.getStrip(), pixels, RED);
-    Patterns::applyPixels(lumos.getStrip(), pixels);
-    lumos.getStrip().show();
+    Patterns::setSolidColor(strip, pixels, RED);
+    Patterns::applyPixels(strip, pixels);
+    strip.show();
   });
   
   ArduinoOTA.begin();
   Serial.println("OTA ready");
+}
+
+// Check to see if the network logger needs to be setup or torn down
+void loopLogger() {
+  if (!logClient) {
+    // No log client. Check the server for new clients.
+    logClient = logServer.available();
+    if (logClient) {
+      // We've got a new log client.
+      Logger::setStream(&logClient);
+      Logger::logMsgLn("Connected to WiFi logging...");
+    }
+  }
+
+  if (logClient && !logClient.connected()) {
+    // Not connected anymore, switch logging back to serial.
+    Logger::setStream(&Serial);
+    logClient.stop();
+  }
 }

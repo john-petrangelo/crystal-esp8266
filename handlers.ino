@@ -13,7 +13,8 @@ void handleRoot() {
 }
 
 void handleStatus() {
-  String message = lumos.describe();
+//  String message = lumos.describe();
+  String message = "No lumos\n";
   message += "NETWORK\n";
   message += "hostname: " + hostname + ".local\n";
   message += "WiFi MAC Address: " + WiFi.macAddress() + "\n";
@@ -32,27 +33,30 @@ void handleNotFound() {
 }
 
 void handleOff() {
-  Patterns::setSolidColor(lumos.getStrip(), pixels, BLACK);
-  Patterns::applyPixels(lumos.getStrip(), pixels);
-  lumos.getStrip().show();
-  
-  lumos.runForever(NULL);
+//  Patterns::setSolidColor(strip, pixels, BLACK);
+//  Patterns::applyPixels(lumos.getStrip(), pixels);
+//  lumos.getStrip().show();
+//  lumos.runForever(NULL);
+
   redirectHome();
 }
 
 void handleDarkCrystal() {
-  lumos.runForever(&crystalLight);
+//  lumos.runForever(&crystalLight);
+
   redirectHome();
 }
 
 void handleFlame() {
-  lumos.runForever(&flame);
+//  lumos.runForever(&flame);
+
   redirectHome();
 }
 
 void handleRainbow() {
-  Patterns::setGradient(pixels, 0, lumos.getStrip().numPixels(), 7, VIOLET, INDIGO, BLUE, GREEN, YELLOW, ORANGE, RED);
-  Patterns::applyPixels(lumos.getStrip(), pixels);
-  lumos.runForever(&rotate);
+//  Patterns::setGradient(pixels, 0, lumos.getStrip().numPixels(), 7, VIOLET, INDIGO, BLUE, GREEN, YELLOW, ORANGE, RED);
+//  Patterns::applyPixels(lumos.getStrip(), pixels);
+//  lumos.runForever(&rotate);
+
   redirectHome();
 }
