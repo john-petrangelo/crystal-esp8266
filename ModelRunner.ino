@@ -29,13 +29,11 @@ void ModelRunner::loop(int numPixels, Pixels pixels) {
     pixels[i] = model->apply(pos, timeStamp);
   }
 
-//  printf("ModelRunner::loop leaving duration=%ums\n", millis() - nowMS);
+//  Logger::logf("ModelRunner::loop leaving duration=%ums\n", millis() - nowMS);
 }
 
 // Give the ModelRunner a new model to run. The old model will be deleted.
 void ModelRunner::setModel(Model *newModel) {
-  Logger::logMsgLn("Setting new model");
-
   delete model;
   model = newModel;
 }

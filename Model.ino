@@ -17,11 +17,11 @@ class Model {
       if (predecessor != NULL) {
         Logger::logMsgLn("Model::~Model deleting predecessor");
         delete predecessor;
-        predecessor = NULL;
+        predecessor == NULL;
       }
     }
 
-   protected:
+  protected:
     Model *predecessor = NULL;
 };
 
@@ -33,10 +33,7 @@ class Model {
 class SolidModel : public Model {
   public:
     SolidModel(Color color) : color(color) {}
-    virtual Color apply(float pos, float timeStamp) {
-      printf("SolidModel::apply(%f, %f)\n", pos, timeStamp);
-      return color;
-    }
+    virtual Color apply(float pos, float timeStamp) { return color; }
 
   private:
     Color color;
@@ -75,8 +72,6 @@ GradientModel::GradientModel(int count, ...) : count(count) {
 }
 
 Color GradientModel::apply(float pos, float timeStamp) {
-//  printf("GradientModel::apply(%f, %f)\n", pos, timeStamp);
-
   // GradientModel is static and ignores timeStamp
 
   // Map the position from [0.0, 1.0] to [0, count-1]
@@ -135,7 +130,7 @@ Color RotateModel::apply(float pos, float timeStamp) {
     newPos += 1.0;
   }
   
-//  printf("RotateModel::apply delta=%f newPos=%f\n", delta, newPos);
+//  Logger::logf("RotateModel::apply delta=%f newPos=%f\n", delta, newPos);
 
   return predecessor->apply(newPos, timeStamp);
 }
