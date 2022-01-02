@@ -41,10 +41,13 @@ void setup() {
   strip.setBrightness(255);
   strip.show(); // Initialize all pixels to 'off'
 
-  GradientModel *gm = new GradientModel(0.0, 1.0, "gm", 8, RED, VIOLET, INDIGO, BLUE, GREEN, YELLOW, ORANGE, RED);
-  RotateModel *rm = new RotateModel(0.1, RotateModel::DOWN, 0.0, 0.5, gm, "rm");
-  RotateModel *rm2 = new RotateModel(0.1, RotateModel::UP, 0.5, 1.0, rm, "rm2");
-  modelRunner.setModel(rm2);
+//  GradientModel *gm = new GradientModel("gradient", 8, RED, VIOLET, INDIGO, BLUE, GREEN, YELLOW, ORANGE, RED);
+  GradientModel *grad_left = new GradientModel("grad-left", 5, RED, YELLOW, RED, YELLOW, RED);
+  GradientModel *grad_right = new GradientModel("grad-right", 5, BLUE, GREEN, BLUE, GREEN, BLUE);
+  RotateModel *rot_left = new RotateModel("rotate down", 0.2, RotateModel::DOWN, grad_left);
+  RotateModel *rot_right = new RotateModel("rotate up", 0.2, RotateModel::UP, grad_right);
+  WindowModel *window = new WindowModel("window", 0.0, 0.5, rot_left, rot_right);
+  modelRunner.setModel(window);
 }
 
 void loop() {

@@ -33,7 +33,7 @@ void handleNotFound() {
 }
 
 void handleOff() {
-  SolidModel *sm = new SolidModel(BLACK);
+  SolidModel *sm = new SolidModel("off", BLACK);
   modelRunner.setModel(sm);
 
   redirectHome();
@@ -52,8 +52,8 @@ void handleFlame() {
 }
 
 void handleRainbow() {
-  GradientModel *gm = new GradientModel(0.0, 1.0, "gm", 8, RED, VIOLET, INDIGO, BLUE, GREEN, YELLOW, ORANGE, RED);
-  RotateModel *rm = new RotateModel(0.3, RotateModel::UP, 0.0, 1.0, gm, "rm");
+  GradientModel *gm = new GradientModel("rainbow", 8, RED, VIOLET, INDIGO, BLUE, GREEN, YELLOW, ORANGE, RED);
+  RotateModel *rm = new RotateModel("rainbow rotate", 0.3, RotateModel::UP, gm);
   modelRunner.setModel(rm);
 
   redirectHome();

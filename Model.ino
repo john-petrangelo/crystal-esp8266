@@ -4,6 +4,8 @@
 
 class Model {
   public:
+    Model(char const *name) : name(name) { }
+
     // Returns the color that should be displayed at the specified pos at the specified time,
     // given the provided predecessor model.
     //
@@ -11,32 +13,8 @@ class Model {
     // timeStamp    time since the beginning of the run
     virtual Color apply(float pos, float timeStamp) = 0;
 
-    Model(float rangeMin, float rangeMax, Model *predecessor, char const *name)
-        : rangeMin(rangeMin), rangeMax(rangeMax), predecessor(predecessor), name(name) { }
-    virtual ~Model();
-
-    float getRangeMin() { return rangeMin; }
-    float getRangeMax() { return rangeMax; }
-    char const *getName() { return name; }
-    
-  protected:
-    bool isInRange(float pos) {
-      return (rangeMin <= pos) && (pos <= rangeMax);
-    }
-  
-    Model *predecessor;
-    float rangeMin;
-    float rangeMax;
     char const *name;
 };
-
-Model::~Model() {
-  if (predecessor != NULL) {
-    Logger::logMsgLn("Model::~Model deleting predecessor");
-    delete predecessor;
-    predecessor == NULL;
-  }
-}
 
 /***** SOLID *****/
 
@@ -45,8 +23,7 @@ Model::~Model() {
  */
 class SolidModel : public Model {
   public:
-    SolidModel(Color color, float rangeMin = 0.0, float rangeMax = 1.0, Model *predecessor = NULL, char const *name = "")
-      : Model(rangeMin, rangeMax, predecessor, name), color(color) {}
+    SolidModel(char const *name, Color color) : Model(name), color(color) {}
     Color apply(float pos, float timeStamp);
 
   private:
@@ -54,15 +31,8 @@ class SolidModel : public Model {
 };
 
 Color SolidModel::apply(float pos, float timeStamp) {
-  if (predecessor != NULL) {
-    return predecessor->apply(pos, timeStamp);
-  } else {
-    return BLACK;
-  }
-
   return color;
 }
-
 
 /***** GRADIENT *****/
 
@@ -71,7 +41,7 @@ Color SolidModel::apply(float pos, float timeStamp) {
  */
 class GradientModel : public Model {
   public:
-    GradientModel(float rangeMin, float rangeMax, char const *name, int count, ...);
+    GradientModel(char const *name, int count, ...);
     Color apply(float pos, float timeStamp);
 
   private:
@@ -80,8 +50,7 @@ class GradientModel : public Model {
     Color colors[MAX_COLORS];
 };
 
-GradientModel::GradientModel(float rangeMin, float rangeMax, char const *name, int count, ...)
-    : Model(rangeMin, rangeMax, NULL, name), count(count) {
+GradientModel::GradientModel(char const *name, int count, ...) : Model(name), count(count) {
   if (count < 2 || count > MAX_COLORS) {
     count = 0;
     return;
@@ -98,22 +67,9 @@ GradientModel::GradientModel(float rangeMin, float rangeMax, char const *name, i
 }
 
 Color GradientModel::apply(float pos, float timeStamp) {
-  if (!isInRange(pos)) {
-    if (predecessor != NULL) {
-      return predecessor->apply(pos, timeStamp);
-    } else {
-      Logger::logf("GradientModel::apply:%3s not in range pos=%f\n", pos, name);
-      return BLUE;
-    }
-  }
-
   // GradientModel is static and ignores timeStamp
 
-  // Map the position from [rangeMin, rangeMax] to [0, count-1]
-  pos = fmap(pos, rangeMin, rangeMax, 0.0, 1.0);
   float colorPos = pos * (count - 1);
-
-  Logger::logf("GradientMode::apply:%3s mapped pos=%f\n", name, pos);
 
   // Get the two colors flanking the mapped position
   int lower = floor(colorPos);
@@ -125,7 +81,9 @@ Color GradientModel::apply(float pos, float timeStamp) {
   }
 
   float ratio = (colorPos - lower) / (upper- lower);
-  return Colors::blend(colors[lower], colors[upper], 100 * ratio);
+  Color color = Colors::blend(colors[lower], colors[upper], 100 * ratio);
+  Logger::logf("Gradient::apply:%s pos=%f lower=%d upper=%d color=%06X\n", name, pos, lower, upper, color);
+  return color;
 }
 
 /***** ROTATE *****/
@@ -141,51 +99,79 @@ class RotateModel : public Model {
       UP, DOWN
     };
   
-    RotateModel(float revsPerSecond, Direction dir, float rangeMin, float rangeMax, Model *predecessor, char const *name) 
-      : Model(rangeMin, rangeMax, predecessor, name), revsPerSecond(revsPerSecond), dir(dir) {}
+    RotateModel(char const *name, float revsPerSecond, Direction dir, Model *model) 
+      : Model(name), revsPerSecond(revsPerSecond), dir(dir), model(model) {}
     Color apply(float pos, float timeStamp);
+    ~RotateModel() { delete model; model = NULL; }
 
   private:
     float revsPerSecond;
     Direction dir;
+    Model *model;
 };
 
 Color RotateModel::apply(float pos, float timeStamp) {
   // If there's no predecessor, then there's nothing to rotate. Bail out.
-  if (predecessor == NULL) {
-    Logger::logf("RotateModel::apply:%3s called when there is no predecessor pos=%f\n", name, pos);
+  if (model == NULL) {
+    Logger::logf("RotateModel::apply:%s called when there is no model pos=%f\n", name, pos);
     return RED;
   }
 
-  if (!isInRange(pos)) {
-    Logger::logf("RotateModel::apply:%3s not in range pos=%f\n", name, pos);
-    return predecessor->apply(pos, timeStamp);
-  }
-
-  float rangeWidth = rangeMax - rangeMin;
-
   // "Rotate" really means look at a different position dependent on the time and rate of rotation.
   // First, figure out the offset to add to the position.
-  float delta = timeStamp * revsPerSecond * rangeWidth;
+  float delta = timeStamp * revsPerSecond;
   if (dir == UP) {
     delta = -delta;
   }
 
   // Next, add the offset to the position, then correct for wrap-around
   float rotatedPos = pos + delta;
-  while (rotatedPos > rangeMax) {
-    rotatedPos -= rangeWidth;
+  while (rotatedPos > 1.0) {
+    rotatedPos -= 1.0;
   }
-  while (rotatedPos < rangeMin) {
-    rotatedPos += rangeWidth;
+  while (rotatedPos < 0.0) {
+    rotatedPos += 1.0;
   }
 
-  // Finally, apply the range mapping to the position
-  rotatedPos = fmap(rotatedPos, rangeMin, rangeMax, predecessor->getRangeMin(), predecessor->getRangeMax());
-  
-  Logger::logf("RotateModel::apply:%3s rotating predecessor pos=%f delta=% f rotatedPos=%f\n", name, pos, delta, rotatedPos);
+  Logger::logf("RotateModel::apply:%s rotating model pos=%f delta=% f rotatedPos=%f\n", name, pos, delta, rotatedPos);
 
-  return predecessor->apply(rotatedPos, timeStamp);
+  return model->apply(rotatedPos, timeStamp);
+}
+
+
+/***** WINDOW *****/
+
+/*
+ * TODO WindowModel description
+ */
+class WindowModel : public Model {
+  public:
+    WindowModel(char const *name, float rangeMin, float rangeMax, Model *insideRange, Model *outsideRange)
+      : Model(name), rangeMin(rangeMin), rangeMax(rangeMax), insideRange(insideRange), outsideRange(outsideRange) { }
+    Color apply(float pos, float timeStamp);
+
+  private:
+    Model *insideRange;
+    Model *outsideRange;
+    float rangeMin, rangeMax;
+};
+
+Color WindowModel::apply(float pos, float timeStamp) {
+  if ((rangeMin <= pos) && (pos <= rangeMax)) {
+    if (insideRange != NULL) {
+      Logger::logf("WindowModel::apply:%s pos=%f inside\n", name, pos);
+      return insideRange->apply(pos, timeStamp);
+    }
+  } else {
+    if (outsideRange != NULL) {
+      Logger::logf("WindowModel::apply:%s pos=%f outside\n", name, pos);
+      return outsideRange->apply(pos, timeStamp);
+    }
+  }
+
+  // If we go here then the model we're supposed to apply was NULL.
+  Logger::logf("WindowModel::apply:%s error inside=%p outside=%p\n", name, insideRange, outsideRange);
+  return RED;
 }
 
 /***** FLAME *****/
