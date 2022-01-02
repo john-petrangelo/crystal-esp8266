@@ -41,9 +41,10 @@ void setup() {
   strip.setBrightness(255);
   strip.show(); // Initialize all pixels to 'off'
 
-  GradientModel *gm = new GradientModel(8, RED, VIOLET, INDIGO, BLUE, GREEN, YELLOW, ORANGE, RED);
-  RotateModel *rm = new RotateModel(gm, 0.3, RotateModel::UP);
-  modelRunner.setModel(rm);
+  GradientModel *gm = new GradientModel(0.0, 1.0, "gm", 8, RED, VIOLET, INDIGO, BLUE, GREEN, YELLOW, ORANGE, RED);
+  RotateModel *rm = new RotateModel(0.1, RotateModel::DOWN, 0.0, 0.5, gm, "rm");
+  RotateModel *rm2 = new RotateModel(0.1, RotateModel::UP, 0.5, 1.0, rm, "rm2");
+  modelRunner.setModel(rm2);
 }
 
 void loop() {
@@ -51,7 +52,6 @@ void loop() {
   loopNetwork();
 
   // Animate the LEDs. 
-  //  lumos.loop();
   modelRunner.loop(PIXELS_COUNT, pixels);
   Patterns::applyPixels(strip, pixels);
   strip.show();
