@@ -82,7 +82,7 @@ Color GradientModel::apply(float pos, float timeStamp) {
 
   float ratio = (colorPos - lower) / (upper- lower);
   Color color = Colors::blend(colors[lower], colors[upper], 100 * ratio);
-  Logger::logf("Gradient::apply:%s pos=%f lower=%d upper=%d color=%06X\n", name, pos, lower, upper, color);
+//  Logger::logf("Gradient::apply:%s pos=%f lower=%d upper=%d color=%06X\n", name, pos, lower, upper, color);
   return color;
 }
 
@@ -133,7 +133,7 @@ Color RotateModel::apply(float pos, float timeStamp) {
     rotatedPos += 1.0;
   }
 
-  Logger::logf("RotateModel::apply:%s rotating model pos=%f delta=% f rotatedPos=%f\n", name, pos, delta, rotatedPos);
+//  Logger::logf("RotateModel::apply:%s rotating model pos=%f delta=% f rotatedPos=%f\n", name, pos, delta, rotatedPos);
 
   return model->apply(rotatedPos, timeStamp);
 }
@@ -159,19 +159,49 @@ class WindowModel : public Model {
 Color WindowModel::apply(float pos, float timeStamp) {
   if ((rangeMin <= pos) && (pos <= rangeMax)) {
     if (insideRange != NULL) {
-      Logger::logf("WindowModel::apply:%s pos=%f inside\n", name, pos);
+//      Logger::logf("WindowModel::apply:%s pos=%f inside\n", name, pos);
       return insideRange->apply(pos, timeStamp);
     }
   } else {
     if (outsideRange != NULL) {
-      Logger::logf("WindowModel::apply:%s pos=%f outside\n", name, pos);
+//      Logger::logf("WindowModel::apply:%s pos=%f outside\n", name, pos);
       return outsideRange->apply(pos, timeStamp);
     }
   }
 
   // If we go here then the model we're supposed to apply was NULL.
-  Logger::logf("WindowModel::apply:%s error inside=%p outside=%p\n", name, insideRange, outsideRange);
+//  Logger::logf("WindowModel::apply:%s error inside=%p outside=%p\n", name, insideRange, outsideRange);
   return RED;
+}
+
+/***** MAP *****/
+
+/*
+ * TODO MapModel description
+ */
+class MapModel : public Model {
+  public:
+    MapModel(char const *name, float inRangeMin, float inRangeMax, float outRangeMin, float outRangeMax, Model *model)
+      : Model(name), inRangeMin(inRangeMin), inRangeMax(inRangeMax), outRangeMin(outRangeMin), outRangeMax(outRangeMax),
+        model(model) { }
+    Color apply(float pos, float timeStamp);
+
+  private:
+    Model *model;
+    float inRangeMin, inRangeMax, outRangeMin, outRangeMax;
+};
+
+Color MapModel::apply(float pos, float timeStamp) {
+  if ((inRangeMin <= pos) && (pos <= inRangeMax)) {
+    float outPos = fmap(pos, inRangeMin, inRangeMax, outRangeMin, outRangeMax);
+//    Logger::logf("WindowModel::apply:%s mapping (%f,%f)->(%f,%f) pos=%f outPos=%f\n",
+//      name, inRangeMin, inRangeMax, outRangeMin, outRangeMax, pos, outPos);
+    return model->apply(outPos, timeStamp);
+  }
+
+  // Everything outside of the "in range" will be BLACK
+//  Logger::logf("MapModel::apply:%s outside range pos=%f\n", name, pos);
+  return BLACK;
 }
 
 /***** FLAME *****/
