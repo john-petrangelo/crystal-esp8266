@@ -28,11 +28,16 @@ void ModelRunner::loop(int numPixels, Pixels pixels) {
 //  Logger::logf("ModelRunner::loop looping ts=%f\n", timeStamp);
   for (int i = 0; i < numPixels; i++) {
     float pos = ((float)i) / (numPixels - 1);
-    Logger::logf("ModelRunner::loop looping i=%d pos=%f ts=%f\n", i, pos, timeStamp);
+//    Logger::logf("ModelRunner::loop looping i=%d pos=%f ts=%f\n", i, pos, timeStamp);
     pixels[i] = model->apply(pos, timeStamp);
   }
 
-//  Logger::logf("ModelRunner::loop leaving duration=%ums\n", millis() - nowMS);
+//  static int count = 0;
+//  count++;
+//  if (count >= 1000) {
+//    Logger::logf("ModelRunner::loop leaving duration=%ums\n", millis() - nowMS);
+//    count = 0;
+//  }
 }
 
 // Give the ModelRunner a new model to run. The old model will be deleted.
