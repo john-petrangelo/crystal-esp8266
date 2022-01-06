@@ -11,6 +11,10 @@ float fmap(float x, float in_min, float in_max, float out_min, float out_max) {
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
+float frand(double fmin, double fmax) {
+  return fmin + random(1UL << 31) * (fmax - fmin) / (1UL << 31);
+}
+
 /**
  * Returns an interpolation between two inputs (v0, v1) for a parameter (t)
  * 
