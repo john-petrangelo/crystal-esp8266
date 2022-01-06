@@ -51,9 +51,7 @@ class GradientModel : public Model {
 
 Color GradientModel::apply(float pos, float timeStamp) {
   // Linearly interpolate from the lower color to the upper color.
-  Color color = Colors::blend(a, b, 100 * pos);
-//  Logger::logf("Gradient::apply:%s pos=%f a=%06X b=%06X color=%06X\n", name, pos, a, b, color);
-  return color;
+  return Colors::blend(a, b, 100 * pos);
 }
 
 /***** MULTIGRADIENT *****/
@@ -102,9 +100,7 @@ Color MultiGradientModel::apply(float pos, float timeStamp) {
   }
 
   float ratio = (colorPos - lower) / (upper - lower);
-  Color color = Colors::blend(colors[lower], colors[upper], 100 * ratio);
-//  Logger::logf("Gradient::apply:%s pos=%f lower=%d upper=%d color=%06X\n", name, pos, lower, upper, color);
-  return color;
+  return Colors::blend(colors[lower], colors[upper], 100 * ratio);
 }
 
 /***** ROTATE *****/
@@ -134,7 +130,6 @@ class RotateModel : public Model {
 Color RotateModel::apply(float pos, float timeStamp) {
   // If there's no predecessor, then there's nothing to rotate. Bail out.
   if (model == NULL) {
-    Logger::logf("RotateModel::apply:%s called when there is no model pos=%f\n", name, pos);
     return RED;
   }
 
@@ -150,8 +145,6 @@ Color RotateModel::apply(float pos, float timeStamp) {
   if (rotatedPos < 0.0) {
     rotatedPos += 1.0;
   }
-
-//  Logger::logf("RotateModel::apply:%s rotating model pos=%f delta=% f rotatedPos=%f\n", name, pos, delta, rotatedPos);
 
   return model->apply(rotatedPos, timeStamp);
 }
@@ -177,18 +170,15 @@ class WindowModel : public Model {
 Color WindowModel::apply(float pos, float timeStamp) {
   if ((rangeMin <= pos) && (pos <= rangeMax)) {
     if (insideRange != NULL) {
-//      Logger::logf("WindowModel::apply:%s pos=%f inside\n", name, pos);
       return insideRange->apply(pos, timeStamp);
     }
   } else {
     if (outsideRange != NULL) {
-//      Logger::logf("WindowModel::apply:%s pos=%f outside\n", name, pos);
       return outsideRange->apply(pos, timeStamp);
     }
   }
 
   // If we go here then the model we're supposed to apply was NULL.
-//  Logger::logf("WindowModel::apply:%s error inside=%p outside=%p\n", name, insideRange, outsideRange);
   return RED;
 }
 
@@ -204,6 +194,11 @@ class MapModel : public Model {
         model(model) { }
     Color apply(float pos, float timeStamp);
 
+    void setInRange(float inRangeMin, float inRangeMax) {
+      this->inRangeMin = inRangeMin;
+      this->inRangeMax = inRangeMax;
+    }
+
   private:
     Model *model;
     float inRangeMin, inRangeMax, outRangeMin, outRangeMax;
@@ -212,13 +207,10 @@ class MapModel : public Model {
 Color MapModel::apply(float pos, float timeStamp) {
   if ((inRangeMin <= pos) && (pos <= inRangeMax)) {
     float outPos = fmap(pos, inRangeMin, inRangeMax, outRangeMin, outRangeMax);
-//    Logger::logf("MapModel::apply:%s mapping (%f,%f)->(%f,%f) pos=%f outPos=%f\n",
-//      name, inRangeMin, inRangeMax, outRangeMin, outRangeMax, pos, outPos);
     return model->apply(outPos, timeStamp);
   }
 
   // Everything outside of the "in range" will be BLACK
-//  Logger::logf("MapModel::apply:%s outside range pos=%f\n", name, pos);
   return BLACK;
 }
 
@@ -226,7 +218,7 @@ Color MapModel::apply(float pos, float timeStamp) {
 
 class FlameModel : public Model {
   public:
-    FlameModel() : Model("Flame"), lastUpdateMS(-PERIOD_MS) { }
+    FlameModel();
     ~FlameModel();
 
     Color apply(float pos, float timeStamp);
@@ -236,12 +228,16 @@ class FlameModel : public Model {
     Color const C2 = Colors::blend(RED, YELLOW, 20);
     Color const C3 = ORANGE;
 
-    Model *mgm = NULL;
-    Model *mm = NULL;
+    MapModel *mapModel;
 
     long lastUpdateMS;
     int const PERIOD_MS = 110;
 };
+
+FlameModel::FlameModel() : Model("Flame"), lastUpdateMS(-PERIOD_MS) {
+  Model *mgm = new MultiGradientModel("flame multigradient", 7, BLACK, C1, C2, C3, C2, C1, BLACK);
+  mapModel = new MapModel("map multigradient",0.0, 1.0, 0.0, 1.0, mgm);
+}
 
 Color FlameModel::apply(float pos, float timeStamp) {
   long now = millis();
@@ -251,17 +247,12 @@ Color FlameModel::apply(float pos, float timeStamp) {
     float const lower = frand(0, 0.2);
     float const upper = frand(0.8, 1.0);
 
-    // The MapModel will delete the model it owns.
-    delete mm;
-  
-    mgm = new MultiGradientModel("flame multigradient", 7, BLACK, C1, C2, C3, C2, C1, BLACK);
-    mm = new MapModel("map multigradient",lower, upper, 0.0, 1.0, mgm);
+    mapModel->setInRange(lower, upper);
   }
 
-  return mm->apply(pos, timeStamp);
+  return mapModel->apply(pos, timeStamp);
 }
 
 FlameModel::~FlameModel() {
-  // The MapModel will delete the model it owns.
-  delete mm;
+  delete mapModel;
 }
