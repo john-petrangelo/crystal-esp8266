@@ -44,8 +44,8 @@ void setupHTTP() {
   server.on("/", HTTP_GET, handleRoot);
   server.on("/status", HTTP_GET, handleStatus);
   server.on("/off", HTTP_GET, handleOff);
-//  server.on("/darkcrystal", HTTP_GET, handleDarkCrystal);
-//  server.on("/flame", HTTP_GET, handleFlame);
+  server.on("/darkcrystal", HTTP_GET, handleDarkCrystal);
+  server.on("/flame", HTTP_GET, handleFlame);
   server.on("/rainbow", HTTP_GET, handleRainbow);
   server.onNotFound(handleNotFound);
   server.begin();

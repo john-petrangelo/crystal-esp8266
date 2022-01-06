@@ -17,7 +17,6 @@ class ModelRunner {
 ModelRunner::ModelRunner(Model *model) : model(model), startTimeMS(millis()) { }
 
 void ModelRunner::loop(int numPixels, Pixels pixels) {
-  
   // If there's no model then there's nothing to do
   if (model == NULL) {
     return;
@@ -25,24 +24,17 @@ void ModelRunner::loop(int numPixels, Pixels pixels) {
   
   unsigned long nowMS = millis();
   float timeStamp = (nowMS - startTimeMS) / 1000.0;
-//  Logger::logf("ModelRunner::loop looping ts=%f\n", timeStamp);
   for (int i = 0; i < numPixels; i++) {
     float pos = ((float)i) / (numPixels - 1);
-//    Logger::logf("ModelRunner::loop looping i=%d pos=%f ts=%f\n", i, pos, timeStamp);
     pixels[i] = model->apply(pos, timeStamp);
   }
-
-//  static int count = 0;
-//  count++;
-//  if (count >= 1000) {
-//    Logger::logf("ModelRunner::loop leaving duration=%ums\n", millis() - nowMS);
-//    count = 0;
-//  }
 }
 
 // Give the ModelRunner a new model to run. The old model will be deleted.
 void ModelRunner::setModel(Model *newModel) {
+  Logger::logf("ModelRunner::setModel old model=%p new model=%p\n", model, newModel);
   delete model;
+  Logger::logf("ModelRunner::setModel after delete\n");
   model = newModel;
   startTimeMS = millis();
 }

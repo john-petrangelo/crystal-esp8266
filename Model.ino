@@ -5,6 +5,7 @@
 class Model {
   public:
     Model(char const *name) : name(name) { }
+    virtual ~Model() { }
 
     // Returns the color that should be displayed at the specified pos at the specified time,
     // given the provided predecessor model.
@@ -37,11 +38,32 @@ Color SolidModel::apply(float pos, float timeStamp) {
 /***** GRADIENT *****/
 
 /*
- * Set a gradient color pattern. The number of defined color points is variable.
+ * Set a gradient color pattern from one color to another color.
  */
 class GradientModel : public Model {
   public:
-    GradientModel(char const *name, int count, ...);
+    GradientModel(char const *name, Color a, Color b) : Model(name), a(a), b(b) { }
+    Color apply(float pos, float timeStamp);
+
+  private:
+    Color a, b;
+};
+
+Color GradientModel::apply(float pos, float timeStamp) {
+  // Linearly interpolate from the lower color to the upper color.
+  Color color = Colors::blend(a, b, 100 * pos);
+//  Logger::logf("Gradient::apply:%s pos=%f a=%06X b=%06X color=%06X\n", name, pos, a, b, color);
+  return color;
+}
+
+/***** MULTIGRADIENT *****/
+
+/*
+ * Set a gradient color pattern. The number of defined color points is variable.
+ */
+class MultiGradientModel : public Model {
+  public:
+    MultiGradientModel(char const *name, int count, ...);
     Color apply(float pos, float timeStamp);
 
   private:
@@ -50,7 +72,7 @@ class GradientModel : public Model {
     Color colors[MAX_COLORS];
 };
 
-GradientModel::GradientModel(char const *name, int count, ...) : Model(name), count(count) {
+MultiGradientModel::MultiGradientModel(char const *name, int count, ...) : Model(name), count(count) {
   if (count < 2 || count > MAX_COLORS) {
     count = 0;
     return;
@@ -66,9 +88,8 @@ GradientModel::GradientModel(char const *name, int count, ...) : Model(name), co
   va_end(argList);
 }
 
-Color GradientModel::apply(float pos, float timeStamp) {
-  // GradientModel is static and ignores timeStamp
-
+Color MultiGradientModel::apply(float pos, float timeStamp) {
+//  Logger::logf("Gradient::apply:%s pos=%f\n", name, pos);
   float colorPos = pos * (count - 1);
 
   // Get the two colors flanking the mapped position
@@ -80,7 +101,7 @@ Color GradientModel::apply(float pos, float timeStamp) {
     return colors[lower];
   }
 
-  float ratio = (colorPos - lower) / (upper- lower);
+  float ratio = (colorPos - lower) / (upper - lower);
   Color color = Colors::blend(colors[lower], colors[upper], 100 * ratio);
 //  Logger::logf("Gradient::apply:%s pos=%f lower=%d upper=%d color=%06X\n", name, pos, lower, upper, color);
   return color;
@@ -125,11 +146,8 @@ Color RotateModel::apply(float pos, float timeStamp) {
   }
 
   // Next, add the offset to the position, then correct for wrap-around
-  float rotatedPos = pos + delta;
-  while (rotatedPos > 1.0) {
-    rotatedPos -= 1.0;
-  }
-  while (rotatedPos < 0.0) {
+  float rotatedPos = fmod(pos + delta, 1.0);
+  if (rotatedPos < 0.0) {
     rotatedPos += 1.0;
   }
 
@@ -194,7 +212,7 @@ class MapModel : public Model {
 Color MapModel::apply(float pos, float timeStamp) {
   if ((inRangeMin <= pos) && (pos <= inRangeMax)) {
     float outPos = fmap(pos, inRangeMin, inRangeMax, outRangeMin, outRangeMax);
-//    Logger::logf("WindowModel::apply:%s mapping (%f,%f)->(%f,%f) pos=%f outPos=%f\n",
+//    Logger::logf("MapModel::apply:%s mapping (%f,%f)->(%f,%f) pos=%f outPos=%f\n",
 //      name, inRangeMin, inRangeMax, outRangeMin, outRangeMax, pos, outPos);
     return model->apply(outPos, timeStamp);
   }
@@ -206,29 +224,44 @@ Color MapModel::apply(float pos, float timeStamp) {
 
 /***** FLAME *****/
 
-//class PurpleFlame : public Model {
-//  private:
-//    Color const C1 = Colors::blend(RED, BLUE, 10);
-//    Color const C2 = Colors::blend(RED, BLUE, 20);
-//    Color const C3 = PURPLE;
-//
-//  public:
-//    PurpleFlame(Adafruit_NeoPixel &strip, Pixels pixels) : Action(strip, 0, strip.numPixels()), pixels(pixels) { }
-//    void update();
-//};
-//
-//void PurpleFlame::apply(float pos, float timeStamp) {
-//  int const delayMS = 110;
-//
-//  // Paint the background all black.
-//  Patterns::setSolidColor(pixels, firstPixel, lastPixel, BLACK);
-//  Patterns::applyPixels(strip, pixels, firstPixel, lastPixel);
-//
-//  int const range = lastPixel - firstPixel;
-//  int const myFirstPixel = firstPixel + random(0, range / 5);
-//  int const myLastPixel = lastPixel - random(0, range / 5);
-//  Patterns::setGradient(pixels, myFirstPixel, myLastPixel, 7, BLACK, C1, C2, C3, C2, C1, BLACK);
-//  Patterns::applyPixels(strip, pixels, myFirstPixel, myLastPixel);
-//
-//  setNextUpdateMS(millis() + delayMS);
-//}
+class FlameModel : public Model {
+  public:
+    FlameModel() : Model("Flame"), lastUpdateMS(-PERIOD_MS) { }
+    ~FlameModel();
+
+    Color apply(float pos, float timeStamp);
+
+  private:
+    Color const C1 = Colors::blend(RED, YELLOW, 10);
+    Color const C2 = Colors::blend(RED, YELLOW, 20);
+    Color const C3 = ORANGE;
+
+    Model *mgm = NULL;
+    Model *mm = NULL;
+
+    long lastUpdateMS;
+    int const PERIOD_MS = 110;
+};
+
+Color FlameModel::apply(float pos, float timeStamp) {
+  long now = millis();
+  if ((now - lastUpdateMS) > PERIOD_MS) {
+    lastUpdateMS = now;
+
+    float const lower = frand(0, 0.2);
+    float const upper = frand(0.8, 1.0);
+
+    // The MapModel will delete the model it owns.
+    delete mm;
+  
+    mgm = new MultiGradientModel("flame multigradient", 7, BLACK, C1, C2, C3, C2, C1, BLACK);
+    mm = new MapModel("map multigradient",lower, upper, 0.0, 1.0, mgm);
+  }
+
+  return mm->apply(pos, timeStamp);
+}
+
+FlameModel::~FlameModel() {
+  // The MapModel will delete the model it owns.
+  delete mm;
+}

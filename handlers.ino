@@ -33,9 +33,7 @@ void handleNotFound() {
 }
 
 void handleOff() {
-  SolidModel *sm = new SolidModel("off", BLACK);
-  modelRunner.setModel(sm);
-
+  modelRunner.setModel(new SolidModel("off", BLACK));
   redirectHome();
 }
 
@@ -46,14 +44,13 @@ void handleDarkCrystal() {
 }
 
 void handleFlame() {
-//  lumos.runForever(&flame);
-
+  modelRunner.setModel(new FlameModel);
   redirectHome();
 }
 
 void handleRainbow() {
-  GradientModel *gm = new GradientModel("rainbow", 8, RED, VIOLET, INDIGO, BLUE, GREEN, YELLOW, ORANGE, RED);
-  RotateModel *rm = new RotateModel("rainbow rotate", 0.3, RotateModel::UP, gm);
+  Model *gm = new MultiGradientModel("rainbow", 8, RED, VIOLET, INDIGO, BLUE, GREEN, YELLOW, ORANGE, RED);
+  Model *rm = new RotateModel("rainbow rotate", 0.3, RotateModel::UP, gm);
   modelRunner.setModel(rm);
 
   redirectHome();
