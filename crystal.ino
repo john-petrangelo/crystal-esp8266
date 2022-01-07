@@ -77,12 +77,12 @@ void loop() {
 
   loopLogger();
 
-  long nowAfterLogger = millis();
+  long nowAfterEverything = millis();
 
   if (now - lastUpdateMS >= logDurationIntervalMS) {
     lastUpdateMS = now;
     Logger::logf("Completed loop, running model=%dms, applying LEDs=%dms, total duration %dms\n",
-      nowAfterModelRunner - now, nowAfterPixels - nowAfterModelRunner, nowAfterLogger - now);
+      nowAfterModelRunner - now, nowAfterPixels - nowAfterModelRunner, nowAfterEverything - now);
   }
 }
 
