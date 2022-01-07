@@ -157,29 +157,31 @@ Color RotateModel::apply(float pos, float timeStamp) {
  */
 class WindowModel : public Model {
   public:
-    WindowModel(char const *name, float rangeMin, float rangeMax, Model *insideRange, Model *outsideRange)
-      : Model(name), rangeMin(rangeMin), rangeMax(rangeMax), insideRange(insideRange), outsideRange(outsideRange) { }
+    WindowModel(char const *name, float rangeMin, float rangeMax, Model *insideModel, Model *outsideModel)
+      : Model(name), rangeMin(rangeMin), rangeMax(rangeMax), insideModel(insideModel), outsideModel(outsideModel) { }
+    ~WindowModel();
     Color apply(float pos, float timeStamp);
 
   private:
-    Model *insideRange;
-    Model *outsideRange;
+    Model *insideModel;
+    Model *outsideModel;
     float rangeMin, rangeMax;
 };
 
+WindowModel::~WindowModel() {
+  delete insideModel;
+  insideModel = NULL;
+  delete outsideModel;
+  outsideModel = NULL;
+}
+
 Color WindowModel::apply(float pos, float timeStamp) {
   if ((rangeMin <= pos) && (pos <= rangeMax)) {
-    if (insideRange != NULL) {
-      return insideRange->apply(pos, timeStamp);
-    }
-  } else {
-    if (outsideRange != NULL) {
-      return outsideRange->apply(pos, timeStamp);
-    }
+    return insideModel->apply(pos, timeStamp);
   }
 
-  // If we go here then the model we're supposed to apply was NULL.
-  return RED;
+  // The pos is outside the range
+  return outsideModel->apply(pos, timeStamp);
 }
 
 /***** MAP *****/
@@ -192,6 +194,7 @@ class MapModel : public Model {
     MapModel(char const *name, float inRangeMin, float inRangeMax, float outRangeMin, float outRangeMax, Model *model)
       : Model(name), inRangeMin(inRangeMin), inRangeMax(inRangeMax), outRangeMin(outRangeMin), outRangeMax(outRangeMax),
         model(model) { }
+    ~MapModel() { delete model; model = NULL; }
     Color apply(float pos, float timeStamp);
 
     void setInRange(float inRangeMin, float inRangeMax) {
@@ -219,7 +222,7 @@ Color MapModel::apply(float pos, float timeStamp) {
 class FlameModel : public Model {
   public:
     FlameModel();
-    ~FlameModel();
+    ~FlameModel() { delete mapModel, mapModel = NULL; }
 
     Color apply(float pos, float timeStamp);
 
@@ -251,8 +254,4 @@ Color FlameModel::apply(float pos, float timeStamp) {
   }
 
   return mapModel->apply(pos, timeStamp);
-}
-
-FlameModel::~FlameModel() {
-  delete mapModel;
 }
