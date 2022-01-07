@@ -2,9 +2,6 @@
 #include <ESP8266WebServer.h>
 #include <Adafruit_NeoPixel.h>
 
-#include "src/lumos-arduino/lumos-arduino/Logger.h"
-#include "src/lumos-arduino/lumos-arduino/Patterns.h"
-
 // Secrets are defined in another file called "secrets.h" to avoid commiting secrets
 // into a public repo. You will need to change the secret values in secrets.h to
 // connect your device to your network.

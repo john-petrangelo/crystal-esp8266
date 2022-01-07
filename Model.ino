@@ -1,6 +1,8 @@
 #include <math.h>
+#include "src/lumos-arduino/lumos-arduino/Actions.h"
 #include "src/lumos-arduino/lumos-arduino/Colors.h"
 #include "src/lumos-arduino/lumos-arduino/Logger.h"
+#include "src/lumos-arduino/lumos-arduino/Patterns.h"
 
 class Model {
   public:
@@ -254,4 +256,20 @@ Color FlameModel::apply(float pos, float timeStamp) {
   }
 
   return mapModel->apply(pos, timeStamp);
+}
+
+/***** REVERSE *****/
+
+class ReverseModel : public Model {
+  public:
+    ReverseModel(char const *name) : Model(name) { }
+    ~ReverseModel() { delete model; model = NULL; }
+    Color apply(float pos, float timeStamp);
+
+  private:
+    Model *model;
+};
+
+Color ReverseModel::apply(float pos, float timeStamp) {
+  return model->apply(1.0 - pos, timeStamp);
 }
