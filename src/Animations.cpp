@@ -30,8 +30,8 @@ Color RotateModel::apply(float pos, float timeStamp) {
 /***** FLAME *****/
 
 FlameModel::FlameModel() : Model("Flame"), lastUpdateMS(-PERIOD_MS) {
-  Model *mgm = new MultiGradientModel("flame multigradient", 7, BLACK, C1, C2, C3, C2, C1, BLACK);
-  mapModel = new MapModel("map multigradient",0.0, 1.0, 0.0, 1.0, mgm);
+  auto mgm = std::make_shared<MultiGradientModel>("flame multigradient", 7, BLACK, C1, C2, C3, C2, C1, BLACK);
+  mapModel = std::make_shared<MapModel>("map multigradient",0.0, 1.0, 0.0, 1.0, mgm);
 }
 
 Color FlameModel::apply(float pos, float timeStamp) {

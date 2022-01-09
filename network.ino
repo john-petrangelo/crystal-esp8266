@@ -52,6 +52,8 @@ void setupHTTP() {
   server.on("/darkcrystal", HTTP_GET, handleDarkCrystal);
   server.on("/flame", HTTP_GET, handleFlame);
   server.on("/rainbow", HTTP_GET, handleRainbow);
+  server.on("/demo1", HTTP_GET, handleDemo1);
+  server.on("/demo2", HTTP_GET, handleDemo2);
   server.onNotFound(handleNotFound);
   server.begin();
   Serial.println("HTTP server started");

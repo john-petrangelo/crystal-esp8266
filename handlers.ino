@@ -1,8 +1,12 @@
-#import "index.h"
+#include <memory>
+
+#include "index.h"
 #include "src/lumos-arduino/lumos-arduino/Colors.h"
 #include "src/lumos-arduino/lumos-arduino/Patterns.h"
 
 #include "src/Animations.h"
+#include "src/Demos.h"
+#include "src/ModelRunner.h"
 
 void redirectHome() {
   server.sendHeader("Location", String("/"), true);
@@ -35,7 +39,7 @@ void handleNotFound() {
 }
 
 void handleOff() {
-  modelRunner.setModel(new SolidModel("off", BLACK));
+  modelRunner.setModel(std::make_shared<SolidModel>("off", BLACK));
   redirectHome();
 }
 
@@ -46,14 +50,24 @@ void handleDarkCrystal() {
 }
 
 void handleFlame() {
-  modelRunner.setModel(new FlameModel);
+  modelRunner.setModel(std::make_shared<FlameModel>());
   redirectHome();
 }
 
 void handleRainbow() {
-  Model *gm = new MultiGradientModel("rainbow", 8, RED, VIOLET, INDIGO, BLUE, GREEN, YELLOW, ORANGE, RED);
-  Model *rm = new RotateModel("rainbow rotate", 0.3, RotateModel::UP, gm);
+  auto gm = std::make_shared<MultiGradientModel>("rainbow", 8, RED, VIOLET, INDIGO, BLUE, GREEN, YELLOW, ORANGE, RED);
+  auto rm = std::make_shared<RotateModel>("rainbow rotate", 0.3, RotateModel::UP, gm);
   modelRunner.setModel(rm);
 
+  redirectHome();
+}
+
+void handleDemo1() {
+  modelRunner.setModel(makeDemo1());
+  redirectHome();
+}
+
+void handleDemo2() {
+  modelRunner.setModel(makeDemo2());
   redirectHome();
 }

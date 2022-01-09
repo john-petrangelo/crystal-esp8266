@@ -39,13 +39,6 @@ Color MultiGradientModel::apply(float pos, float timeStamp) {
 
 /***** WINDOW *****/
 
-WindowModel::~WindowModel() {
-  delete insideModel;
-  insideModel = NULL;
-  delete outsideModel;
-  outsideModel = NULL;
-}
-
 Color WindowModel::apply(float pos, float timeStamp) {
   if ((rangeMin <= pos) && (pos <= rangeMax)) {
     return insideModel->apply(pos, timeStamp);

@@ -1,11 +1,11 @@
 #ifndef __MODEL__
 #define __MODEL__
 
-// #include "lumos-arduino/lumos-arduino/Actions.h"
+#include <memory>
+
 #include "lumos-arduino/lumos-arduino/defs.h"
 #include "lumos-arduino/lumos-arduino/Colors.h"
 #include "lumos-arduino/lumos-arduino/Logger.h"
-// #include "lumos-arduino/lumos-arduino/Patterns.h"
 
 class Model {
   public:
@@ -73,14 +73,15 @@ class MultiGradientModel : public Model {
  */
 class WindowModel : public Model {
   public:
-    WindowModel(char const *name, float rangeMin, float rangeMax, Model *insideModel, Model *outsideModel)
-      : Model(name), rangeMin(rangeMin), rangeMax(rangeMax), insideModel(insideModel), outsideModel(outsideModel) { }
-    ~WindowModel();
+    WindowModel(char const *name, float rangeMin, float rangeMax,
+        std::shared_ptr<Model> insideModel, std::shared_ptr<Model> outsideModel)
+      : Model(name), rangeMin(rangeMin), rangeMax(rangeMax),
+        insideModel(insideModel), outsideModel(outsideModel) { }
     Color apply(float pos, float timeStamp);
 
   private:
-    Model *insideModel;
-    Model *outsideModel;
+    std::shared_ptr<Model> insideModel;
+    std::shared_ptr<Model> outsideModel;
     float rangeMin, rangeMax;
 };
 
@@ -91,10 +92,10 @@ class WindowModel : public Model {
  */
 class MapModel : public Model {
   public:
-    MapModel(char const *name, float inRangeMin, float inRangeMax, float outRangeMin, float outRangeMax, Model *model)
-      : Model(name), inRangeMin(inRangeMin), inRangeMax(inRangeMax), outRangeMin(outRangeMin), outRangeMax(outRangeMax),
-        model(model) { }
-    ~MapModel() { delete model; model = NULL; }
+    MapModel(char const *name, float inRangeMin, float inRangeMax, float outRangeMin, float outRangeMax,
+        std::shared_ptr<Model> model)
+      : Model(name), inRangeMin(inRangeMin), inRangeMax(inRangeMax),
+        outRangeMin(outRangeMin), outRangeMax(outRangeMax), model(model) { }
     Color apply(float pos, float timeStamp);
 
     void setInRange(float inRangeMin, float inRangeMax) {
@@ -103,7 +104,7 @@ class MapModel : public Model {
     }
 
   private:
-    Model *model;
+    std::shared_ptr<Model> model;
     float inRangeMin, inRangeMax, outRangeMin, outRangeMax;
 };
 
@@ -111,12 +112,12 @@ class MapModel : public Model {
 
 class ReverseModel : public Model {
   public:
-    ReverseModel(Model *model) : Model("ReverseModel"), model(model) { }
-    ~ReverseModel() { delete model; model = NULL; }
+    ReverseModel(std::shared_ptr<Model> model) : Model("ReverseModel"), model(model) { }
+    ~ReverseModel() { model = NULL; }
     Color apply(float pos, float timeStamp) { return model->apply(1.0 - pos, timeStamp); }
 
   private:
-    Model *model;
+    std::shared_ptr<Model> model;
 };
 
 /***** IDEAS *****/

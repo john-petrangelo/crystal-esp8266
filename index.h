@@ -15,11 +15,13 @@ char const MAIN_page[] PROGMEM = R"=====(
     <div class="column">
       <a href="/off"><button>Off</button></a><br/>
       <a href="/rainbow"><button>Rainbow Connection</button></a><br/>
+      <a href="/darkcrystal"><button>Dark Crystal</button></a><br/>
+      <a href="/flame"><button>Flame</button></a><br/>
     </div>
 
     <div class="column">
-      <a href="/darkcrystal"><button>Dark Crystal</button></a><br/>
-      <a href="/flame"><button>Flame</button></a><br/>
+      <a href="/demo1"><button>Demo 1</button></a><br/>
+      <a href="/demo2"><button>Demo 2</button></a><br/>
     </div>
   </body>
 </html>

@@ -1,31 +1,33 @@
+#include <memory>
+
 #include "Animations.h"
 #include "Model.h"
 
-Model *makeDemo1() {
-  Model *grad_left = new GradientModel("grad-left", RED, YELLOW);
-  Model *grad_right = new GradientModel("grad-right", BLUE, GREEN);
+std::shared_ptr<Model> makeDemo1() {
+  auto grad_left = std::make_shared<GradientModel>("grad-left", RED, YELLOW);
+  auto grad_right = std::make_shared<GradientModel>("grad-right", BLUE, GREEN);
 
-  Model *rot_left = new RotateModel("rotate down", 4.0, RotateModel::DOWN, grad_left);
-  Model *rot_right = new RotateModel("rotate up", 1.0, RotateModel::UP, grad_right);
+  auto rot_left = std::make_shared<RotateModel>("rotate down", 4.0, RotateModel::DOWN, grad_left);
+  auto rot_right = std::make_shared<RotateModel>("rotate up", 1.0, RotateModel::UP, grad_right);
 
-  Model *map_left = new MapModel("map left", 0.0, 0.2, 0.0, 1.0, rot_left);
-  Model *map_right = new MapModel("map right", 0.2, 1.0, 0.0, 1.0, rot_right);
+  auto map_left = std::make_shared<MapModel>("map left", 0.0, 0.2, 0.0, 1.0, rot_left);
+  auto map_right = std::make_shared<MapModel>("map right", 0.2, 1.0, 0.0, 1.0, rot_right);
 
-  Model *window = new WindowModel("window", 0.0, 0.2, map_left, map_right);
-  Model *rot_window = new RotateModel("rotate window", 0.5, RotateModel::DOWN, window);
+  auto window = std::make_shared<WindowModel>("window", 0.0, 0.2, map_left, map_right);
+  auto rot_window = std::make_shared<RotateModel>("rotate window", 0.5, RotateModel::DOWN, window);
 
   return rot_window;
 };
 
-Model *makeDemo2() {
-  Model *gradient = new GradientModel("grad", BLUE, RED);
-  Model *rot_grad = new RotateModel("Rotate Gradient", 2.0, RotateModel::UP, gradient);
-  Model *rev_grad = new ReverseModel(rot_grad);
+std::shared_ptr<Model> makeDemo2() {
+  auto gradient = std::make_shared<GradientModel>("grad", BLUE, RED);
+  auto rot_grad = std::make_shared<RotateModel>("Rotate Gradient", 2.0, RotateModel::UP, gradient);
+  auto rev_grad = std::make_shared<ReverseModel>(rot_grad);
 
-  Model *map_left = new MapModel("map left", 0.0, 0.5, 0.0, 1.0, rot_grad);
-  Model *map_right = new MapModel("map right", 0.5, 1.0, 0.0, 1.0, rev_grad);
+  auto map_left = std::make_shared<MapModel>("map left", 0.0, 0.5, 0.0, 1.0, rot_grad);
+  auto map_right = std::make_shared<MapModel>("map right", 0.5, 1.0, 0.0, 1.0, rev_grad);
 
-  Model *window = new WindowModel("window", 0.0, 0.5, map_left, map_right);
+  std::shared_ptr<WindowModel> window = std::make_shared<WindowModel>("window", 0.0, 0.5, map_left, map_right);
 
   return window;
 }

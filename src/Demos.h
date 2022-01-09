@@ -5,7 +5,7 @@
 
 /***** DEMOS *****/
 
-extern Model *makeDemo1();
-extern Model *makeDemo2();
+extern std::shared_ptr<Model> makeDemo1();
+extern std::shared_ptr<Model> makeDemo2();
 
 #endif // __DEMOS__

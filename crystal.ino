@@ -52,9 +52,7 @@ void loop() {
   loopNetwork();
 
   // Animate the LEDs. 
-  modelRunner.loop(strip.numPixels(),
-    [&strip](int i, Color color) { strip.setPixelColor(i, color); });
-  // Patterns::applyPixels(strip, pixels);
+  modelRunner.loop(strip.numPixels(), [&strip](int i, Color color) { strip.setPixelColor(i, color); });
   strip.show();
 
   loopLogger();

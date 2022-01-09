@@ -1,14 +1,14 @@
 #ifndef __ANIMATIONS__
 #define __ANIMATIONS__
 
-#include "lumos-arduino/lumos-arduino/Colors.h"
+#include <memory>
 
+#include "lumos-arduino/lumos-arduino/Colors.h"
 #include "Model.h"
 
 class FlameModel : public Model {
   public:
     FlameModel();
-    ~FlameModel() { delete mapModel, mapModel = NULL; }
 
     Color apply(float pos, float timeStamp);
 
@@ -17,7 +17,7 @@ class FlameModel : public Model {
     Color const C2 = Colors::blend(RED, YELLOW, 20);
     Color const C3 = ORANGE;
 
-    MapModel *mapModel;
+    std::shared_ptr<MapModel> mapModel;
 
     long lastUpdateMS;
     int const PERIOD_MS = 110;
@@ -34,15 +34,14 @@ class RotateModel : public Model {
       UP, DOWN
     };
   
-    RotateModel(char const *name, float revsPerSecond, Direction dir, Model *model) 
+    RotateModel(char const *name, float revsPerSecond, Direction dir, std::shared_ptr<Model> model) 
       : Model(name), revsPerSecond(revsPerSecond), dir(dir), model(model) {}
     Color apply(float pos, float timeStamp);
-    ~RotateModel() { delete model; model = NULL; }
 
   private:
     float revsPerSecond;
     Direction dir;
-    Model *model;
+    std::shared_ptr<Model> model;
 };
 
 #endif // __ANIMATIONS__
