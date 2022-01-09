@@ -1,6 +1,7 @@
+#include <functional>
 #include "ModelRunner.h"
 
-void ModelRunner::loop(int numPixels, Pixels pixels) {
+void ModelRunner::loop(int numPixels, std::function<void(int, Color)> setPixel) {
   // If there's no model then there's nothing to do
   if (model == NULL) {
     return;
@@ -10,7 +11,8 @@ void ModelRunner::loop(int numPixels, Pixels pixels) {
   float timeStamp = (nowMS - startTimeMS) / 1000.0;
   for (int i = 0; i < numPixels; i++) {
     float pos = ((float)i) / (numPixels - 1);
-    pixels[i] = model->apply(pos, timeStamp);
+    Color color = model->apply(pos, timeStamp);
+    setPixel(i, color);
   }
 }
 

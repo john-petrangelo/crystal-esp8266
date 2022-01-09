@@ -2,6 +2,7 @@
 #include <ESP8266WebServer.h>
 #include <Adafruit_NeoPixel.h>
 
+#include "src/Demos.h"
 #include "src/Model.h"
 #include "src/ModelRunner.h"
 
@@ -23,6 +24,7 @@ WiFiClient logClient;
 
 Color pixels[PIXELS_COUNT];
 
+long const logDurationIntervalMS = 1000;
 ModelRunner modelRunner;
 
 void setup() {
@@ -37,14 +39,12 @@ void setup() {
   strip.setBrightness(255);
   strip.show(); // Initialize all pixels to 'off'
 
-  Model *model = new Demo2;
-
-  modelRunner.setModel(model);
+  // Model *model = new Demo2;
+  modelRunner.setModel(makeDemo1());
 }
 
 void loop() {
   static int lastUpdateMS = millis();
-  long const logDurationIntervalMS = 1000;
 
   long beforeMS = millis();
   
@@ -52,9 +52,9 @@ void loop() {
   loopNetwork();
 
   // Animate the LEDs. 
-  modelRunner.loop(PIXELS_COUNT, pixels);
-
-  Patterns::applyPixels(strip, pixels);
+  modelRunner.loop(strip.numPixels(),
+    [&strip](int i, Color color) { strip.setPixelColor(i, color); });
+  // Patterns::applyPixels(strip, pixels);
   strip.show();
 
   loopLogger();

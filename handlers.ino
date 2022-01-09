@@ -2,6 +2,8 @@
 #include "src/lumos-arduino/lumos-arduino/Colors.h"
 #include "src/lumos-arduino/lumos-arduino/Patterns.h"
 
+#include "src/Animations.h"
+
 void redirectHome() {
   server.sendHeader("Location", String("/"), true);
   server.send ( 302, "text/plain", "");

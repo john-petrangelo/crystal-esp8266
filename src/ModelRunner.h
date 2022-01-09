@@ -13,7 +13,7 @@ class ModelRunner {
   public:
     ModelRunner(Model *model) : model(model), startTimeMS(millis()) { }
     ModelRunner() : model(NULL) { }
-    void loop(int numPixels, Pixels pixels);
+    void loop(int numPixels, std::function<void(int, Color)> setPixel);
 
     void setModel(Model *model);
 };
