@@ -1,6 +1,11 @@
 #include <ESP8266mDNS.h>
 #include <ArduinoOTA.h>
 
+// Secrets are defined in another file called "secrets.h" to avoid commiting secrets
+// into a public repo. You will need to change the secret values in secrets.h to
+// connect your device to your network.
+#include "secrets.h"
+
 // One-stop to set up all of the network components
 void setupNetwork() {
   setupWiFi();

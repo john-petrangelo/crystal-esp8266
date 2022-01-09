@@ -7,14 +7,14 @@
  * 
  * ...except it has been re-applied to floats instead of longs.
  */
-float fmap(float x, float in_min, float in_max, float out_min, float out_max) {
+inline float fmap(float x, float in_min, float in_max, float out_min, float out_max) {
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
 /**
  * Return a random number between fmin and fmax.
  */
-float frand(double fmin, double fmax) {
+inline float frand(double fmin, double fmax) {
   return fmin + random(1UL << 31) * (fmax - fmin) / (1UL << 31);
 }
 
@@ -28,6 +28,6 @@ float frand(double fmin, double fmax) {
  * This form may be used when the hardware has a native fused multiply-add instruction.
  *
  */
-float lerp(float v0, float v1, float t) {
+inline float lerp(float v0, float v1, float t) {
   return v0 + t * (v1 - v0);
 }
