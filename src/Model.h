@@ -121,37 +121,55 @@ class ReverseModel : public Model {
 
 /***** IDEAS *****/
 
- /*
-  * Dim
-  * Adjust the brightness of the color down by the provided percent
-  * 
-  * Constructors:
-  *   Dim(dimPercent, model) - dims all colors of the underlying model by dimPercent, expressed as 0.0-1.0
-  * 
-  * Requires underlying model
-  * Position and time independent
-  */
-  
- /*
-  * Brighten
-  * Increases the brightness of the color up by the provided percent, no R, G, or B will exceed 255
-  * 
-  * Constructors:
-  *   Brighten(brightenPercent, model) - brightens all colors of the underlying model by brightenPercent, expressed as 0.0-1.0
-  * 
-  * Requires underlying model
-  * Position and time independent
-  */
+/*
+ * Dim
+ * Adjust the brightness of the color down by the provided percent
+ * 
+ * Constructors:
+ *   Dim(dimPercent, model) - dims all colors of the underlying model by dimPercent, expressed as 0.0-1.0
+ *
+ * Requires input model
+ * Position and time independent
+ */
 
-  /*
-   * Firefly
-   * A firely (small light band? needs definition) flits around in a specified range with specified speed parameters (TBD)
-   */
+/*
+ * Brighten
+ * Increases the brightness of the color up by the provided percent, no R, G, or B will exceed 255
+ * 
+ * Constructors:
+ *   Brighten(brightenPercent, model) - brightens all colors of the underlying model by brightenPercent, expressed as 0.0-1.0
+ * 
+ * Requires input model
+ * Position and time independent
+ */
 
-  /*
-   * Matrix
-   * Green spots flow from one end of the strip to the other.
-   * Can experiment with varying rates, sizes, brightnesses, hues.
-   */
- 
+/*
+ * Firefly
+ * A firely (small light band? needs definition) flits around in a specified range with specified speed parameters (TBD)
+ */
+
+/*
+ * Matrix
+ * Green spots flow from one end of the strip to the other.
+ * Can experiment with varying rates, sizes, brightnesses, hues.
+ * 
+ * Position and time dependend.
+ */
+
+/*
+ * Blend
+ * Blend two models together. Details TBD, but options include LERP, add, etc.
+ * 
+ * Requires two input models.
+ * Position and time independent.
+ */
+
+/*
+ * Blur
+ * Performs some sort of convolution around a position to blur the colors.
+ * 
+ * Requires input model.
+ * Position and time independent.
+ */
+
 #endif // __MODEL__
