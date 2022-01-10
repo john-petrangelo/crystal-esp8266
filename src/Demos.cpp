@@ -10,7 +10,10 @@ std::shared_ptr<Model> makeDemo1() {
   auto rot_left = std::make_shared<RotateModel>("rotate down", 4.0, RotateModel::DOWN, grad_left);
   auto rot_right = std::make_shared<RotateModel>("rotate up", 1.0, RotateModel::UP, grad_right);
 
-  auto map_left = std::make_shared<MapModel>("map left", 0.0, 0.2, 0.0, 1.0, rot_left);
+  auto pulsator = std::make_shared<Pulsate>("pulsate", 0.2, 1.0, 2.5, 2.5, rot_left);
+
+
+  auto map_left = std::make_shared<MapModel>("map left", 0.0, 0.2, 0.0, 1.0, pulsator);
   auto map_right = std::make_shared<MapModel>("map right", 0.2, 1.0, 0.0, 1.0, rot_right);
 
   auto window = std::make_shared<WindowModel>("window", 0.0, 0.2, map_left, map_right);
@@ -27,7 +30,8 @@ std::shared_ptr<Model> makeDemo2() {
   auto map_left = std::make_shared<MapModel>("map left", 0.0, 0.5, 0.0, 1.0, rot_grad);
   auto map_right = std::make_shared<MapModel>("map right", 0.5, 1.0, 0.0, 1.0, rev_grad);
 
-  std::shared_ptr<WindowModel> window = std::make_shared<WindowModel>("window", 0.0, 0.5, map_left, map_right);
+  auto window = std::make_shared<WindowModel>("window", 0.0, 0.5, map_left, map_right);
+  auto pulsator = std::make_shared<Pulsate>("pulsate", 0.2, 1.0, 2.5, 2.5, window);
 
-  return window;
+  return  pulsator;
 }

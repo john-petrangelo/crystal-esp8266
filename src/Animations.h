@@ -17,10 +17,44 @@ class FlameModel : public Model {
     Color const C2 = Colors::blend(RED, YELLOW, 20);
     Color const C3 = ORANGE;
 
-    std::shared_ptr<MapModel> mapModel;
+    std::shared_ptr<MapModel> model;
 
     long lastUpdateMS;
     int const PERIOD_MS = 110;
+};
+
+/*
+ * Pulsate
+ * 
+ * Adjust the brightness of the underlying model between two percentages over a given period.
+ * For example, the brightness may vary from 20% to 100% and back down to 20% over 3 seconds.
+ * 
+ * Constructors:
+ *   Pulse(dimmest, brightest, dimSecs, brightenSecs, model) - varies between dimmest and brightest,
+ *      taking dimSecs to dim and brightenSecs to brighten
+ *
+ * Future constructors:
+ *   Pulse(period, model) - varies 0%-100% over the period in seconds, period is divided evenly between up and down
+ *   Pulse(dimmest, brightest, model) - varies between dimmest and brightest over the period
+ *    
+ * Requires underlying model
+ * Position independent, time dependent
+ */
+class Pulsate : public Model {
+  public:
+    Pulsate(char const *name, float dimmest, float brightest, float dimSecs, float brightenSecs,
+        std::shared_ptr<Model> model)
+      : Model(name), model(model), dimmest(dimmest), brightest(brightest),
+        dimSecs(dimSecs), brightenSecs(brightenSecs), periodSecs(dimSecs + brightenSecs) {}
+    Color apply(float pos, float timeStamp);
+
+  private:
+    float const dimmest;
+    float const brightest;
+    float const dimSecs;
+    float const brightenSecs;
+    float const periodSecs;
+    std::shared_ptr<Model> model;
 };
 
 // An animation that rotates or shifts lights to the left or right.

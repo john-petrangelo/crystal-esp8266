@@ -113,7 +113,6 @@ class MapModel : public Model {
 class ReverseModel : public Model {
   public:
     ReverseModel(std::shared_ptr<Model> model) : Model("ReverseModel"), model(model) { }
-    ~ReverseModel() { model = NULL; }
     Color apply(float pos, float timeStamp) { return model->apply(1.0 - pos, timeStamp); }
 
   private:
@@ -121,22 +120,6 @@ class ReverseModel : public Model {
 };
 
 /***** IDEAS *****/
-
-/*
- * Pulsate
- * 
- * Adjust the brightness of the underlying model between two percentages over a given period.
- * For example, the brightness may vary from 20% to 100% and back down to 20% over 3 seconds.
- * 
- * Constructors:
- *   Pulse(period, model) - varies 0%-100% over the period in seconds, period is divided evenly between up and down
- *   Pulse(dimmest, brightest, model) - varies between dimmest and brightest over the period
- *   Pulse(brightest, dimmest, upTime, dimSec, brightenSecs) - varies between dimmest and brightest,
- *      taking dimSecs to dim and brightenSecs to brighten
- *    
- * Requires underlying model
- * Position independent, time dependent
- */
 
  /*
   * Dim
@@ -163,6 +146,12 @@ class ReverseModel : public Model {
   /*
    * Firefly
    * A firely (small light band? needs definition) flits around in a specified range with specified speed parameters (TBD)
+   */
+
+  /*
+   * Matrix
+   * Green spots flow from one end of the strip to the other.
+   * Can experiment with varying rates, sizes, brightnesses, hues.
    */
  
 #endif // __MODEL__
