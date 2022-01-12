@@ -66,25 +66,6 @@ class MultiGradientModel : public Model {
     Color colors[MAX_COLORS];
 };
 
-/***** WINDOW *****/
-
-/*
- * TODO WindowModel description
- */
-class WindowModel : public Model {
-  public:
-    WindowModel(char const *name, float rangeMin, float rangeMax,
-        std::shared_ptr<Model> insideModel, std::shared_ptr<Model> outsideModel)
-      : Model(name), rangeMin(rangeMin), rangeMax(rangeMax),
-        insideModel(insideModel), outsideModel(outsideModel) { }
-    Color apply(float pos, float timeStamp);
-
-  private:
-    std::shared_ptr<Model> insideModel;
-    std::shared_ptr<Model> outsideModel;
-    float rangeMin, rangeMax;
-};
-
 /***** MAP *****/
 
 /*

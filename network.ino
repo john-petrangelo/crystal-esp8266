@@ -54,6 +54,7 @@ void setupHTTP() {
   server.on("/rainbow", HTTP_GET, handleRainbow);
   server.on("/demo1", HTTP_GET, handleDemo1);
   server.on("/demo2", HTTP_GET, handleDemo2);
+  server.on("/demo3", HTTP_GET, handleDemo3);
   server.onNotFound(handleNotFound);
   server.begin();
   Serial.println("HTTP server started");

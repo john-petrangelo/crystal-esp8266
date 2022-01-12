@@ -37,17 +37,6 @@ Color MultiGradientModel::apply(float pos, float timeStamp) {
   return Colors::blend(colors[lower], colors[upper], 100 * ratio);
 }
 
-/***** WINDOW *****/
-
-Color WindowModel::apply(float pos, float timeStamp) {
-  if ((rangeMin <= pos) && (pos <= rangeMax)) {
-    return insideModel->apply(pos, timeStamp);
-  }
-
-  // The pos is outside the range
-  return outsideModel->apply(pos, timeStamp);
-}
-
 /***** MAP *****/
 
 Color MapModel::apply(float pos, float timeStamp) {

@@ -71,3 +71,8 @@ void handleDemo2() {
   modelRunner.setModel(makeDemo2());
   redirectHome();
 }
+
+void handleDemo3() {
+  modelRunner.setModel(makeDemo3());
+  redirectHome();
+}

@@ -1,6 +1,7 @@
 #include <memory>
 
 #include "Animations.h"
+#include "Combinations.h"
 #include "Model.h"
 
 std::shared_ptr<Model> makeDemo1() {
@@ -34,4 +35,13 @@ std::shared_ptr<Model> makeDemo2() {
   auto pulsator = std::make_shared<Pulsate>("pulsate", 0.2, 1.0, 2.5, 2.5, window);
 
   return  pulsator;
+}
+
+std::shared_ptr<Model> makeDemo3() {
+  auto gradientRed = std::make_shared<GradientModel>("grad_red", BLACK, RED);
+  auto gradientBlue = std::make_shared<GradientModel>("grad_red", BLUE, BLACK);
+
+  auto sum = std::make_shared<Add>("Add", gradientRed, gradientBlue);
+
+  return  gradientRed;
 }
