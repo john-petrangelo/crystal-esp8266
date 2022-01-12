@@ -1,4 +1,7 @@
 #include <functional>
+
+#include "lumos-arduino/lumos-arduino/Colors.h"
+
 #include "ModelRunner.h"
 
 void ModelRunner::loop(int numPixels, std::function<void(int, Color)> setPixel) {
@@ -7,12 +10,22 @@ void ModelRunner::loop(int numPixels, std::function<void(int, Color)> setPixel) 
     return;
   }
   
-  unsigned long nowMS = millis();
-  float timeStamp = (nowMS - startTimeMS) / 1000.0;
+  unsigned long const nowMS = millis();
+  float const timeStamp = (nowMS - startTimeMS) / 1000.0;
   for (int i = 0; i < numPixels; i++) {
-    float pos = ((float)i) / (numPixels - 1);
-    Color color = model->apply(pos, timeStamp);
-    setPixel(i, color);
+    // Get the color from the model
+    float const pos = ((float)i) / (numPixels - 1);
+    Color const color = model->apply(pos, timeStamp);
+
+    // Apply gamma correction
+    uint16_t const red = Colors::getRed(color);
+    uint16_t const green = Colors::getGreen(color);
+    uint16_t const blue = Colors::getBlue(color);
+    Color const correctedColor = Colors::makeColor(
+      (uint8_t)(red*red/255), (uint8_t)(green*green/255), (uint8_t)(blue*blue/255));
+
+    // Set the pixel on the light strip
+    setPixel(i, correctedColor);
   }
 }
 

@@ -63,9 +63,6 @@ Color Pulsate::apply(float pos, float timeStamp) {
     dimness = fmap(timeStamp, brightenSecs, periodSecs, dimmest, brightest);
   }
 
-  // Square the dimness
-  dimness *= dimness;
-
   Color oldColor = model->apply(pos, timeStamp);
   Color newColor = Colors::fade(oldColor, dimness * 100.0);
   return newColor;
