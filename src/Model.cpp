@@ -48,3 +48,25 @@ Color MapModel::apply(float pos, float timeStamp) {
   // Everything outside of the "in range" will be BLACK
   return BLACK;
 }
+
+/***** TRIANGLE *****/
+
+Color Triangle::apply(float pos, float timeStamp) {
+  if (pos < rangeMin || pos > rangeMax) {
+    return BLACK;
+  }
+
+  float midPoint = (rangeMin + rangeMax) / 2;
+
+  if (pos <= midPoint) {
+    // Rising side of triangle
+    int ratio = 100 * fmap(pos, rangeMin, midPoint, 0.0, 1.0);
+    return Colors::blend(BLACK, color, ratio);
+  } else {
+    // Falling side of triangle
+    int ratio = 100 * fmap(pos, midPoint, rangeMax, 1.0, 0.0);
+    return Colors::blend(BLACK, color, ratio);
+  }
+}
+
+// Color apply(float pos, float timeStamp) { return Colors::blend(a, b, 100 * pos); }

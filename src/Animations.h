@@ -13,9 +13,9 @@ class FlameModel : public Model {
     Color apply(float pos, float timeStamp);
 
   private:
-    Color const C1 = Colors::blend(RED, YELLOW, 10);
-    Color const C2 = Colors::blend(RED, YELLOW, 20);
-    Color const C3 = ORANGE;
+    Color const C1 = Colors::blend(RED, YELLOW, 50);
+    Color const C2 = Colors::blend(RED, YELLOW, 70);
+    Color const C3 = Colors::blend(RED, YELLOW, 90);
 
     std::shared_ptr<MapModel> model;
 
@@ -77,5 +77,9 @@ class RotateModel : public Model {
     Direction dir;
     std::shared_ptr<Model> model;
 };
+
+/***** COMPOSITES - Animations that are composites of other models *****/
+extern std::shared_ptr<Model> makeCrystalPower();
+
 
 #endif // __ANIMATIONS__

@@ -100,6 +100,19 @@ class ReverseModel : public Model {
     std::shared_ptr<Model> model;
 };
 
+/***** TRIANGLE *****/
+
+class Triangle : public Model {
+  public: Triangle(char const *name, float rangeMin, float rangeMax, Color color) 
+    : Model(name), rangeMin(rangeMin), rangeMax(rangeMax), color(color) { }
+  Color apply(float pos, float timeStamp);
+
+  private:
+    float const rangeMin;
+    float const rangeMax;
+    Color const color;
+};
+
 /***** IDEAS *****/
 
 /*

@@ -5,6 +5,7 @@
 #include "src/lumos-arduino/lumos-arduino/Patterns.h"
 
 #include "src/Animations.h"
+#include "src/Combinations.h"
 #include "src/Demos.h"
 #include "src/ModelRunner.h"
 
@@ -44,8 +45,7 @@ void handleOff() {
 }
 
 void handleDarkCrystal() {
-//  lumos.runForever(&crystalLight);
-
+  modelRunner.setModel(makeCrystalPower());
   redirectHome();
 }
 

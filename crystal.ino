@@ -2,12 +2,12 @@
 #include <ESP8266WebServer.h>
 #include <Adafruit_NeoPixel.h>
 
-#include "src/Demos.h"
-#include "src/Model.h"
-#include "src/ModelRunner.h"
-
 #include "src/lumos-arduino/lumos-arduino/Colors.h"
 #include "src/lumos-arduino/lumos-arduino/Logger.h"
+
+#include "src/Animations.h"
+#include "src/Model.h"
+#include "src/ModelRunner.h"
 
 // Configuration information about the NeoPixel strip we are using.
 int const PIXELS_COUNT = 24;
@@ -39,8 +39,7 @@ void setup() {
   strip.setBrightness(255);
   strip.show(); // Initialize all pixels to 'off'
 
-  // Model *model = new Demo2;
-  modelRunner.setModel(makeDemo1());
+  modelRunner.setModel(makeCrystalPower());
 }
 
 void loop() {
