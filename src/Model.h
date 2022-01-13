@@ -166,4 +166,12 @@ class Triangle : public Model {
  * Position and time independent.
  */
 
+/*
+ * Lava lamp
+ * Simulate a lava lamp.
+ * 
+ * Direction - up/down
+ * Color
+ * /
+
 #endif // __MODEL__
