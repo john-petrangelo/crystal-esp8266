@@ -4,7 +4,6 @@
 #include <ESP8266WebServer.h>
 #include <FS.h>
 
-#include "index.h"
 #include "src/lumos-arduino/lumos-arduino/Colors.h"
 #include "src/lumos-arduino/lumos-arduino/Patterns.h"
 
