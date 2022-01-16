@@ -172,6 +172,6 @@ class Triangle : public Model {
  * 
  * Direction - up/down
  * Color
- * /
+ */
 
 #endif // __MODEL__

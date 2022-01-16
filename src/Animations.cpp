@@ -72,10 +72,12 @@ Color Pulsate::apply(float pos, float timeStamp) {
 /***** COMPOSITES *****/
 
 std::shared_ptr<Model> makeCrystalPower() {
-  auto triangle1 = std::make_shared<Triangle>("crystal power", 0.7, 1.0, PURPLE);
+  Color color = 0xFF00D0;
+
+  auto triangle1 = std::make_shared<Triangle>("crystal power", 0.7, 1.0, color);
   auto pulsate1 = std::make_shared<Pulsate>("crystal pulsate", 0.4, 1.0, 5.0, 5.0, triangle1);
 
-  auto triangle2 = std::make_shared<Triangle>("crystal power", 0.3, 0.5, PURPLE);
+  auto triangle2 = std::make_shared<Triangle>("crystal power", 0.3, 0.5, color);
   auto pulsate2 = std::make_shared<Pulsate>("crystal pulsate", 0.20, 0.5, 8.0, 8.0, triangle2);
 
   auto sum = std::make_shared<Add>("sum", pulsate1, pulsate2);
