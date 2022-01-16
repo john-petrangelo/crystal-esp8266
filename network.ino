@@ -1,3 +1,5 @@
+#include <ESP8266WiFi.h>
+#include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
 #include <ArduinoOTA.h>
 
@@ -5,6 +7,10 @@
 // into a public repo. You will need to change the secret values in secrets.h to
 // connect your device to your network.
 #include "secrets.h"
+
+// Server used for logging.
+WiFiServer logServer(8000);
+WiFiClient logClient;
 
 // One-stop to set up all of the network components
 void setupNetwork() {
@@ -24,6 +30,8 @@ void setupWiFi() {
     Serial.print(".");
   }
   Serial.println("");
+
+  logServer.begin();
 
   // If we recognize the MAC address, use a different hostname specific to that MAC address
   String macAddress = WiFi.macAddress();
@@ -52,6 +60,7 @@ void setupHTTP() {
   server.on("/darkcrystal", HTTP_GET, handleDarkCrystal);
   server.on("/flame", HTTP_GET, handleFlame);
   server.on("/rainbow", HTTP_GET, handleRainbow);
+  server.on("/solid", HTTP_GET, handleSolid);
   server.on("/demo1", HTTP_GET, handleDemo1);
   server.on("/demo2", HTTP_GET, handleDemo2);
   server.on("/demo3", HTTP_GET, handleDemo3);
@@ -127,4 +136,23 @@ void loopNetwork() {
   server.handleClient();
   MDNS.update();
   ArduinoOTA.handle();  
+}
+
+// Check to see if the network logger needs to be setup or torn down
+void loopLogger() {
+  if (!logClient) {
+    // No log client. Check the server for new clients.
+    logClient = logServer.available();
+    if (logClient) {
+      // We've got a new log client.
+      Logger::setStream(&logClient);
+      Logger::logMsgLn("Connected to WiFi logging...");
+    }
+  }
+
+  if (logClient && !logClient.connected()) {
+    // Not connected anymore, switch logging back to serial.
+    Logger::setStream(&Serial);
+    logClient.stop();
+  }
 }

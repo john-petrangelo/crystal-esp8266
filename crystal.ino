@@ -1,5 +1,6 @@
-#include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
+#include <FS.h>
+
 #include <Adafruit_NeoPixel.h>
 
 #include "src/lumos-arduino/lumos-arduino/Colors.h"
@@ -9,18 +10,14 @@
 #include "src/Model.h"
 #include "src/ModelRunner.h"
 
+String hostname = "crystal";
+ESP8266WebServer server(80);
+
 // Configuration information about the NeoPixel strip we are using.
 int const PIXELS_COUNT = 24;
 int8_t const PIXELS_PIN = 2;
 neoPixelType const STRIP_FLAGS = NEO_GRB + NEO_KHZ800;
 Adafruit_NeoPixel strip(PIXELS_COUNT, PIXELS_PIN, STRIP_FLAGS);
-
-String hostname = "crystal";
-ESP8266WebServer server(80);
-
-// Server used for logging.
-WiFiServer logServer(8000);
-WiFiClient logClient;
 
 Color pixels[PIXELS_COUNT];
 
@@ -31,9 +28,11 @@ void setup() {
   Serial.begin(115200);
   Serial.println("");
 
-  setupNetwork();
+  if (!SPIFFS.begin()) {
+    Serial.println("Failed to start SPIFFS");
+  }
 
-  logServer.begin();
+  setupNetwork();
 
   strip.begin();
   strip.setBrightness(255);
@@ -60,24 +59,5 @@ void loop() {
     lastUpdateMS = beforeMS;
     long afterMS = millis();
     Logger::logf("Completed loop, duration %dms\n", afterMS - beforeMS);
-  }
-}
-
-// Check to see if the network logger needs to be setup or torn down
-void loopLogger() {
-  if (!logClient) {
-    // No log client. Check the server for new clients.
-    logClient = logServer.available();
-    if (logClient) {
-      // We've got a new log client.
-      Logger::setStream(&logClient);
-      Logger::logMsgLn("Connected to WiFi logging...");
-    }
-  }
-
-  if (logClient && !logClient.connected()) {
-    // Not connected anymore, switch logging back to serial.
-    Logger::setStream(&Serial);
-    logClient.stop();
   }
 }

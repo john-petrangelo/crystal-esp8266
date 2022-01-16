@@ -1,5 +1,9 @@
 #include <memory>
 
+#include <ArduinoJson.h>
+#include <ESP8266WebServer.h>
+#include <FS.h>
+
 #include "index.h"
 #include "src/lumos-arduino/lumos-arduino/Colors.h"
 #include "src/lumos-arduino/lumos-arduino/Patterns.h"
@@ -9,23 +13,24 @@
 #include "src/Demos.h"
 #include "src/ModelRunner.h"
 
-void redirectHome() {
-  server.sendHeader("Location", String("/"), true);
-  server.send ( 302, "text/plain", "");
-}
-
 void handleRoot() {
-  String s = MAIN_page;
-  server.send(200, "text/html", s);
+    long startMS = millis();
+    File file = SPIFFS.open("/index.html", "r");
+    size_t sent = server.streamFile(file, "text/html");
+    file.close();
+    Logger::logf("handleRoot sentBytes=%d duration=%dms\n", sent, millis() - startMS);
 }
 
 void handleStatus() {
-//  String message = lumos.describe();
-  String message = "No lumos\n";
-  message += "NETWORK\n";
-  message += "hostname: " + hostname + ".local\n";
-  message += "WiFi MAC Address: " + WiFi.macAddress() + "\n";
-  server.send(200, "text/plain", message);
+  StaticJsonDocument<200> doc;
+  doc["time"] = millis() / 1000.0;
+  doc["freeHeapBytes"] = ESP.getFreeHeap();
+  doc["hostname"] = hostname + ".local";
+  doc["wifiMACAddress"] = WiFi.macAddress();
+  doc["ipAddress"] = WiFi.localIP().toString();
+  String output;
+  serializeJson(doc, output);
+  server.send(200, "text/json", output);
 }
 
 void handleNotFound() {
@@ -41,17 +46,17 @@ void handleNotFound() {
 
 void handleOff() {
   modelRunner.setModel(std::make_shared<SolidModel>("off", BLACK));
-  redirectHome();
+  server.send(200, "text/plain", "");
 }
 
 void handleDarkCrystal() {
   modelRunner.setModel(makeCrystalPower());
-  redirectHome();
+  server.send(200, "text/plain", "");
 }
 
 void handleFlame() {
   modelRunner.setModel(std::make_shared<FlameModel>());
-  redirectHome();
+  server.send(200, "text/plain", "");
 }
 
 void handleRainbow() {
@@ -59,20 +64,37 @@ void handleRainbow() {
   auto rm = std::make_shared<RotateModel>("rainbow rotate", 0.3, RotateModel::UP, gm);
   modelRunner.setModel(rm);
 
-  redirectHome();
+  server.send(200, "text/plain", "");
 }
+
+void handleSolid() {
+  long now = millis();
+  if(!server.hasArg("color")) {
+    server.send(400, "text/plain", "Color parameter missing\n");
+    return;
+  }
+
+  String colorStr = server.arg("color");
+  Color color = strtol(colorStr.c_str(), 0, 16);
+  server.send(200, "text/plain", "");
+
+  modelRunner.setModel(std::make_shared<SolidModel>("net solid model", color));
+  // Logger::logf("handleSolid colorStr=%s color=0x%0X duration=%dms\n",
+  //   colorStr.c_str(), color, millis() - now);
+}
+
 
 void handleDemo1() {
   modelRunner.setModel(makeDemo1());
-  redirectHome();
+  server.send(200, "text/plain", "");
 }
 
 void handleDemo2() {
   modelRunner.setModel(makeDemo2());
-  redirectHome();
+  server.send(200, "text/plain", "");
 }
 
 void handleDemo3() {
   modelRunner.setModel(makeDemo3());
-  redirectHome();
+  server.send(200, "text/plain", "");
 }
