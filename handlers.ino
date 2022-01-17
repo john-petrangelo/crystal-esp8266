@@ -23,13 +23,31 @@ void handleRoot() {
 void handleStatus() {
   StaticJsonDocument<200> doc;
   doc["time"] = millis() / 1000.0;
-  doc["freeHeapBytes"] = ESP.getFreeHeap();
-  doc["hostname"] = hostname + ".local";
-  doc["wifiMACAddress"] = WiFi.macAddress();
-  doc["ipAddress"] = WiFi.localIP().toString();
+
+  JsonObject memory = doc.createNestedObject("memory");
+  memory["freeHeapBytes"] = ESP.getFreeHeap();
+
+  JsonObject fs = doc.createNestedObject("filesystem");
+  FSInfo fsInfo;
+  bool gotInfo = SPIFFS.info(fsInfo);
+  if (gotInfo) {
+    fs["totalBytes"] = fsInfo.totalBytes;
+    fs["usedBytes"] = fsInfo.usedBytes;
+    fs["blockSize"] = fsInfo.blockSize;
+    fs["pageSize"] = fsInfo.pageSize;
+    fs["maxOpenFiles"] = fsInfo.maxOpenFiles;
+    fs["maxPathLength"] = fsInfo.maxPathLength;
+  }
+
+  JsonObject network = doc.createNestedObject("network");
+  network["hostname"] = hostname + ".local";
+  network["wifiMACAddress"] = WiFi.macAddress();
+  network["ipAddress"] = WiFi.localIP().toString();
+
   String output;
-  serializeJson(doc, output);
+  serializeJsonPretty(doc, output);
   server.send(200, "text/json", output);
+  Logger::logf("handleStatus %s", output.c_str());
 }
 
 void handleNotFound() {
