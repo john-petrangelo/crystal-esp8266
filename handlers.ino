@@ -67,7 +67,11 @@ void handleOff() {
 }
 
 void handleDarkCrystal() {
-  modelRunner.setModel(makeCrystalPower());
+  Color color = 0xFF00D0;
+  if(server.hasArg("color")) {
+    color = strtol(server.arg("color").c_str(), 0, 16);
+  }
+  modelRunner.setModel(makeCrystalPower(color));
   server.send(200, "text/plain", "");
 }
 
@@ -85,7 +89,6 @@ void handleRainbow() {
 }
 
 void handleSolid() {
-  long now = millis();
   if(!server.hasArg("color")) {
     server.send(400, "text/plain", "Color parameter missing\n");
     return;
@@ -93,11 +96,9 @@ void handleSolid() {
 
   String colorStr = server.arg("color");
   Color color = strtol(colorStr.c_str(), 0, 16);
-  server.send(200, "text/plain", "");
-
   modelRunner.setModel(std::make_shared<SolidModel>("net solid model", color));
-  // Logger::logf("handleSolid colorStr=%s color=0x%0X duration=%dms\n",
-  //   colorStr.c_str(), color, millis() - now);
+
+  server.send(200, "text/plain", "");
 }
 
 

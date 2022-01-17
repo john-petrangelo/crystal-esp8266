@@ -71,9 +71,7 @@ Color Pulsate::apply(float pos, float timeStamp) {
 
 /***** COMPOSITES *****/
 
-std::shared_ptr<Model> makeCrystalPower() {
-  Color color = 0xFF00D0;
-
+std::shared_ptr<Model> makeCrystalPower(Color color) {
   auto triangle1 = std::make_shared<Triangle>("crystal power", 0.7, 1.0, color);
   auto pulsate1 = std::make_shared<Pulsate>("crystal pulsate", 0.4, 1.0, 5.0, 5.0, triangle1);
 
