@@ -2,14 +2,12 @@
   <head>
     <title>Crystal Control</title>
     <meta name="viewport" content="initial-scale=2.0">
-    <style>
-      body { background-color: lavender; font-family: 'Brush Script MT', cursive; }
-      button { color: purple; width: 95% }
-      .column { text-align: center; float: left; width: 50%; display: grid }
-    </style>
+    <link rel="stylesheet" href="crystal.css">
   </head>
   <body>
-    <center><b>Dark Crystal</b></center><br/>
+    <div class="title">
+      <p><center><b>Dark Crystal</b></center></p>
+    </div>
     <div class="column">
       <button onclick="fetch('/off', {method:'GET'})">Off</button>
       <button onclick="fetch('/rainbow', {method:'GET'})">Rainbow</button>
@@ -18,6 +16,13 @@
       <button onclick="fetch('/darkcrystal?color=00ff00', {method:'GET'})">Green Crystal</button>
       <button onclick="fetch('/darkcrystal?color=0000ff', {method:'GET'})">Blue Crystal</button>
       <button onclick="fetch('/flame', {method:'GET'})">Flame</button>
+
+      <div class="toggle">
+        <label class="toggle">
+          <input type="checkbox"/>
+          <div class="slider"></div>
+        </label>
+      </div>
 
       <input type="color" value="#ff0000" id="colors" />
     </div>
