@@ -56,6 +56,10 @@ void setupWiFi() {
 void setupHTTP() {
   server.on("/", HTTP_GET, handleRoot);
   server.on("/crystal.css", HTTP_GET, handleCSS);
+  server.on("/crystal.js", HTTP_GET, handleJS);
+
+  server.on("/brightness", HTTP_PUT, handleSetBrightness);
+
   server.on("/status", HTTP_GET, handleStatus);
   server.on("/off", HTTP_GET, handleOff);
   server.on("/darkcrystal", HTTP_GET, handleDarkCrystal);

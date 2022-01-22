@@ -15,17 +15,37 @@
 void handleRoot() {
     long startMS = millis();
     File file = SPIFFS.open("/index.html", "r");
+    long openedMS = millis();
     size_t sent = server.streamFile(file, "text/html");
+    long streamedMS = millis();
     file.close();
-    Logger::logf("handleRoot sentBytes=%d duration=%dms\n", sent, millis() - startMS);
+    long closedMS = millis();
+    Logger::logf("handleRoot sentBytes=%d open=%dms stream=%dms close=%dms total=%dms\n",
+      sent, openedMS - startMS, streamedMS - openedMS, closedMS - streamedMS, closedMS - startMS);
 }
 
 void handleCSS() {
     long startMS = millis();
     File file = SPIFFS.open("/crystal.css", "r");
-    size_t sent = server.streamFile(file, "text/html");
+    long openedMS = millis();
+    size_t sent = server.streamFile(file, "text/css");
+    long streamedMS = millis();
     file.close();
-    Logger::logf("handleCSS sentBytes=%d duration=%dms\n", sent, millis() - startMS);
+    long closedMS = millis();
+    Logger::logf("handleCSS sentBytes=%d open=%dms stream=%dms close=%dms total=%dms\n",
+      sent, openedMS - startMS, streamedMS - openedMS, closedMS - streamedMS, closedMS - startMS);
+}
+
+void handleJS() {
+    long startMS = millis();
+    File file = SPIFFS.open("/crystal.js", "r");
+    long openedMS = millis();
+    size_t sent = server.streamFile(file, "text/javascript");
+    long streamedMS = millis();
+    file.close();
+    long closedMS = millis();
+    Logger::logf("handleJS sentBytes=%d open=%dms stream=%dms close=%dms total=%dms\n",
+      sent, openedMS - startMS, streamedMS - openedMS, closedMS - streamedMS, closedMS - startMS);
 }
 
 void handleStatus() {
@@ -56,6 +76,24 @@ void handleStatus() {
   serializeJsonPretty(doc, output);
   server.send(200, "text/json", output);
   Logger::logf("handleStatus %s", output.c_str());
+}
+
+void handleSetBrightness() {
+  if(!server.hasArg("value")) {
+    server.send(400, "text/plain", "Value parameter missing\n");
+    return;
+  }
+
+  String valueStr = server.arg("value");
+  uint8_t value = strtol(valueStr.c_str(), 0, 10);
+
+  // Apply gamma correction
+  uint8_t correctedValue = value * value / 255;
+
+  strip.setBrightness(correctedValue);
+
+  server.send(200, "text/plain", "");
+  Logger::logf("handleSetBrightness %d\n", value);
 }
 
 void handleNotFound() {

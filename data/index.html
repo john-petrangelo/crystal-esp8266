@@ -3,30 +3,25 @@
     <title>Crystal Control</title>
     <meta name="viewport" content="initial-scale=2.0">
     <link rel="stylesheet" href="crystal.css">
+    <script src="crystal.js"></script>
   </head>
   <body>
     <div class="title">
       Dark Crystal
     </div>
 
-    <img src="Crystal.png" class="center" height="100">
+    <img src="Crystal.png" class="center header-img" height="100">
     
-    <div class="controls-row">
-      <div class="toggle-box">
-        <label class="control-label" for="onoff">
-          On/Off
-        </label>
-        <label class="toggle">
-          <input type="checkbox" id="onoff"/>
-          <div class="slider"></div>
-        </label>
-      </div>
-      <div class="slider-box">
-        <label class="control-label" for="brightness">
-          Brightness
-        </label>
-          <input type="range" class="slider" id="brightness" name="points" min="0" max="1" step="0.01">
-      </div>
+    <div class="brightness-box">
+      <label class="control-label" for="brightness">
+        Brightness
+      </label>
+        <input type="range" class="slider" id="brightness" name="points" min="0" max="255" value="255" list="tickmarks">
+        <datalist id="tickmarks">
+          <option value="0"></option>
+          <option value="40"></option>
+          <option value="255"></option>
+        </datalist>
     </div>
 
     <button onclick="fetch('/darkcrystal', {method:'GET'})">Dark Crystal</button>
@@ -40,23 +35,6 @@
     <button onclick="fetch('/demo2', {method:'GET'})">Demo 2</button>
     <button onclick="fetch('/demo3', {method:'GET'})">Demo 3</button>
 
-
-
     <input type="color" value="#ff0000" id="colors" />
-
-<script>
-        var defaultColor = "#e6e6fa";
-        window.addEventListener("load", startup, false);
-        function startup() {
-            var colors = document.querySelector("#colors");
-            colors.value = defaultColor;
-            colors.addEventListener("change", updateChange, false);
-            colors.select();
-        }
-        function updateChange(event) {
-          url = "/solid?color=" + event.target.value.substring(1);
-          fetch(url, {method:'GET'});
-        }
-    </script>
   </body>
 </html>

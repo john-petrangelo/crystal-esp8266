@@ -19,30 +19,20 @@ button {
   color: purple;
   text-align: center;
 }
-img {
+.header-img {
   width: 100;
   border: 1px solid gray;
   background-color: lightgray;
-}
-.controls-row {
-  /* border: 2px solid red; */
-  display: flex;
-  flex-flow: row nowrap;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-.toggle-box {
-  /* border: 2px solid green; */
-  display: flex;
-  padding-right: 25px;
+  padding: 5px;
 }
 .control-label {
+  font-family: 'Arial', sans-serif;
   padding-right: 10px;
 }
-.slider-box {
-  /* border: 2px solid blue; */
-  width: 90%;
+.brightness-box {
   display: flex;
+  flex-flow: row nowrap;
+  padding: 10px;
   flex-grow: 1;
 }
 .slider {
@@ -51,6 +41,11 @@ img {
 
 /***** Toggle switch *****/
 
+/* 
+.toggle-box {
+  display: flex;
+  padding-right: 25px;
+}
 .toggle {
   --width: 25px;
   --height: 15px;
@@ -95,3 +90,17 @@ img {
 .toggle input:checked + .slider::before {
   transform: translateX(calc(var(--width) - var(--height)));
 }
+ */
+
+/*
+EXAMPLE HTML FOR TOGGLE
+<!-- <div class="toggle-box">
+<label class="control-label" for="onoff">
+  On/Off
+</label>
+<label class="toggle">
+  <input type="checkbox" id="onoff"/>
+  <div class="slider"></div>
+</label>
+</div> -->
+*/
