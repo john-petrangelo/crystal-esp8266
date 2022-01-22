@@ -6,34 +6,45 @@
   </head>
   <body>
     <div class="title">
-      <p><center><b>Dark Crystal</b></center></p>
+      Dark Crystal
     </div>
-    <div class="column">
-      <button onclick="fetch('/off', {method:'GET'})">Off</button>
-      <button onclick="fetch('/rainbow', {method:'GET'})">Rainbow</button>
-      <button onclick="fetch('/darkcrystal', {method:'GET'})">Dark Crystal</button>
-      <button onclick="fetch('/darkcrystal?color=ff0000', {method:'GET'})">Red Crystal</button>
-      <button onclick="fetch('/darkcrystal?color=00ff00', {method:'GET'})">Green Crystal</button>
-      <button onclick="fetch('/darkcrystal?color=0000ff', {method:'GET'})">Blue Crystal</button>
-      <button onclick="fetch('/flame', {method:'GET'})">Flame</button>
 
-      <div class="toggle">
+    <img src="Crystal.png" class="center" height="100">
+    
+    <div class="controls-row">
+      <div class="toggle-box">
+        <label class="control-label" for="onoff">
+          On/Off
+        </label>
         <label class="toggle">
-          <input type="checkbox"/>
+          <input type="checkbox" id="onoff"/>
           <div class="slider"></div>
         </label>
       </div>
-
-      <input type="color" value="#ff0000" id="colors" />
+      <div class="slider-box">
+        <label class="control-label" for="brightness">
+          Brightness
+        </label>
+          <input type="range" class="slider" id="brightness" name="points" min="0" max="1" step="0.01">
+      </div>
     </div>
 
-    <div class="column">
-      <button onclick="fetch('/demo1', {method:'GET'})">Demo 1</button>
-      <button onclick="fetch('/demo2', {method:'GET'})">Demo 2</button>
-      <button onclick="fetch('/demo3', {method:'GET'})">Demo 3</button>
-    </div>
+    <button onclick="fetch('/darkcrystal', {method:'GET'})">Dark Crystal</button>
+    <button onclick="fetch('/darkcrystal?color=ff0000', {method:'GET'})">Red Crystal</button>
+    <button onclick="fetch('/darkcrystal?color=00ff00', {method:'GET'})">Green Crystal</button>
+    <button onclick="fetch('/darkcrystal?color=0000ff', {method:'GET'})">Blue Crystal</button>
+    <button onclick="fetch('/rainbow', {method:'GET'})">Rainbow</button>
+    <button onclick="fetch('/flame', {method:'GET'})">Flame</button>
+    <button onclick="fetch('/off', {method:'GET'})">Off</button>
+    <button onclick="fetch('/demo1', {method:'GET'})">Demo 1</button>
+    <button onclick="fetch('/demo2', {method:'GET'})">Demo 2</button>
+    <button onclick="fetch('/demo3', {method:'GET'})">Demo 3</button>
 
-    <script>
+
+
+    <input type="color" value="#ff0000" id="colors" />
+
+<script>
         var defaultColor = "#e6e6fa";
         window.addEventListener("load", startup, false);
         function startup() {

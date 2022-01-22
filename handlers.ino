@@ -20,6 +20,14 @@ void handleRoot() {
     Logger::logf("handleRoot sentBytes=%d duration=%dms\n", sent, millis() - startMS);
 }
 
+void handleCSS() {
+    long startMS = millis();
+    File file = SPIFFS.open("/crystal.css", "r");
+    size_t sent = server.streamFile(file, "text/html");
+    file.close();
+    Logger::logf("handleCSS sentBytes=%d duration=%dms\n", sent, millis() - startMS);
+}
+
 void handleStatus() {
   StaticJsonDocument<200> doc;
   doc["time"] = millis() / 1000.0;

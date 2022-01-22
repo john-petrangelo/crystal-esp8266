@@ -5,24 +5,55 @@ body {
 .title {
   font-family: 'Brush Script MT', cursive;
   font-size: x-large;
+  font-weight: bold;
   color: purple;
+  text-align: center;
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 button {
-  width: 95%;
+  width: 100%;
   color: purple;
-}
-.column {
   text-align: center;
-  float: left;
-  width: 50%;
-  display: grid;
+}
+img {
+  width: 100;
+  border: 1px solid gray;
+  background-color: lightgray;
+}
+.controls-row {
+  /* border: 2px solid red; */
+  display: flex;
+  flex-flow: row nowrap;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.toggle-box {
+  /* border: 2px solid green; */
+  display: flex;
+  padding-right: 25px;
+}
+.control-label {
+  padding-right: 10px;
+}
+.slider-box {
+  /* border: 2px solid blue; */
+  width: 90%;
+  display: flex;
+  flex-grow: 1;
+}
+.slider {
+  width: 100%;
 }
 
 /***** Toggle switch *****/
 
 .toggle {
-  --width: calc(var(--height) * 1.75);
-  --height: 18px;
+  --width: 25px;
+  --height: 15px;
 
   position: relative;
   display: inline-block;
@@ -31,6 +62,7 @@ button {
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
   border-radius: var(--height);
   cursor: pointer;
+  align-items: right;
 }
 .toggle input {
   display: none;
@@ -63,61 +95,3 @@ button {
 .toggle input:checked + .slider::before {
   transform: translateX(calc(var(--width) - var(--height)));
 }
-
-/*
-<label class="toggle">
-  <input type="checkbox">
-  <span class="slider"></span>
-</label>
-*/
-
-/*********************/
-
-/* .toggle {
-  margin-left: -9999px;
-  visibility: hidden;
-}
-.toggle + label {
-  display: block;
-  position: relative;
-  cursor: pointer;
-  outline: none;
-  user-select: none;
-}
-input.toggle-round + label {
-  padding: 2px;
-  width: 120px;
-  height: 60px;
-  background-color: #dddddd;
-  border-radius: 60px;
-}
-input.toggle-round + label:before,
-input.toggle-round + label:after {
-  display: block;
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  bottom: 1px;
-  content: "";
-}
-
-input.toggle-round + label:before {
-  right: 1px;
-  background-color: #f1f1f1;
-  border-radius: 60px;
-  transition: background 0.4s;
-}
-input.toggle-round + label:after {
-  width: 58px;
-  background-color: #fff;
-  border-radius: 100%;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  transition: margin 0.4s;
-}
-
-input.toggle-round:checked + label:before {
-  background-color: #8ce196;
-}
-input.toggle-round:checked + label:after {
-  margin-left: 60px;
-} */

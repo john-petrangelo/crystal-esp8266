@@ -55,6 +55,7 @@ void setupWiFi() {
 // Setup the web server and handlers
 void setupHTTP() {
   server.on("/", HTTP_GET, handleRoot);
+  server.on("/crystal.css", HTTP_GET, handleCSS);
   server.on("/status", HTTP_GET, handleStatus);
   server.on("/off", HTTP_GET, handleOff);
   server.on("/darkcrystal", HTTP_GET, handleDarkCrystal);
