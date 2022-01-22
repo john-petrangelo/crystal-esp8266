@@ -93,7 +93,6 @@ void handleSetBrightness() {
   strip.setBrightness(correctedValue);
 
   server.send(200, "text/plain", "");
-  Logger::logf("handleSetBrightness %d\n", value);
 }
 
 void handleNotFound() {
