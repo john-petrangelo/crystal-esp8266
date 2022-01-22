@@ -21,7 +21,7 @@ Adafruit_NeoPixel strip(PIXELS_COUNT, PIXELS_PIN, STRIP_FLAGS);
 
 Color pixels[PIXELS_COUNT];
 
-long const logDurationIntervalMS = 1000;
+long const logDurationIntervalMS = 5000;
 ModelRunner modelRunner;
 
 void setup() {
