@@ -121,11 +121,6 @@ void handleNotFound() {
   server.send(404, "text/plain", message);
 }
 
-void handleOff() {
-  modelRunner.setModel(std::make_shared<SolidModel>("off", BLACK));
-  server.send(200, "text/plain", "");
-}
-
 void handleDarkCrystal() {
   Color color = 0xFF00D0;
   if(server.hasArg("color")) {
