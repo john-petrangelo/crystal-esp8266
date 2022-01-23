@@ -34,6 +34,7 @@ button {
   flex-flow: row nowrap;
   padding: 10px;
   flex-grow: 1;
+  visibility: hidden;
 }
 .slider {
   width: 100%;

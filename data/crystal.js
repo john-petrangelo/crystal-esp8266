@@ -3,17 +3,22 @@ var defaultColor = "#e6e6fa";
 window.addEventListener("load", startup, false);
 
 function startup() {
-    var brightness = document.querySelector("#brightness");
-    brightness.value = 255;
-    brightness.addEventListener("input", changeBrightness);
+    var brightness = document.querySelector("#brightness")
+    fetch("/brightness", {method:'GET'})
+      .then(response => response.json())
+      .then(data => { 
+          brightness.value = data.value;
+          brightness.style.visibility = "visible";
+        });
+    brightness.addEventListener("input", brightnessDidChange);
 
     // Setup solid color picker - demo only, to be repurposed
     var colors = document.querySelector("#colors");
     colors.value = defaultColor;
-    colors.addEventListener("change", changeColor);
+    colors.addEventListener("change", colorDidChange);
 }
 
-function changeBrightness(event) {
+function brightnessDidChange(event) {
     minAllowed = 40;
     if (event.target.value < minAllowed) {
         if (event.target.value > minAllowed/2) {
@@ -27,7 +32,7 @@ function changeBrightness(event) {
     fetch(url, {method:'PUT'});
   }
 
-function changeColor(event) {
+function colorDidChange(event) {
     url = "/solid?color=" + event.target.value.substring(1);
     fetch(url, {method:'GET'});
-  }
+}

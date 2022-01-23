@@ -57,10 +57,12 @@ void setupHTTP() {
   server.on("/", HTTP_GET, handleRoot);
   server.on("/crystal.css", HTTP_GET, handleCSS);
   server.on("/crystal.js", HTTP_GET, handleJS);
+  server.on("/status", HTTP_GET, handleStatus);
+  server.onNotFound(handleNotFound);
 
+  server.on("/brightness", HTTP_GET, handleGetBrightness);
   server.on("/brightness", HTTP_PUT, handleSetBrightness);
 
-  server.on("/status", HTTP_GET, handleStatus);
   server.on("/off", HTTP_GET, handleOff);
   server.on("/darkcrystal", HTTP_GET, handleDarkCrystal);
   server.on("/flame", HTTP_GET, handleFlame);
@@ -69,7 +71,7 @@ void setupHTTP() {
   server.on("/demo1", HTTP_GET, handleDemo1);
   server.on("/demo2", HTTP_GET, handleDemo2);
   server.on("/demo3", HTTP_GET, handleDemo3);
-  server.onNotFound(handleNotFound);
+
   server.begin();
   Serial.println("HTTP server started");
 }

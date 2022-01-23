@@ -78,6 +78,21 @@ void handleStatus() {
   Logger::logf("handleStatus %s", output.c_str());
 }
 
+void handleGetBrightness() {
+  uint8_t value = strip.getBrightness();
+
+  // Un-apply gamma correction
+  uint8_t uncorrectedValue = sqrt(value * 255);
+
+  // Create the response.
+  StaticJsonDocument<200> doc;
+  doc["value"] = uncorrectedValue;
+  String output;
+  serializeJsonPretty(doc, output);
+
+  server.send(200, "text/json", output);
+}
+
 void handleSetBrightness() {
   if(!server.hasArg("value")) {
     server.send(400, "text/plain", "Value parameter missing\n");
