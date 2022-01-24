@@ -6,7 +6,6 @@ body {
   font-family: 'Brush Script MT', cursive;
   font-size: x-large;
   font-weight: bold;
-  color: purple;
   text-align: center;
 }
 .center {
@@ -18,6 +17,18 @@ button {
   width: 100%;
   color: purple;
   text-align: center;
+  border-radius:28px;
+  border:1px solid darkslategray;
+}
+button[onclick*="/darkcrystal"] {
+  background: radial-gradient(ellipse 150px 100%, purple, lightgray);
+  color: lightgray;
+}
+button[onclick*="/rainbow"] {
+  background: linear-gradient(to right, red, orange, yellow, green, blue, indigo);
+}
+button[onclick*="/flame"] {
+  background: linear-gradient(to right, #ff8000, orange, yellow, orange, #ff8000);
 }
 .header-img {
   width: 100;
