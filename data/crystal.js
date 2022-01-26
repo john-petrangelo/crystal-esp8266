@@ -16,6 +16,20 @@ function startup() {
     var colors = document.querySelector("#colors");
     colors.value = defaultColor;
     colors.addEventListener("change", colorDidChange);
+
+    var home = document.getElementById("home");
+    var crystal_modal = document.getElementById("crystal-modal");
+    var crystal_button = document.getElementById("crystal-button");
+    var close_button = document.getElementsByClassName("modal-close")[0];
+    crystal_button.onclick = function() {
+        home.classList.add("home-out");
+        crystal_modal.classList.add("modal-open");
+    }
+    
+    close_button.onclick = function() {
+        home.classList.remove("home-out");
+        crystal_modal.classList.remove("modal-open");
+    }
 }
 
 function brightnessDidChange(event) {

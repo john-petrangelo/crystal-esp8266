@@ -20,7 +20,7 @@ button {
   border-radius:28px;
   border:1px solid darkslategray;
 }
-button[onclick*="/darkcrystal"] {
+#crystal-button {
   background: radial-gradient(ellipse 150px 100%, purple, lightgray);
   color: lightgray;
 }
@@ -49,6 +49,48 @@ button[onclick*="/flame"] {
 }
 .slider {
   width: 100%;
+}
+.home {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0%;
+  transition: all 0.3s ease-out;
+}
+.home-out {
+  left: -25%;
+  transition: all 0.3s ease-out;
+}
+.modal {
+  position: fixed;
+  z-index: 1;
+  overflow: auto;
+  /* background-color: rgba(0,0,0,0.4); */
+  background-color: lavender;
+  top: 0%;
+  width: 100%;
+  height: 100%;
+  left: 100%;
+  transition: left 0.3s ease-out;
+}
+.modal-open {
+  left: 0%;
+  transition: left 0.3s ease-out;
+}
+.modal-close {
+  color: #aaa;
+  float: right;
+  padding: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+.modal-close:hover,
+.modal-close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
 /***** Toggle switch *****/
