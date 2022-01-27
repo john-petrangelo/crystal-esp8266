@@ -1,6 +1,7 @@
 body {
-  background-color: lavender;
+  background-color: #e6e6fa;
   color: purple;
+  font-family: 'Tahoma', sans-serif;
 }
 .title {
   font-family: 'Brush Script MT', cursive;
@@ -37,7 +38,6 @@ button[onclick*="/flame"] {
   padding: 5px;
 }
 .control-label {
-  font-family: 'Arial', sans-serif;
   padding-right: 10px;
 }
 .brightness-box {
@@ -65,7 +65,6 @@ button[onclick*="/flame"] {
   position: fixed;
   z-index: 1;
   overflow: auto;
-  /* background-color: rgba(0,0,0,0.4); */
   background-color: lavender;
   top: 0%;
   width: 100%;
@@ -73,24 +72,46 @@ button[onclick*="/flame"] {
   left: 100%;
   transition: left 0.3s ease-out;
 }
+.modal-top {
+  padding-bottom: 20px;
+}
+.modal-title {
+  display: table;
+  margin: 0 auto;
+  padding-top: 6px;
+  font-size: small;
+}
+.modal-back-chevron {
+  position: absolute;
+  border-left: 2px solid; 
+  border-bottom: 2px solid;
+  left: 10;
+  top: 10;
+  height: 8px;
+  width: 8px;
+  transform: rotate(45deg);
+}
+.modal-back:hover,
+.modal-back:focus {
+  cursor: pointer;
+}
+.modal-back-label {
+  font-size: x-small;
+  position: absolute;
+  left: 20;
+  top: 8;
+}
+.modal-back:active>.modal-back-chevron {
+  top: 9;
+  border-left: 3px solid; 
+  border-bottom: 3px solid;
+}
+.modal-back:active>.modal-back-label {
+  font-weight: bold;
+}
 .modal-open {
   left: 0%;
   transition: left 0.3s ease-out;
-}
-.modal-close {
-  color: #aaa;
-  float: right;
-  padding: 10px;
-  font-size: 28px;
-  font-weight: bold;
-  transition: all 0.3s;
-}
-.modal-close:hover,
-.modal-close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.3s;
 }
 
 /***** Toggle switch *****/

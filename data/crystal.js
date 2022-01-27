@@ -20,7 +20,7 @@ function startup() {
     var home = document.getElementById("home");
     var crystal_modal = document.getElementById("crystal-modal");
     var crystal_button = document.getElementById("crystal-button");
-    var close_button = document.getElementsByClassName("modal-close")[0];
+    var close_button = document.getElementsByClassName("modal-back")[0];
     crystal_button.onclick = function() {
         home.classList.add("home-out");
         crystal_modal.classList.add("modal-open");
