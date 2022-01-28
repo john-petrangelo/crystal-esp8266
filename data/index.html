@@ -26,12 +26,14 @@
           </datalist>
       </div>
 
-      <button id="crystal-button">Crystal</button>
-      <button onclick="fetch('/rainbow', {method:'GET'})">Rainbow</button>
-      <button onclick="fetch('/flame', {method:'GET'})">Flame</button>
-      <button onclick="fetch('/demo1', {method:'GET'})">Demo 1</button>
-      <button onclick="fetch('/demo2', {method:'GET'})">Demo 2</button>
-      <button onclick="fetch('/demo3', {method:'GET'})">Demo 3</button>
+      <div class="buttons-group">
+        <button id="crystal-button">Crystal</button>
+        <button onclick="fetch('/rainbow', {method:'GET'})">Rainbow</button>
+        <button onclick="fetch('/flame', {method:'GET'})">Flame</button>
+        <button onclick="fetch('/demo1', {method:'GET'})">Demo 1</button>
+        <button onclick="fetch('/demo2', {method:'GET'})">Demo 2</button>
+        <button onclick="fetch('/demo3', {method:'GET'})">Demo 3</button>
+      </div>
 
       <input type="color" value="#ff0000" id="colors" />
     </div>
@@ -44,10 +46,12 @@
         </div>
         <span class="modal-title">Crystal</span>
       </div>
-      <button onclick="fetch('/darkcrystal', {method:'GET'})">Dark Crystal</button>
-      <button onclick="fetch('/darkcrystal?color=ff0000', {method:'GET'})">Red Crystal</button>
-      <button onclick="fetch('/darkcrystal?color=00ff00', {method:'GET'})">Green Crystal</button>
-      <button onclick="fetch('/darkcrystal?color=0000ff', {method:'GET'})">Blue Crystal</button>
+      <div class="buttons-group">
+        <button onclick="fetch('/darkcrystal', {method:'GET'})">Dark Crystal</button>
+        <button onclick="fetch('/darkcrystal?color=ff0000', {method:'GET'})">Red Crystal</button>
+        <button onclick="fetch('/darkcrystal?color=00ff00', {method:'GET'})">Green Crystal</button>
+        <button onclick="fetch('/darkcrystal?color=0000ff', {method:'GET'})">Blue Crystal</button>
+      </div>
     </div>
   </body>
 </html>
