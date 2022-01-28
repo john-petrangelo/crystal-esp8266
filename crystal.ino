@@ -1,5 +1,5 @@
 #include <ESP8266WebServer.h>
-#include <FS.h>
+#include <LittleFS.h>
 
 #include <Adafruit_NeoPixel.h>
 
@@ -28,8 +28,8 @@ void setup() {
   Serial.begin(115200);
   Serial.println("");
 
-  if (!SPIFFS.begin()) {
-    Serial.println("Failed to start SPIFFS");
+  if (!LittleFS.begin()) {
+    Serial.println("Failed to start LittleFS");
   }
 
   setupNetwork();

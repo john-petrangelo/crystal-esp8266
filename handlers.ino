@@ -2,7 +2,7 @@
 
 #include <ArduinoJson.h>
 #include <ESP8266WebServer.h>
-#include <FS.h>
+#include <LittleFS.h>
 
 #include "src/lumos-arduino/lumos-arduino/Colors.h"
 #include "src/lumos-arduino/lumos-arduino/Patterns.h"
@@ -14,7 +14,7 @@
 
 void handleRoot() {
     long startMS = millis();
-    File file = SPIFFS.open("/index.html", "r");
+    File file = LittleFS.open("/index.html", "r");
     long openedMS = millis();
     size_t sent = server.streamFile(file, "text/html");
     long streamedMS = millis();
@@ -26,7 +26,7 @@ void handleRoot() {
 
 void handleCSS() {
     long startMS = millis();
-    File file = SPIFFS.open("/crystal.css", "r");
+    File file = LittleFS.open("/crystal.css", "r");
     long openedMS = millis();
     size_t sent = server.streamFile(file, "text/css");
     long streamedMS = millis();
@@ -38,7 +38,7 @@ void handleCSS() {
 
 void handleJS() {
     long startMS = millis();
-    File file = SPIFFS.open("/crystal.js", "r");
+    File file = LittleFS.open("/crystal.js", "r");
     long openedMS = millis();
     size_t sent = server.streamFile(file, "text/javascript");
     long streamedMS = millis();
@@ -57,7 +57,7 @@ void handleStatus() {
 
   JsonObject fs = doc.createNestedObject("filesystem");
   FSInfo fsInfo;
-  bool gotInfo = SPIFFS.info(fsInfo);
+  bool gotInfo = LittleFS.info(fsInfo);
   if (gotInfo) {
     fs["totalBytes"] = fsInfo.totalBytes;
     fs["usedBytes"] = fsInfo.usedBytes;

@@ -1,7 +1,8 @@
+#include <ArduinoOTA.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
-#include <ArduinoOTA.h>
+#include <LittleFS.h>
 
 // Secrets are defined in another file called "secrets.h" to avoid commiting secrets
 // into a public repo. You will need to change the secret values in secrets.h to
@@ -94,6 +95,8 @@ void setupOTA() {
   // ArduinoOTA.setPassword((const char *)"123");
 
   ArduinoOTA.onStart([]() {
+    LittleFS.end();
+
     Serial.println("OTA Start");
 
     Patterns::setSolidColor(strip, pixels, BLACK);
