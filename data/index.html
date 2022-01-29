@@ -28,11 +28,12 @@
 
       <div class="buttons-group">
         <button id="crystal-button">Crystal</button>
-        <button onclick="fetch('/rainbow', {method:'GET'})">Rainbow</button>
-        <button onclick="fetch('/flame', {method:'GET'})">Flame</button>
+        <button id="rainbow-button" onclick="fetch('/rainbow', {method:'GET'})">Rainbow</button>
+        <button id="flame-button" onclick="fetch('/flame', {method:'GET'})">Flame</button>
         <button onclick="fetch('/demo1', {method:'GET'})">Demo 1</button>
         <button onclick="fetch('/demo2', {method:'GET'})">Demo 2</button>
         <button onclick="fetch('/demo3', {method:'GET'})">Demo 3</button>
+        <button id="other-button">Other</button>
       </div>
 
       <input type="color" value="#ff0000" id="colors" />

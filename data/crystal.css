@@ -37,12 +37,16 @@ button {
   color: lightgray;
   background: radial-gradient(ellipse 150px 100%, purple, lightgray);
 }
-button[onclick*="/rainbow"] {
+#rainbow-button {
   color: darkmagenta;
   background: linear-gradient(to bottom, red, orange, yellow, green, blue, indigo);
 }
-button[onclick*="/flame"] {
+#flame-button {
   background: linear-gradient(to top, #ff8000, orange, yellow, orange, #ff8000);
+}
+#other-button {
+  color: #c0c0c0;
+  background: #303030;
 }
 .header-img {
   width: 100;
