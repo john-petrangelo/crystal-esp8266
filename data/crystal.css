@@ -16,10 +16,10 @@ body {
 }
 button {
   width: calc(33% - 6px);
-  height: 65px;
+  height: 40px;
   color:darkmagenta;
   text-align: center;
-  border-radius: 16px;
+  border-radius: 10px;
   border:1px solid darkslategray;
 }
 .buttons-group {
