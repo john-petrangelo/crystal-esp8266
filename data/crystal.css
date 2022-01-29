@@ -67,18 +67,18 @@ button {
 .slider {
   width: 100%;
 }
-.home {
+.homepage-page {
   position: fixed;
   width: 100%;
   height: 100%;
   left: 0%;
   transition: all 0.3s ease-out;
 }
-.home-out {
+.homepage-out {
   left: -25%;
   transition: all 0.3s ease-out;
 }
-.modal {
+.subpage {
   position: fixed;
   z-index: 1;
   overflow: auto;
@@ -89,16 +89,10 @@ button {
   left: 100%;
   transition: left 0.3s ease-out;
 }
-.modal-top {
+.subpage-top-bar {
   padding-bottom: 20px;
 }
-.modal-title {
-  display: table;
-  margin: 0 auto;
-  padding-top: 6px;
-  font-size: small;
-}
-.modal-back-chevron {
+.subpage-back-chevron {
   position: absolute;
   border-left: 2px solid; 
   border-bottom: 2px solid;
@@ -108,23 +102,29 @@ button {
   width: 8px;
   transform: rotate(45deg);
 }
-.modal-back:hover,
-.modal-back:focus {
-  cursor: pointer;
-}
-.modal-back-label {
+.subpage-back-label {
   font-size: x-small;
   position: absolute;
   left: 20;
   top: 8;
 }
-.modal-back:active>.modal-back-chevron {
+.subpage-back:hover,
+.subpage-back:focus {
+  cursor: pointer;
+}
+.subpage-back:active>.subpage-back-chevron {
   border-color: rgba(139,0,139, 0.4);
 }
-.modal-back:active>.modal-back-label {
+.subpage-back:active>.subpage-back-label {
   color: rgba(139,0,139, 0.4);
 }
-.modal-open {
+.subpage-title {
+  display: table;
+  margin: 0 auto;
+  padding-top: 6px;
+  font-size: small;
+}
+.subpage-is-open {
   left: 0%;
   transition: left 0.3s ease-out;
 }

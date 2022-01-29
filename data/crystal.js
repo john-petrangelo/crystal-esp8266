@@ -18,17 +18,17 @@ function startup() {
     colors.addEventListener("change", colorDidChange);
 
     var home = document.getElementById("home");
-    var crystal_modal = document.getElementById("crystal-modal");
+    var crystal_subpage = document.getElementById("crystal-subpage");
     var crystal_button = document.getElementById("crystal-button");
-    var close_button = document.getElementsByClassName("modal-back")[0];
+    var close_button = document.getElementsByClassName("subpage-back")[0];
     crystal_button.onclick = function() {
-        home.classList.add("home-out");
-        crystal_modal.classList.add("modal-open");
+        home.classList.add("homepage-out");
+        crystal_subpage.classList.add("subpage-is-open");
     }
     
     close_button.onclick = function() {
-        home.classList.remove("home-out");
-        crystal_modal.classList.remove("modal-open");
+        home.classList.remove("homepage-out");
+        crystal_subpage.classList.remove("subpage-is-open");
     }
 }
 

@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>Crystal Control</title>
-    <meta name="viewport" content="initial-scale=2.0">
+    <meta name="viewport" content="initial-scale=2.0"/>
     <link rel="stylesheet" href="crystal.css">
     <script src="crystal.js"></script>
   </head>
@@ -39,13 +39,13 @@
       <input type="color" value="#ff0000" id="colors" />
     </div>
 
-    <div id="crystal-modal" class="modal">
-      <div class="modal-top">
-        <div class="modal-back" ontouchstart="">
-          <div class="modal-back-chevron"></div>
-          <span class="modal-back-label">Home</span>
+    <div id="crystal-subpage" class="subpage">
+      <div class="subpage-top-bar">
+        <div class="subpage-back" ontouchstart="">
+          <div class="subpage-back-chevron"></div>
+          <span class="subpage-back-label">Home</span>
         </div>
-        <span class="modal-title">Crystal</span>
+        <span class="subpage-title">Crystal</span>
       </div>
       <div class="buttons-group">
         <button onclick="fetch('/darkcrystal', {method:'GET'})">Dark Crystal</button>
