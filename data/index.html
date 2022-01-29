@@ -36,14 +36,17 @@
       <input type="color" value="#ff0000" id="colors" />
     </div>
 
-    <div id="crystal-subpage" class="subpage" data-buttonid="crystal-button" data-title="Crystal">
+    <template id="subpage-top-bar-template">
       <div class="subpage-top-bar">
         <div class="subpage-back" ontouchstart="">
           <div class="subpage-back-chevron"></div>
           <span class="subpage-back-label">Home</span>
         </div>
-        <span class="subpage-title">Crystal</span>
+        <span class="subpage-title"></span>
       </div>
+    </template>
+
+    <div id="crystal-subpage" class="subpage" data-buttonid="crystal-button" data-title="Crystal">
       <div class="buttons-group">
         <button onclick="fetch('/darkcrystal', {method:'GET'})">Dark Crystal</button>
         <button onclick="fetch('/darkcrystal?color=ff0000', {method:'GET'})">Red Crystal</button>
@@ -53,13 +56,6 @@
     </div>
 
     <div id="other-subpage" class="subpage" data-buttonid="other-button" data-title="Other">
-      <div class="subpage-top-bar">
-        <div class="subpage-back" ontouchstart="">
-          <div class="subpage-back-chevron"></div>
-          <span class="subpage-back-label">Home</span>
-        </div>
-        <span class="subpage-title">Other</span>
-      </div>
       <div class="buttons-group">
         <button onclick="fetch('/demo1', {method:'GET'})">Demo 1</button>
         <button onclick="fetch('/demo2', {method:'GET'})">Demo 2</button>

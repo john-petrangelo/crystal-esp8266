@@ -21,7 +21,13 @@ function startup() {
     let subpages = document.getElementsByClassName("subpage");
 
     for (let subpage of subpages) {
-        // var title = subpage.dataset.title;
+        let template = document.getElementById("subpage-top-bar-template");
+        let clone = template.content.cloneNode(true);
+        subpage.insertBefore(clone, subpage.firstChild);
+
+        let label = subpage.querySelector(".subpage-title");
+        label.textContent = subpage.dataset.title;
+    
         let buttonId = subpage.dataset.buttonid;
         let button = document.getElementById(buttonId);
 
