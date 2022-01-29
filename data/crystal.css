@@ -24,10 +24,6 @@ button {
 }
 .buttons-group {
   display: flex;
-  align-items: center;
-  justify-content: space-around;
-  align-content: space-around;
-  align-items: space-around;
   flex-flow: row wrap;
 }
 .buttons-group > button {
