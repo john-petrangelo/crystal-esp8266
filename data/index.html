@@ -30,16 +30,13 @@
         <button id="crystal-button">Crystal</button>
         <button id="rainbow-button" onclick="fetch('/rainbow', {method:'GET'})">Rainbow</button>
         <button id="flame-button" onclick="fetch('/flame', {method:'GET'})">Flame</button>
-        <button onclick="fetch('/demo1', {method:'GET'})">Demo 1</button>
-        <button onclick="fetch('/demo2', {method:'GET'})">Demo 2</button>
-        <button onclick="fetch('/demo3', {method:'GET'})">Demo 3</button>
         <button id="other-button">Other</button>
       </div>
 
       <input type="color" value="#ff0000" id="colors" />
     </div>
 
-    <div id="crystal-subpage" class="subpage">
+    <div id="crystal-subpage" class="subpage" data-buttonid="crystal-button" data-title="Crystal">
       <div class="subpage-top-bar">
         <div class="subpage-back" ontouchstart="">
           <div class="subpage-back-chevron"></div>
@@ -54,5 +51,20 @@
         <button onclick="fetch('/darkcrystal?color=0000ff', {method:'GET'})">Blue Crystal</button>
       </div>
     </div>
+
+    <div id="other-subpage" class="subpage" data-buttonid="other-button" data-title="Other">
+      <div class="subpage-top-bar">
+        <div class="subpage-back" ontouchstart="">
+          <div class="subpage-back-chevron"></div>
+          <span class="subpage-back-label">Home</span>
+        </div>
+        <span class="subpage-title">Other</span>
+      </div>
+      <div class="buttons-group">
+        <button onclick="fetch('/demo1', {method:'GET'})">Demo 1</button>
+        <button onclick="fetch('/demo2', {method:'GET'})">Demo 2</button>
+        <button onclick="fetch('/demo3', {method:'GET'})">Demo 3</button>
+      </div>
+    </div>
   </body>
-</html>
+  </html>

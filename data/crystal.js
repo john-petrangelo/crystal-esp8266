@@ -13,22 +13,28 @@ function startup() {
     brightness.addEventListener("input", brightnessDidChange);
 
     // Setup solid color picker - demo only, to be repurposed
-    var colors = document.querySelector("#colors");
+    let colors = document.querySelector("#colors");
     colors.value = defaultColor;
     colors.addEventListener("change", colorDidChange);
 
-    var home = document.getElementById("home");
-    var crystal_subpage = document.getElementById("crystal-subpage");
-    var crystal_button = document.getElementById("crystal-button");
-    var close_button = document.getElementsByClassName("subpage-back")[0];
-    crystal_button.onclick = function() {
-        home.classList.add("homepage-out");
-        crystal_subpage.classList.add("subpage-is-open");
-    }
-    
-    close_button.onclick = function() {
-        home.classList.remove("homepage-out");
-        crystal_subpage.classList.remove("subpage-is-open");
+    let home = document.getElementById("home");
+    let subpages = document.getElementsByClassName("subpage");
+
+    for (let subpage of subpages) {
+        // var title = subpage.dataset.title;
+        let buttonId = subpage.dataset.buttonid;
+        let button = document.getElementById(buttonId);
+
+        button.onclick = function() {
+            home.classList.add("homepage-out");
+            subpage.classList.add("subpage-is-open");
+        }
+
+        let back_button = subpage.getElementsByClassName("subpage-back")[0];
+        back_button.onclick = function() {
+            home.classList.remove("homepage-out");
+            subpage.classList.remove("subpage-is-open");
+        }
     }
 }
 
