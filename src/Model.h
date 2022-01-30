@@ -174,4 +174,22 @@ class Triangle : public Model {
  * Color
  */
 
+/*
+ * Warp core
+ * Simulate a Star Trek warp core.
+ * 
+ * Direction - up/down?
+ * Color?
+ * Speed?
+ */
+
+/*
+ * Jacob's ladder
+ * Simulate the rising electrical arc of a Jacob's ladder.
+ * 
+ * Color?
+ * Speed?
+ */
+
+
 #endif // __MODEL__
