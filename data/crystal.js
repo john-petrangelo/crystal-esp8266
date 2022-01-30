@@ -19,17 +19,16 @@ function startup() {
 
     let home = document.getElementById("home");
     let subpages = document.getElementsByClassName("subpage");
+    let template = document.getElementById("subpage-top-bar-template");
 
     for (let subpage of subpages) {
-        let template = document.getElementById("subpage-top-bar-template");
         let clone = template.content.cloneNode(true);
         subpage.insertBefore(clone, subpage.firstChild);
 
         let label = subpage.querySelector(".subpage-title");
         label.textContent = subpage.dataset.title;
     
-        let buttonId = subpage.dataset.buttonid;
-        let button = document.getElementById(buttonId);
+        let button = document.getElementById(subpage.dataset.buttonid);
 
         button.onclick = function() {
             home.classList.add("homepage-out");
