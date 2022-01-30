@@ -3,13 +3,24 @@ var defaultColor = "#e6e6fa";
 window.addEventListener("load", startup, false);
 
 function startup() {
-    var brightness = document.querySelector("#brightness")
-    fetch("/brightness", {method:'GET'})
-      .then(response => response.json())
+    var brightness = document.getElementById("brightness")
+    var brightnessBox = document.getElementById("brightness-box")
+    console.log("brightnessBox=" + brightnessBox);
+    fetch("/brightness")
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response.json();
+      })
       .then(data => { 
           brightness.value = data.value;
-          brightness.style.visibility = "visible";
-        });
+          brightnessBox.style.visibility = "visible";
+      })
+      .catch(error => {
+          brightness.value = 255;
+          brightnessBox.style.visibility = "visible";
+      });
     brightness.addEventListener("input", brightnessDidChange);
 
     // Setup solid color picker - demo only, to be repurposed

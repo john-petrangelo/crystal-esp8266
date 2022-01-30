@@ -53,7 +53,7 @@ button {
 .control-label {
   padding-right: 10px;
 }
-.brightness-box {
+#brightness-box {
   display: flex;
   flex-flow: row nowrap;
   padding: 10px;
