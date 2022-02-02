@@ -4,6 +4,28 @@
     <meta name="viewport" content="initial-scale=2.0"/>
     <link rel="stylesheet" href="crystal.css">
     <script src="crystal.js"></script>
+
+    <template id="subpage-top-bar-template">
+      <div class="subpage-top-bar">
+        <div class="subpage-back" ontouchstart="">
+          <div class="subpage-back-chevron"></div>
+          <span class="subpage-back-label">Home</span>
+        </div>
+        <span class="subpage-title"></span>
+      </div>
+    </template>
+
+    <template id="color-speed-template">
+      <span></span>
+      <div class="color-speed-container">
+        <input type="color" value="#c00060" id="colors"/>
+        <div class="color-speed-item">&#x1F422;</div>
+        <div class="color-speed-slider">
+          <input type="range" name="points" min="0" max="255" value="255" list="tickmarks">
+        </div>
+        <div class="color-speed-item">&#x1F407;</div>
+      </div>
+    </template>
   </head>
   <body>
     <div id="home" class="home">
@@ -36,16 +58,6 @@
       <input type="color" value="#ff0000" id="colors" />
     </div>
 
-    <template id="subpage-top-bar-template">
-      <div class="subpage-top-bar">
-        <div class="subpage-back" ontouchstart="">
-          <div class="subpage-back-chevron"></div>
-          <span class="subpage-back-label">Home</span>
-        </div>
-        <span class="subpage-title"></span>
-      </div>
-    </template>
-
     <div id="crystal-subpage" class="subpage" data-buttonid="crystal-button" data-title="Crystal">
       <button onclick="fetch('/darkcrystal', {method:'GET'})">The Dark Crystal</button>
       <div class="buttons-group">
@@ -57,50 +69,10 @@
         <button onclick="fetch('/darkcrystal?color=ffffff', {method:'GET'})">Diamond</button>
       </div>
       <hr>
-      Upper<br>
-      <div class="crystal-slider-container">
-        <div id="crystal-upper-color" class="crystal-slider-item">
-          <input type="color" value="#ff0000" id="colors" />
-        </div>
-        <div class="crystal-slider-item">&#x1F422;</div>
-        <div class="crystal-slider-item crystal-slider">
-          <input type="range" id="crystal-upper-speed" name="points" min="0" max="255" value="255" list="tickmarks">
-        </div>
-        <div class="crystal-slider-item">&#x1F407;</div>
-      </div>
-      Lower<br>
-      <div class="crystal-slider-container">
-        <div id="crystal-upper-color"  class="crystal-slider-item">
-          <input type="color" value="#ff0000" id="colors" />
-        </div>
-        <div class="crystal-slider-item">&#x1F422;</div>
-        <div class="crystal-slider-item crystal-slider">
-          <input type="range" id="crystal-lower-speed" name="points" min="0" max="255" value="255" list="tickmarks">
-        </div>
-        <div class="crystal-slider-item">&#x1F407;</div>
-      </div>
-      Ambient<br>
-      <div class="crystal-slider-container">
-        <div class="crystal-slider-item">
-          <input type="color" value="#ff0000" id="colors" />
-        </div>
-        <div class="crystal-slider-item">&#x1F422;</div>
-        <div class="crystal-slider-item crystal-slider">
-          <input type="range" id="crystal-ambient-speed" name="points" min="0" max="255" value="255" list="tickmarks">
-        </div>
-        <div class="crystal-slider-item">&#x1F407;</div>
-      </div>
-      Base<br>
-      <div class="crystal-slider-container">
-        <div class="crystal-slider-item">
-          <input type="color" value="#ff0000" id="colors" />
-        </div>
-        <div class="crystal-slider-item">&#x1F422;</div>
-        <div class="crystal-slider-item crystal-slider">
-          <input type="range" id="crystal-base-speed" name="points" min="0" max="255" value="255" list="tickmarks">
-        </div>
-        <div class="crystal-slider-item">&#x1F407;</div>
-      </div>
+      <div id="crystal-upper" class="color-speed" data-title="Upper"></div>
+      <div id="crystal-lower" class="color-speed" data-title="Lower"></div>
+      <div id="crystal-ambient" class="color-speed" data-title="Ambient"></div>
+      <div id="crystal-base" class="color-speed" data-title="Base"></div>
     </div>
 
     <div id="other-subpage" class="subpage" data-buttonid="other-button" data-title="Other">

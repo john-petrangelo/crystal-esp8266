@@ -63,6 +63,7 @@ button {
 .slider {
   width: 100%;
 }
+
 .homepage-page {
   position: fixed;
   width: 100%;
@@ -74,6 +75,7 @@ button {
   left: -25%;
   transition: all 0.3s ease-out;
 }
+
 .subpage {
   position: fixed;
   z-index: 1;
@@ -124,20 +126,22 @@ button {
   left: 0%;
   transition: left 0.3s ease-out;
 }
-.crystal-slider-container {
+
+.color-speed-container {
   display: flex;
   flex-flow: row nowrap;
 }
-.crystal-slider-item {
-  border-color: black;
+.color-speed-item {
   padding: 5px;
 }
-.crystal-slider {
+.color-speed input[type="range"] {
   flex-grow: 1;
-}
-.crystal-slider > input {
   width: 100%;
 }
+.color-speed-slider {
+  width: 100%;
+}
+
 /***** Toggle switch *****/
 
 /* 

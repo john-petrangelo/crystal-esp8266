@@ -5,7 +5,6 @@ window.addEventListener("load", startup, false);
 function startup() {
     var brightness = document.getElementById("brightness")
     var brightnessBox = document.getElementById("brightness-box")
-    console.log("brightnessBox=" + brightnessBox);
     fetch("/brightness")
       .then(response => {
         if (!response.ok) {
@@ -30,10 +29,10 @@ function startup() {
 
     let home = document.getElementById("home");
     let subpages = document.getElementsByClassName("subpage");
-    let template = document.getElementById("subpage-top-bar-template");
+    let subpageTopBarTemplate = document.getElementById("subpage-top-bar-template");
 
     for (let subpage of subpages) {
-        let clone = template.content.cloneNode(true);
+        let clone = subpageTopBarTemplate.content.cloneNode(true);
         subpage.insertBefore(clone, subpage.firstChild);
 
         let label = subpage.querySelector(".subpage-title");
@@ -51,6 +50,14 @@ function startup() {
             home.classList.remove("homepage-out");
             subpage.classList.remove("subpage-is-open");
         }
+    }
+
+    let colorSpeeds = document.getElementsByClassName("color-speed");
+    let colorSpeedTemplate = document.getElementById("color-speed-template");
+    for (let colorSpeed of colorSpeeds) {
+        let clone = colorSpeedTemplate.content.cloneNode(true);
+        colorSpeed.appendChild(clone);
+        colorSpeed.querySelector("span").textContent = colorSpeed.dataset.title;
     }
 }
 
