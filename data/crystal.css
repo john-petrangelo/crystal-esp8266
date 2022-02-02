@@ -124,7 +124,20 @@ button {
   left: 0%;
   transition: left 0.3s ease-out;
 }
-
+.crystal-slider-container {
+  display: flex;
+  flex-flow: row nowrap;
+}
+.crystal-slider-item {
+  border-color: black;
+  padding: 5px;
+}
+.crystal-slider {
+  flex-grow: 1;
+}
+.crystal-slider > input {
+  width: 100%;
+}
 /***** Toggle switch *****/
 
 /* 

@@ -47,11 +47,59 @@
     </template>
 
     <div id="crystal-subpage" class="subpage" data-buttonid="crystal-button" data-title="Crystal">
+      <button onclick="fetch('/darkcrystal', {method:'GET'})">The Dark Crystal</button>
       <div class="buttons-group">
-        <button onclick="fetch('/darkcrystal', {method:'GET'})">Dark Crystal</button>
-        <button onclick="fetch('/darkcrystal?color=ff0000', {method:'GET'})">Red Crystal</button>
-        <button onclick="fetch('/darkcrystal?color=00ff00', {method:'GET'})">Green Crystal</button>
-        <button onclick="fetch('/darkcrystal?color=0000ff', {method:'GET'})">Blue Crystal</button>
+        <button onclick="fetch('/darkcrystal?color=ff0000', {method:'GET'})">Ruby</button>
+        <button onclick="fetch('/darkcrystal?color=00ff00', {method:'GET'})">Emerald</button>
+        <button onclick="fetch('/darkcrystal?color=0000ff', {method:'GET'})">Saphire</button>
+        <button onclick="fetch('/darkcrystal?color=ffa000', {method:'GET'})">Topaz</button>
+        <button onclick="fetch('/darkcrystal?color=00d0d0', {method:'GET'})">Turquiose</button>
+        <button onclick="fetch('/darkcrystal?color=ffffff', {method:'GET'})">Diamond</button>
+      </div>
+      <hr>
+      Upper<br>
+      <div class="crystal-slider-container">
+        <div id="crystal-upper-color" class="crystal-slider-item">
+          <input type="color" value="#ff0000" id="colors" />
+        </div>
+        <div class="crystal-slider-item">&#x1F422;</div>
+        <div class="crystal-slider-item crystal-slider">
+          <input type="range" id="crystal-upper-speed" name="points" min="0" max="255" value="255" list="tickmarks">
+        </div>
+        <div class="crystal-slider-item">&#x1F407;</div>
+      </div>
+      Lower<br>
+      <div class="crystal-slider-container">
+        <div id="crystal-upper-color"  class="crystal-slider-item">
+          <input type="color" value="#ff0000" id="colors" />
+        </div>
+        <div class="crystal-slider-item">&#x1F422;</div>
+        <div class="crystal-slider-item crystal-slider">
+          <input type="range" id="crystal-lower-speed" name="points" min="0" max="255" value="255" list="tickmarks">
+        </div>
+        <div class="crystal-slider-item">&#x1F407;</div>
+      </div>
+      Ambient<br>
+      <div class="crystal-slider-container">
+        <div class="crystal-slider-item">
+          <input type="color" value="#ff0000" id="colors" />
+        </div>
+        <div class="crystal-slider-item">&#x1F422;</div>
+        <div class="crystal-slider-item crystal-slider">
+          <input type="range" id="crystal-ambient-speed" name="points" min="0" max="255" value="255" list="tickmarks">
+        </div>
+        <div class="crystal-slider-item">&#x1F407;</div>
+      </div>
+      Base<br>
+      <div class="crystal-slider-container">
+        <div class="crystal-slider-item">
+          <input type="color" value="#ff0000" id="colors" />
+        </div>
+        <div class="crystal-slider-item">&#x1F422;</div>
+        <div class="crystal-slider-item crystal-slider">
+          <input type="range" id="crystal-base-speed" name="points" min="0" max="255" value="255" list="tickmarks">
+        </div>
+        <div class="crystal-slider-item">&#x1F407;</div>
       </div>
     </div>
 
