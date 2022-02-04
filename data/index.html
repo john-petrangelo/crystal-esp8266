@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>Crystal Control</title>
-    <meta name="viewport" content="initial-scale=2.0"/>
+    <meta name="viewport" content="width=device-width" initial-scale="1.0">
     <link rel="stylesheet" href="crystal.css">
     <script src="crystal.js"></script>
 
@@ -29,12 +29,11 @@
   </head>
   <body>
     <div id="home" class="home">
-
       <div class="title">
         Dark Crystal
       </div>
 
-      <img src="Crystal.png" class="center header-img" height="100px">
+      <img src="Crystal.png" class="center home-img" height="100px">
       
       <div id="brightness-box">
         <label class="control-label" for="brightness">
@@ -54,21 +53,27 @@
         <button id="flame-button" onclick="fetch('/flame', {method:'GET'})">Flame</button>
         <button id="other-button">Other</button>
       </div>
-
       <input type="color" value="#ff0000" id="colors" />
     </div>
 
     <div id="crystal-subpage" class="subpage" data-buttonid="crystal-button" data-title="Crystal">
-      <button onclick="fetch('/darkcrystal', {method:'GET'})">The Dark Crystal</button>
-      <div class="buttons-group">
-        <button onclick="fetch('/darkcrystal?color=ff0000', {method:'GET'})">Ruby</button>
-        <button onclick="fetch('/darkcrystal?color=00ff00', {method:'GET'})">Emerald</button>
-        <button onclick="fetch('/darkcrystal?color=0000ff', {method:'GET'})">Saphire</button>
-        <button onclick="fetch('/darkcrystal?color=ffa000', {method:'GET'})">Topaz</button>
-        <button onclick="fetch('/darkcrystal?color=00d0d0', {method:'GET'})">Turquiose</button>
-        <button onclick="fetch('/darkcrystal?color=ffffff', {method:'GET'})">Diamond</button>
+      <div>
+        <button id="dark-crystal-button" class="center" onclick="fetch('/darkcrystal', {method:'GET'})">The Dark Crystal</button>
       </div>
-      <hr>
+      <div class="buttons-group">
+        <button id="ruby-button" onclick="fetch('/darkcrystal?color=9b111e', {method:'GET'})">Ruby</button>
+        <button id="emerald-button" onclick="fetch('/darkcrystal?color=10D026', {method:'GET'})">Emerald</button>
+        <button id="saphire-button" onclick="fetch('/darkcrystal?color=1020A0', {method:'GET'})">Saphire</button>
+        <button id="topaz-button" onclick="fetch('/darkcrystal?color=ffa000', {method:'GET'})">Topaz</button>
+        <button id="turquoise-button" onclick="fetch('/darkcrystal?color=00d0d0', {method:'GET'})">Turquiose</button>
+        <button id="diamond-button" onclick="fetch('/darkcrystal?color=ffffff', {method:'GET'})">Diamond</button>
+        <button id="amethyst-button" onclick="fetch('/darkcrystal?color=9966cc', {method:'GET'})">Amethyst</button>
+        <button id="jade-button" onclick="fetch('/darkcrystal?color=40A630', {method:'GET'})">Jade</button>
+        <button id="lapis-button" onclick="fetch('/darkcrystal?color=26619C', {method:'GET'})">Lapis Lazuli</button>
+      </div>
+      <br><hr>
+      <span class="section-title">Advanced</span>
+      <br>
       <div id="crystal-upper" class="color-speed" data-title="Upper"></div>
       <div id="crystal-lower" class="color-speed" data-title="Lower"></div>
       <div id="crystal-ambient" class="color-speed" data-title="Ambient"></div>
@@ -83,4 +88,4 @@
       </div>
     </div>
   </body>
-  </html>
+</html>

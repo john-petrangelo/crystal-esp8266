@@ -15,11 +15,13 @@ body {
   margin-right: auto;
 }
 button {
+  font-size : medium;
   width: calc(33% - 6px);
-  height: 40px;
-  color:darkmagenta;
+  height: 60px;
+  color: lightgray;
+  background-color: #606060;
   text-align: center;
-  border-radius: 10px;
+  border-radius: 15px;
   border:1px solid darkslategray;
 }
 .buttons-group {
@@ -29,9 +31,10 @@ button {
 .buttons-group > button {
   margin: 3px;
 }
+
 #crystal-button {
   color: lightgray;
-  background: radial-gradient(ellipse 150px 100%, purple, lightgray);
+  background: radial-gradient(ellipse 100% 80%, purple, lightgray);
 }
 #rainbow-button {
   color: darkmagenta;
@@ -44,8 +47,50 @@ button {
   color: #c0c0c0;
   background: #303030;
 }
-.header-img {
-  width: 100;
+#dark-crystal-button {
+  width: 60%;
+  color: lightgray;
+  background: radial-gradient(ellipse 100% 80%, purple, white);
+  margin-bottom: 3px;
+}
+#ruby-button {
+  color: lightgray;
+  background: radial-gradient(ellipse 100% 80%, #9b111e, white);
+}
+#emerald-button {
+  color: #404040;
+  background: radial-gradient(ellipse 100% 80%, #10D026, white);
+}
+#saphire-button {
+  color: lightgray;
+  background: radial-gradient(ellipse 100% 80%, #1020A0, white);
+}
+#topaz-button {
+  color: #404040;
+  background: radial-gradient(ellipse 100% 80%, #ffa000, white);
+}
+#turquoise-button {
+  color: #404040;
+  background: radial-gradient(ellipse 100% 80%, #00d0d0, white);
+}
+#diamond-button {
+  color: #404040;
+  background: radial-gradient(ellipse 100% 80%, white,#b0b0b0);
+}
+#amethyst-button {
+  color: #404040;
+  background: radial-gradient(ellipse 100% 80%, #9966cc, white);
+}
+#jade-button {
+  color: #404040;
+  background: radial-gradient(ellipse 100% 80%, #40A630, white);
+}
+#lapis-button {
+  background: radial-gradient(ellipse 100% 80%, #26619c, white);
+}
+
+.home-img {
+  width: 100px;
   border: 1px solid gray;
   background-color: lightgray;
   padding: 5px;
@@ -94,17 +139,17 @@ button {
   position: absolute;
   border-left: 2px solid; 
   border-bottom: 2px solid;
-  left: 10;
-  top: 10;
+  left: 10px;
+  top: 10px;
   height: 8px;
   width: 8px;
   transform: rotate(45deg);
 }
 .subpage-back-label {
-  font-size: x-small;
+  font-size: medium;
   position: absolute;
-  left: 20;
-  top: 8;
+  left: 20px;
+  top: 5px;
 }
 .subpage-back:hover,
 .subpage-back:focus {
@@ -119,14 +164,27 @@ button {
 .subpage-title {
   display: table;
   margin: 0 auto;
-  padding-top: 6px;
-  font-size: small;
+  padding-top: 5px;
+  font-size: xx-large;
 }
 .subpage-is-open {
   left: 0%;
   transition: left 0.3s ease-out;
 }
 
+.section-title {
+  display: table;
+  margin: 0 auto;
+  padding-top: 5px;
+  font-size: large;
+}
+
+.color-speed > span {
+  padding: 10px 0px 0px 0px;
+  display: block;
+  text-align: center;
+  font-size: small;
+}
 .color-speed-container {
   display: flex;
   flex-flow: row nowrap;
