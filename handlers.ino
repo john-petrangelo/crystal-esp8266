@@ -121,9 +121,9 @@ void handleNotFound() {
   server.send(404, "text/plain", message);
 }
 
-void handleDarkCrystal() {
+void handleCrystal() {
   Color color = 0xFF00D0;
-  if(server.hasArg("color")) {
+  if (server.hasArg("color")) {
     color = strtol(server.arg("color").c_str(), 0, 16);
   }
   modelRunner.setModel(makeCrystalPower(color));

@@ -64,7 +64,7 @@ void setupHTTP() {
   server.on("/brightness", HTTP_GET, handleGetBrightness);
   server.on("/brightness", HTTP_PUT, handleSetBrightness);
 
-  server.on("/darkcrystal", HTTP_GET, handleDarkCrystal);
+  server.on("/crystal", HTTP_PUT, handleCrystal);
   server.on("/flame", HTTP_GET, handleFlame);
   server.on("/rainbow", HTTP_GET, handleRainbow);
   server.on("/solid", HTTP_GET, handleSolid);
