@@ -58,6 +58,10 @@ function startup() {
         let clone = colorSpeedTemplate.content.cloneNode(true);
         colorSpeed.appendChild(clone);
         colorSpeed.querySelector("span").textContent = colorSpeed.dataset.title;
+
+        colorSpeed.querySelector("input[type='color'").id = colorSpeed.id + "-color";
+        colorSpeed.querySelector("input[type='range'").id = colorSpeed.id + "-speed";
+        colorSpeed.addEventListener("change", crystalDidChange);
     }
 }
 
@@ -82,11 +86,11 @@ function colorDidChange(event) {
 }
 
 var crystalData = {
-    top: {
+    upper: {
         color: "ff00d0",
         speed: 1
     },
-    bottom: {
+    lower: {
         color: "ff00d0",
         speed: 1
     },
@@ -100,19 +104,47 @@ var crystalData = {
     }
 };
 
+function crystalDidChange(event) {
+    switch (event.target.id) {
+        case "crystal-upper-color":
+            crystalData.upper.color = event.target.value.substring(1);
+            break;
+        case "crystal-upper-speed":
+            crystalData.upper.speed = event.target.value;
+            break;
+        case "crystal-lower-color":
+            crystalData.lower.color = event.target.value.substring(1);
+            break;
+        case "crystal-lower-speed":
+            crystalData.lower.speed = event.target.value;
+            break;
+        case "crystal-background-color":
+            crystalData.background.color = event.target.value.substring(1);
+            break;
+        case "crystal-background-speed":
+            crystalData.background.speed = event.target.value;
+            break;
+        case "crystal-base-color":
+            crystalData.base.color = event.target.value.substring(1);
+            break;
+        case "crystal-base-speed":
+            crystalData.base.speed = event.target.value;
+            break;
+    }
+
+    fetch('/crystal', {method: 'PUT', body: JSON.stringify(crystalData)});
+}
+
 function setCrystal(color) {
     let colorInputs = document.querySelectorAll(".color-speed-container > input[type='color'");
     for (let colorInput of colorInputs) {
         colorInput.value = "#" + color;
     }
 
-    crystalData.top.color = color;
-    crystalData.bottom.color = color;
+    crystalData.upper.color = color;
+    crystalData.lower.color = color;
     crystalData.background.color = color;
     crystalData.base.color = color;
 
-    fetch('/crystal', {
-        method: 'PUT',
-        body: JSON.stringify(crystalData)
-    });
+    fetch('/crystal', {method: 'PUT', body: JSON.stringify(crystalData)});
 }

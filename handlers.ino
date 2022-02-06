@@ -130,20 +130,16 @@ void handleCrystal() {
     return;
   }
 
-  Color topColor = strtol(doc["top"]["color"], 0, 16);
-  Color bottomColor = strtol(doc["bottom"]["color"], 0, 16);
+  Color upperColor = strtol(doc["upper"]["color"], 0, 16);
+  Color lowerColor = strtol(doc["lower"]["color"], 0, 16);
   Color backgroundColor = strtol(doc["background"]["color"], 0, 16);
   Color baseColor = strtol(doc["base"]["color"], 0, 16);
-  int topSpeed = doc["top"]["speed"];
-  int bottomSpeed = doc["bottom"]["speed"];
+  int upperSpeed = doc["upper"]["speed"];
+  int lowerSpeed = doc["lower"]["speed"];
   int backgroundSpeed = doc["background"]["speed"];
   int baseSpeed = doc["base"]["speed"];
 
-  Logger::logf("Parsed top(0x%X, %d) bottom(0x%X, %d) background(0x%X, %d) base(0x%X, %d)\n",
-    topColor, topSpeed, bottomColor, bottomSpeed,
-    backgroundColor, backgroundSpeed, baseColor, baseSpeed);
-
-  modelRunner.setModel(makeCrystalPower(topColor));
+  modelRunner.setModel(makeCrystalPower(upperColor));
   server.send(200, "text/plain", "");
 }
 
