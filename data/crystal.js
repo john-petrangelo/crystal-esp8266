@@ -79,3 +79,29 @@ function colorDidChange(event) {
     url = "/solid?color=" + event.target.value.substring(1);
     fetch(url, {method:'GET'});
 }
+
+function setCrystal(color) {
+    const body = {
+        top: {
+            color: color,
+            speed: 1
+        },
+        bottom: {
+            color: color,
+            speed: 1
+        },
+        background: {
+            color: color,
+            speed: 1
+        },
+        base: {
+            color: color,
+            speed: 1
+        }
+    };
+
+    fetch('/crystal', {
+        method: 'PUT',
+        body: JSON.stringify(body)
+    });
+}
