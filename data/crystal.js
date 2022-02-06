@@ -75,10 +75,30 @@ function brightnessDidChange(event) {
     fetch(url, {method:'PUT'});
   }
 
+// TODO Obsolete?
 function colorDidChange(event) {
     url = "/solid?color=" + event.target.value.substring(1);
     fetch(url, {method:'GET'});
 }
+
+var crystalData = {
+    top: {
+        color: "ff00d0",
+        speed: 1
+    },
+    bottom: {
+        color: "ff00d0",
+        speed: 1
+    },
+    background: {
+        color: "ff00d0",
+        speed: 1
+    },
+    base: {
+        color: "ff00d0",
+        speed: 1
+    }
+};
 
 function setCrystal(color) {
     let colorInputs = document.querySelectorAll(".color-speed-container > input[type='color'");
@@ -86,27 +106,13 @@ function setCrystal(color) {
         colorInput.value = "#" + color;
     }
 
-    const body = {
-        top: {
-            color: color,
-            speed: 1
-        },
-        bottom: {
-            color: color,
-            speed: 1
-        },
-        background: {
-            color: color,
-            speed: 1
-        },
-        base: {
-            color: color,
-            speed: 1
-        }
-    };
+    crystalData.top.color = color;
+    crystalData.bottom.color = color;
+    crystalData.background.color = color;
+    crystalData.base.color = color;
 
     fetch('/crystal', {
         method: 'PUT',
-        body: JSON.stringify(body)
+        body: JSON.stringify(crystalData)
     });
 }
