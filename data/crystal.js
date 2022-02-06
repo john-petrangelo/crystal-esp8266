@@ -81,6 +81,11 @@ function colorDidChange(event) {
 }
 
 function setCrystal(color) {
+    let colorInputs = document.querySelectorAll(".color-speed-container > input[type='color'");
+    for (let colorInput of colorInputs) {
+        colorInput.value = "#" + color;
+    }
+
     const body = {
         top: {
             color: color,
