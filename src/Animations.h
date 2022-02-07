@@ -80,6 +80,6 @@ class RotateModel : public Model {
 
 /***** COMPOSITES - Animations that are composites of other models *****/
 extern std::shared_ptr<Model> makeDarkCrystal();
-extern std::shared_ptr<Model> makeCrystal(Color upperColor, Color lowerColor, Color backgroundColor, Color baseColor);
+extern std::shared_ptr<Model> makeCrystal(Color upperColor, Color middleColor, Color lowerColor);
 
 #endif // __ANIMATIONS__

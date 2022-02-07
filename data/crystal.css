@@ -14,6 +14,7 @@ body {
   margin-left: auto;
   margin-right: auto;
 }
+
 button {
   font-size : medium;
   width: calc(33% - 6px);

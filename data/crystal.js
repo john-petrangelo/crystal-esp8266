@@ -90,15 +90,11 @@ var crystalData = {
         color: "ff00d0",
         speed: 1
     },
+    middle: {
+        color: "ff00d0",
+        speed: 1
+    },
     lower: {
-        color: "ff00d0",
-        speed: 1
-    },
-    background: {
-        color: "ff00d0",
-        speed: 1
-    },
-    base: {
         color: "ff00d0",
         speed: 1
     }
@@ -112,23 +108,17 @@ function crystalDidChange(event) {
         case "crystal-upper-speed":
             crystalData.upper.speed = event.target.value;
             break;
+        case "crystal-middle-color":
+            crystalData.middle.color = event.target.value.substring(1);
+            break;
+        case "crystal-middle-speed":
+            crystalData.middle.speed = event.target.value;
+            break;
         case "crystal-lower-color":
             crystalData.lower.color = event.target.value.substring(1);
             break;
         case "crystal-lower-speed":
             crystalData.lower.speed = event.target.value;
-            break;
-        case "crystal-background-color":
-            crystalData.background.color = event.target.value.substring(1);
-            break;
-        case "crystal-background-speed":
-            crystalData.background.speed = event.target.value;
-            break;
-        case "crystal-base-color":
-            crystalData.base.color = event.target.value.substring(1);
-            break;
-        case "crystal-base-speed":
-            crystalData.base.speed = event.target.value;
             break;
     }
 
@@ -142,9 +132,8 @@ function setCrystal(color) {
     }
 
     crystalData.upper.color = color;
+    crystalData.middle.color = color;
     crystalData.lower.color = color;
-    crystalData.background.color = color;
-    crystalData.base.color = color;
 
     fetch('/crystal', {method: 'PUT', body: JSON.stringify(crystalData)});
 }

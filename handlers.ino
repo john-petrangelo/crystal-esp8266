@@ -131,15 +131,13 @@ void handleCrystal() {
   }
 
   Color upperColor = strtol(doc["upper"]["color"], 0, 16);
+  Color middleColor = strtol(doc["middle"]["color"], 0, 16);
   Color lowerColor = strtol(doc["lower"]["color"], 0, 16);
-  Color backgroundColor = strtol(doc["background"]["color"], 0, 16);
-  Color baseColor = strtol(doc["base"]["color"], 0, 16);
   int upperSpeed = doc["upper"]["speed"];
+  int middleSpeed = doc["middle"]["speed"];
   int lowerSpeed = doc["lower"]["speed"];
-  int backgroundSpeed = doc["background"]["speed"];
-  int baseSpeed = doc["base"]["speed"];
 
-  modelRunner.setModel(makeCrystal(upperColor, lowerColor, backgroundColor, baseColor));
+  modelRunner.setModel(makeCrystal(upperColor, middleColor, lowerColor));
   server.send(200, "text/plain", "");
 }
 
