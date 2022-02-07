@@ -63,6 +63,10 @@ function startup() {
         colorSpeed.querySelector("input[type='range'").id = colorSpeed.id + "-speed";
         colorSpeed.addEventListener("input", crystalDidChange);
     }
+
+    document.querySelector("#crystal-upper-speed").value = crystalData.upper.speed;
+    document.querySelector("#crystal-middle-speed").value = crystalData.middle.speed;
+    document.querySelector("#crystal-lower-speed").value = crystalData.lower.speed;
 }
 
 function snapMin(value, minAllowed) {
