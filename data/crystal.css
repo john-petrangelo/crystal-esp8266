@@ -38,10 +38,11 @@ button {
   background: radial-gradient(ellipse 100% 80%, purple, lightgray);
 }
 #rainbow-button {
-  color: darkmagenta;
+  color: darkslategray;
   background: linear-gradient(to bottom, red, orange, yellow, green, blue, indigo);
 }
 #flame-button {
+  color: darkslategray;
   background: linear-gradient(to top, #ff8000, orange, yellow, orange, #ff8000);
 }
 #other-button {
