@@ -61,42 +61,42 @@ function startup() {
 
         colorSpeed.querySelector("input[type='color'").id = colorSpeed.id + "-color";
         colorSpeed.querySelector("input[type='range'").id = colorSpeed.id + "-speed";
-        colorSpeed.addEventListener("change", crystalDidChange);
+        colorSpeed.addEventListener("input", crystalDidChange);
     }
 }
 
-function brightnessDidChange(event) {
-    minAllowed = 40;
-    if (event.target.value < minAllowed) {
-        if (event.target.value > minAllowed/2) {
-            event.target.value = minAllowed;
-        } else {
-            event.target.value = 0;
-        }
+function snapMin(value, minAllowed) {
+    if (value < minAllowed) {
+        value = Math.floor(2 * value / minAllowed) * minAllowed;
     }
 
+    return value;
+}
+
+function brightnessDidChange(event) {
+    event.target.value = snapMin(event.target.value, 40);
     url = "/brightness?value=" + event.target.value;
     fetch(url, {method:'PUT'});
-  }
+}
 
 // TODO Obsolete?
 function colorDidChange(event) {
-    url = "/solid?color=" + event.target.value.substring(1);
+    let url = "/solid?color=" + event.target.value.substring(1);
     fetch(url, {method:'GET'});
 }
 
 var crystalData = {
     upper: {
         color: "ff00d0",
-        speed: 1
+        speed: 5000
     },
     middle: {
         color: "ff00d0",
-        speed: 1
+        speed: 8000
     },
     lower: {
         color: "ff00d0",
-        speed: 1
+        speed: 7000
     }
 };
 
@@ -106,18 +106,21 @@ function crystalDidChange(event) {
             crystalData.upper.color = event.target.value.substring(1);
             break;
         case "crystal-upper-speed":
+            event.target.value = snapMin(event.target.value, 1000);
             crystalData.upper.speed = event.target.value;
             break;
         case "crystal-middle-color":
             crystalData.middle.color = event.target.value.substring(1);
             break;
         case "crystal-middle-speed":
+            event.target.value = snapMin(event.target.value, 1000);
             crystalData.middle.speed = event.target.value;
             break;
         case "crystal-lower-color":
             crystalData.lower.color = event.target.value.substring(1);
             break;
         case "crystal-lower-speed":
+            event.target.value = snapMin(event.target.value, 1000);
             crystalData.lower.speed = event.target.value;
             break;
     }

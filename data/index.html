@@ -21,12 +21,17 @@
         <input type="color" value="#c00060" id="colors"/>
         <span class="color-speed-icon">&#x1F422;</span>
         <div class="color-speed-slider">
-          <input type="range" name="points" min="0" max="255" value="255" list="tickmarks">
-        </div>
+          <input type="range" min="0" max="10000" value="10000" list="color-speed-tickmarks">
+          <datalist id="color-speed-tickmarks">
+            <option value="0"></option>
+            <option value="1000"></option>
+            <option value="10000"></option>
+          </datalist>
+          </div>
         <div class="color-speed-icon">&#x1F407;</div>
       </div>
     </template>
-  </head>˛Â∏
+  </head>
   <body>
     <div id="home" class="home">
       <div class="title">
@@ -39,8 +44,8 @@
         <label for="brightness">
           Brightness
         </label>
-        <input type="range" id="brightness" name="points" min="0" max="255" value="255" list="tickmarks">
-        <datalist id="tickmarks">
+        <input type="range" id="brightness" min="0" max="255" value="255" list="brightness-tickmarks">
+        <datalist id="brightness-tickmarks">
           <option value="0"></option>
           <option value="40"></option>
           <option value="255"></option>
