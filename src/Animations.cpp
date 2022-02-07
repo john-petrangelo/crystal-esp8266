@@ -71,14 +71,22 @@ Color Pulsate::apply(float pos, float timeStamp) {
 
 /***** COMPOSITES *****/
 
-std::shared_ptr<Model> makeCrystalPower(Color color) {
-  auto triangle1 = std::make_shared<Triangle>("crystal power", 0.7, 1.0, color);
-  auto pulsate1 = std::make_shared<Pulsate>("crystal pulsate", 0.4, 1.0, 5.0, 5.0, triangle1);
+std::shared_ptr<Model> makeDarkCrystal() {
+  return makeCrystal(0xff00d0, 0xff00d0, 0xff00d0, 0xff00d0);
+}
 
-  auto triangle2 = std::make_shared<Triangle>("crystal power", 0.3, 0.5, color);
-  auto pulsate2 = std::make_shared<Pulsate>("crystal pulsate", 0.20, 0.5, 8.0, 8.0, triangle2);
+std::shared_ptr<Model> makeCrystal(Color upperColor, Color lowerColor, Color backgroundColor, Color baseColor) {
+  auto upperTriangle = std::make_shared<Triangle>("crystal upper color", 0.6, 1.0, upperColor);
+  auto upperPulsate = std::make_shared<Pulsate>("crystal upper pulsate", 0.3, 1.0, 5.0, 5.0, upperTriangle);
 
-  auto sum = std::make_shared<Add>("sum", pulsate1, pulsate2);
+  auto lowerTriangle = std::make_shared<Triangle>("crystal lower color", 0.3, 0.7, lowerColor);
+  auto lowerPulsate = std::make_shared<Pulsate>("crystal lower pulsate", 0.4, 1.0, 8.0, 8.0, lowerTriangle);
+
+  auto baseTriangle = std::make_shared<Triangle>("crystal base color", 0.0, 0.4, baseColor);
+  auto basePulsate = std::make_shared<Pulsate>("crystal base pulsate", 0.3, 1.0, 7.0, 7.0, baseTriangle);
+
+  auto sum = std::make_shared<Add>("sum", upperPulsate, lowerPulsate);
+  sum = std::make_shared<Add>("sum", sum, basePulsate);
 
   return sum;
 }

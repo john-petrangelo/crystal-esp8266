@@ -38,7 +38,7 @@ void setup() {
   strip.setBrightness(255);
   strip.show(); // Initialize all pixels to 'off'
 
-  modelRunner.setModel(makeCrystalPower());
+  modelRunner.setModel(makeDarkCrystal());
 }
 
 void loop() {

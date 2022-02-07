@@ -139,7 +139,7 @@ void handleCrystal() {
   int backgroundSpeed = doc["background"]["speed"];
   int baseSpeed = doc["base"]["speed"];
 
-  modelRunner.setModel(makeCrystalPower(upperColor));
+  modelRunner.setModel(makeCrystal(upperColor, lowerColor, backgroundColor, baseColor));
   server.send(200, "text/plain", "");
 }
 
