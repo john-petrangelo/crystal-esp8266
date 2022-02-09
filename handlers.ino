@@ -11,6 +11,7 @@
 #include "src/Combinations.h"
 #include "src/Demos.h"
 #include "src/ModelRunner.h"
+#include "src/utils.h"
 
 void handleRoot() {
     long startMS = millis();
@@ -133,14 +134,18 @@ void handleCrystal() {
   Color upperColor = strtol(doc["upper"]["color"], 0, 16);
   Color middleColor = strtol(doc["middle"]["color"], 0, 16);
   Color lowerColor = strtol(doc["lower"]["color"], 0, 16);
-  int upperSpeed = doc["upper"]["speed"];
-  int middleSpeed = doc["middle"]["speed"];
-  int lowerSpeed = doc["lower"]["speed"];
+  float upperSpeed = doc["upper"]["speed"];
+  float middleSpeed = doc["middle"]["speed"];
+  float lowerSpeed = doc["lower"]["speed"];
+
+  float upperPeriodSec = fmap(upperSpeed, 0.0, 1.0, 11.0, 1.0);
+  float middlePeriodSec = fmap(middleSpeed, 0.0, 1.0, 11.0, 1.0);
+  float lowerPeriodSec = fmap(lowerSpeed, 0.0, 1.0, 11.0, 1.0);
 
   modelRunner.setModel(makeCrystal(
-    upperColor, upperSpeed,
-    middleColor, middleSpeed,
-    lowerColor, lowerSpeed));
+    upperColor, upperPeriodSec,
+    middleColor, middlePeriodSec,
+    lowerColor, lowerPeriodSec));
   server.send(200, "text/plain", "");
 }
 

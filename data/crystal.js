@@ -92,15 +92,15 @@ function colorDidChange(event) {
 var crystalData = {
     upper: {
         color: "ff00d0",
-        speed: 5000
+        speed: 0.5
     },
     middle: {
         color: "ff00d0",
-        speed: 2000
+        speed: 0.2
     },
     lower: {
         color: "ff00d0",
-        speed: 3000
+        speed: 0.3
     }
 };
 
@@ -110,21 +110,21 @@ function crystalDidChange(event) {
             crystalData.upper.color = event.target.value.substring(1);
             break;
         case "crystal-upper-speed":
-            event.target.value = snapMin(event.target.value, 1000);
+            event.target.value = snapMin(event.target.value, 0.1);
             crystalData.upper.speed = event.target.value;
             break;
         case "crystal-middle-color":
             crystalData.middle.color = event.target.value.substring(1);
             break;
         case "crystal-middle-speed":
-            event.target.value = snapMin(event.target.value, 1000);
+            event.target.value = snapMin(event.target.value, 0.1);
             crystalData.middle.speed = event.target.value;
             break;
         case "crystal-lower-color":
             crystalData.lower.color = event.target.value.substring(1);
             break;
         case "crystal-lower-speed":
-            event.target.value = snapMin(event.target.value, 1000);
+            event.target.value = snapMin(event.target.value, 0.1);
             crystalData.lower.speed = event.target.value;
             break;
     }
