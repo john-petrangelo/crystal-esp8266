@@ -137,7 +137,10 @@ void handleCrystal() {
   int middleSpeed = doc["middle"]["speed"];
   int lowerSpeed = doc["lower"]["speed"];
 
-  modelRunner.setModel(makeCrystal(upperColor, middleColor, lowerColor));
+  modelRunner.setModel(makeCrystal(
+    upperColor, upperSpeed,
+    middleColor, middleSpeed,
+    lowerColor, lowerSpeed));
   server.send(200, "text/plain", "");
 }
 

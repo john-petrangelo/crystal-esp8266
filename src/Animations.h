@@ -35,7 +35,7 @@ class FlameModel : public Model {
  *
  * Future constructors:
  *   Pulse(period, model) - varies 0%-100% over the period in seconds, period is divided evenly between up and down
- *   Pulse(dimmest, brightest, model) - varies between dimmest and brightest over the period
+ *   Pulse(dimmest, brightest, period, model) - varies between dimmest and brightest over the period
  *    
  * Requires underlying model
  * Position independent, time dependent
@@ -80,6 +80,9 @@ class RotateModel : public Model {
 
 /***** COMPOSITES - Animations that are composites of other models *****/
 extern std::shared_ptr<Model> makeDarkCrystal();
-extern std::shared_ptr<Model> makeCrystal(Color upperColor, Color middleColor, Color lowerColor);
+extern std::shared_ptr<Model> makeCrystal(
+  Color upperColor, int upperSpeed,
+  Color middleColor, int middleSpeed,
+  Color lowerColor, int lowerSpeed);
 
 #endif // __ANIMATIONS__

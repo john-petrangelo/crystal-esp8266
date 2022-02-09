@@ -72,18 +72,31 @@ Color Pulsate::apply(float pos, float timeStamp) {
 /***** COMPOSITES *****/
 
 std::shared_ptr<Model> makeDarkCrystal() {
-  return makeCrystal(0xff00d0, 0xff00d0, 0xff00d0);
+  return makeCrystal(0xff00d0, 5000, 0xff00d0, 2000, 0xff00d0, 3000);
 }
 
-std::shared_ptr<Model> makeCrystal(Color upperColor, Color middleColor, Color lowerColor) {
+std::shared_ptr<Model> makeCrystal(
+    Color upperColor, int upperSpeed,
+    Color middleColor, int middleSpeed,
+    Color lowerColor, int lowerSpeed) {
+
+  Logger::logf("makeCrystal upper=(0x%X %d) middle=(0x%X %d) lower(0x%X %d)\n",
+    upperColor, upperSpeed, middleColor, middleSpeed, lowerColor, lowerSpeed);
+
   auto upperTriangle = std::make_shared<Triangle>("crystal upper color", 0.6, 1.0, upperColor);
-  auto upperPulsate = std::make_shared<Pulsate>("crystal upper pulsate", 0.3, 1.0, 5.0, 5.0, upperTriangle);
+  float periodSecs = (11000 - upperSpeed) / 2000.0;
+  Logger::logf("upperPeriodSecs=%f ", periodSecs);
+  auto upperPulsate = std::make_shared<Pulsate>("crystal upper pulsate", 0.3, 1.0, periodSecs, periodSecs, upperTriangle);
 
   auto middleTriangle = std::make_shared<Triangle>("crystal middle color", 0.3, 0.7, middleColor);
-  auto middlePulsate = std::make_shared<Pulsate>("crystal middle pulsate", 0.4, 1.0, 8.0, 8.0, middleTriangle);
+  periodSecs = (11000 - middleSpeed) / 2000.0;
+  Logger::logf("middlePeriodSecs=%f ", periodSecs);
+  auto middlePulsate = std::make_shared<Pulsate>("crystal middle pulsate", 0.4, 1.0, periodSecs, periodSecs, middleTriangle);
 
   auto lowerTriangle = std::make_shared<Triangle>("crystal lower color", 0.0, 0.4, lowerColor);
-  auto lowerPulsate = std::make_shared<Pulsate>("crystal lower pulsate", 0.3, 1.0, 7.0, 7.0, lowerTriangle);
+  periodSecs = (11000 - lowerSpeed) / 2000.0;
+  Logger::logf("lowerPeriodSecs=%f\n", periodSecs);
+  auto lowerPulsate = std::make_shared<Pulsate>("crystal lower pulsate", 0.3, 1.0, periodSecs, periodSecs, lowerTriangle);
 
   auto sum = std::make_shared<Add>("sum", upperPulsate, middlePulsate);
   sum = std::make_shared<Add>("sum", sum, lowerPulsate);

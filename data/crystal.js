@@ -96,11 +96,11 @@ var crystalData = {
     },
     middle: {
         color: "ff00d0",
-        speed: 8000
+        speed: 2000
     },
     lower: {
         color: "ff00d0",
-        speed: 7000
+        speed: 3000
     }
 };
 
