@@ -62,6 +62,17 @@ function startup() {
     document.querySelector("#crystal-upper-speed").value = crystalData.upper.speed;
     document.querySelector("#crystal-middle-speed").value = crystalData.middle.speed;
     document.querySelector("#crystal-lower-speed").value = crystalData.lower.speed;
+
+    let upDowns = document.getElementsByClassName("up-down");
+    let upDownTemplate = document.getElementById("up-down-template");
+    for (let upDown of upDowns) {
+        let clone = upDownTemplate.content.cloneNode(true);
+        upDown.appendChild(clone);
+        upDown.querySelector("span").textContent = upDown.dataset.title;
+
+        upDown.querySelector("input[type='range'").id = upDown.id + "-range";
+        upDown.addEventListener("input", rainbowDidChange);
+    }
 }
 
 function snapMin(value, minAllowed) {

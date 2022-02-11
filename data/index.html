@@ -14,7 +14,6 @@
         <span class="subpage-title"></span>
       </div>
     </template>
-
     <template id="color-speed-template">
       <span></span>
       <div class="color-speed-container">
@@ -27,8 +26,24 @@
             <option value="0.1"></option>
             <option value="1.0"></option>
           </datalist>
-          </div>
+        </div>
         <div class="color-speed-icon">&#x1F407;</div>
+      </div>
+    </template>
+    <template id="up-down-template">
+      <span></span>
+      <div class="up-down-container">
+        <span class="up-down-icon">&#x1F422;</span>
+        <div class="up-down-slider">
+          <input type="range" min="-1.0" max="1.0" value="0.4" step="0.01" list="up-down-tickmarks">
+          <datalist id="up-down-tickmarks">
+            <option value="-1.0"></option>
+            <option value="-0.1"></option>
+            <option value="0.1"></option>
+            <option value="1.0"></option>
+          </datalist>
+        </div>
+        <div class="up-down-icon">&#x1F407;</div>
       </div>
     </template>
   </head>
@@ -81,6 +96,17 @@
       <div id="crystal-upper" class="color-speed" data-title="Upper section"></div>
       <div id="crystal-middle" class="color-speed" data-title="Middle section"></div>
       <div id="crystal-lower" class="color-speed" data-title="Lower section"></div>
+    </div>
+
+    <div id="rainbow-subpage" class="subpage" data-buttonid="rainbow-button" data-title="Rainbow">
+      <div class="buttons-group">
+        <button id="rb-classic-button" onclick="setRainbow('9b111e')">Classic</button>
+        <button id="rb-vivid-button" onclick="setRainbow('10D026')">Vivid</button>
+        <button id="rb-pastel-button" onclick="setRainbow('10D026')">Pastel</button>
+        <button id="rb-retro-button" onclick="setRainbow('10D026')">Retro</button>
+        <button id="rb-tv-button" onclick="setRainbow('10D026')">TV</button>
+      </div>
+      <div id="rainbow-movement" class="up-down" data-title="Movement"></div>
     </div>
 
     <div id="other-subpage" class="subpage" data-buttonid="other-button" data-title="Other">
