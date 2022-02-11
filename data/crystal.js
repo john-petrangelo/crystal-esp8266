@@ -22,11 +22,6 @@ function startup() {
       });
     brightness.addEventListener("input", brightnessDidChange);
 
-    // Setup solid color picker - demo only, to be repurposed
-    let colors = document.querySelector("#colors");
-    colors.value = defaultColor;
-    colors.addEventListener("change", colorDidChange);
-
     let home = document.getElementById("home");
     let subpages = document.getElementsByClassName("subpage");
     let subpageTopBarTemplate = document.getElementById("subpage-top-bar-template");
@@ -81,12 +76,6 @@ function brightnessDidChange(event) {
     event.target.value = snapMin(event.target.value, 40);
     url = "/brightness?value=" + event.target.value;
     fetch(url, {method:'PUT'});
-}
-
-// TODO Obsolete?
-function colorDidChange(event) {
-    let url = "/solid?color=" + event.target.value.substring(1);
-    fetch(url, {method:'GET'});
 }
 
 var crystalData = {
