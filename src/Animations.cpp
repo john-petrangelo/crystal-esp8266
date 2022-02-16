@@ -8,7 +8,7 @@
 
 /***** ROTATE *****/
 
-Color RotateModel::apply(float pos, float timeStamp) {
+Color Rotate::apply(float pos, float timeStamp) {
   // If there's no predecessor, then there's nothing to rotate. Bail out.
   if (model == NULL) {
     return RED;
@@ -16,7 +16,7 @@ Color RotateModel::apply(float pos, float timeStamp) {
 
   // "Rotate" really means look at a different position dependent on the time and rate of rotation.
   // First, figure out the offset to add to the position.
-  float delta = -timeStamp * revsPerSecond;
+  float delta = -timeStamp * speed;
 
   // Next, add the offset to the position, then correct for wrap-around
   float rotatedPos = fmod(pos + delta, 1.0);
@@ -29,12 +29,12 @@ Color RotateModel::apply(float pos, float timeStamp) {
 
 /***** FLAME *****/
 
-FlameModel::FlameModel() : Model("Flame"), lastUpdateMS(-PERIOD_MS) {
+Flame::Flame() : Model("Flame"), lastUpdateMS(-PERIOD_MS) {
   auto mgm = std::make_shared<MultiGradientModel>("flame multigradient", 7, BLACK, C1, C2, C3, C2, C1, BLACK);
   model = std::make_shared<MapModel>("map multigradient",0.0, 1.0, 0.0, 1.0, mgm);
 }
 
-Color FlameModel::apply(float pos, float timeStamp) {
+Color Flame::apply(float pos, float timeStamp) {
   long now = millis();
   if ((now - lastUpdateMS) > PERIOD_MS) {
     lastUpdateMS = now;

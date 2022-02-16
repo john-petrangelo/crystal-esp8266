@@ -6,9 +6,9 @@
 #include "lumos-arduino/lumos-arduino/Colors.h"
 #include "Model.h"
 
-class FlameModel : public Model {
+class Flame : public Model {
   public:
-    FlameModel();
+    Flame();
 
     Color apply(float pos, float timeStamp);
 
@@ -59,16 +59,16 @@ class Pulsate : public Model {
 
 // An animation that rotates or shifts lights to the left or right.
 // Wraps around so that once a color reaches the end, then it wraps around.
-// Speed is specified as the number of seconds to complete one cycle.
-// Positive speed shifts up, negative speed shifts down.
-class RotateModel : public Model {
+// The speed of rotation is given as a frequncy (freq) expressed in Hz.
+// A frequency of zero is stopped. Positive speed rotates up, negative speed rotates down.
+class Rotate : public Model {
   public:
-    RotateModel(char const *name, float revsPerSecond, std::shared_ptr<Model> model) 
-      : Model(name), revsPerSecond(revsPerSecond), model(model) {}
+    Rotate(char const *name, float freq, std::shared_ptr<Model> model) 
+      : Model(name), speed(speed), model(model) {}
     Color apply(float pos, float timeStamp);
 
   private:
-    float revsPerSecond;
+    float speed;
     std::shared_ptr<Model> model;
 };
 

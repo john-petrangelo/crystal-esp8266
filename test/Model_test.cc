@@ -21,17 +21,17 @@ TEST(ModelTest, VerifyGradientModel) {
   EXPECT_EQ(gm.apply(1.00 /*pos*/, 0.0 /*ts*/), 0xFF0000);
 }
 
-// Verify the RotateModel class
-TEST(ModelTest, VerifyRotateModel) {
+// Verify the Rotate class
+TEST(ModelTest, VerifyRotate) {
   GradientModel gm(4, RED, GREEN, BLUE, RED);
-  RotateModel rm_up(&gm, 1.0, RotateModel::DOWN);
+  Rotate rm_up(&gm, 1.0);
   EXPECT_EQ(rm_up.apply(0.0 /*pos*/, 0.00 /*ts*/), gm.apply(0.00, 0.0));
   EXPECT_EQ(rm_up.apply(0.0 /*pos*/, 0.25 /*ts*/), gm.apply(0.25, 0.0));
   EXPECT_EQ(rm_up.apply(0.0 /*pos*/, 0.50 /*ts*/), gm.apply(0.50, 0.0));
   EXPECT_EQ(rm_up.apply(0.0 /*pos*/, 0.75 /*ts*/), gm.apply(0.75, 0.0));
   EXPECT_EQ(rm_up.apply(0.0 /*pos*/, 1.00 /*ts*/), gm.apply(1.00, 0.0));
 
-  RotateModel rm_down(&gm, 1.0, RotateModel::UP);
+  Rotate rm_down(&gm, 1.0);
   EXPECT_EQ(rm_down.apply(0.0 /*pos*/, 0.00 /*ts*/), gm.apply(0.00, 0.0));
   EXPECT_EQ(rm_down.apply(0.0 /*pos*/, 0.25 /*ts*/), gm.apply(0.75, 0.0));
   EXPECT_EQ(rm_down.apply(0.0 /*pos*/, 0.50 /*ts*/), gm.apply(0.50, 0.0));
