@@ -167,7 +167,7 @@ void handleRainbow() {
   float speed = doc["speed"];
 
   auto gm = std::make_shared<MultiGradientModel>("rainbow gradient", 8, RED, VIOLET, INDIGO, BLUE, GREEN, YELLOW, ORANGE, RED);
-  auto rm = std::make_shared<RotateModel>("rainbow rotate", speed, RotateModel::UP, gm);
+  auto rm = std::make_shared<RotateModel>("rainbow rotate", speed, gm);
   modelRunner.setModel(rm);
 
   server.send(200, "text/plain", "");

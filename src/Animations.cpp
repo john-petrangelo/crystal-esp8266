@@ -16,10 +16,7 @@ Color RotateModel::apply(float pos, float timeStamp) {
 
   // "Rotate" really means look at a different position dependent on the time and rate of rotation.
   // First, figure out the offset to add to the position.
-  float delta = timeStamp * revsPerSecond;
-  if (dir == UP) {
-    delta = -delta;
-  }
+  float delta = -timeStamp * revsPerSecond;
 
   // Next, add the offset to the position, then correct for wrap-around
   float rotatedPos = fmod(pos + delta, 1.0);

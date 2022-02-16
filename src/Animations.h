@@ -58,23 +58,17 @@ class Pulsate : public Model {
 };
 
 // An animation that rotates or shifts lights to the left or right.
-// The speed is specified in revs per second, which is the same
-// how long it takes to move from position 0.0 to 1.0.
-// Rotate wraps around so that once a color reaches 1.0, then
-// continues at 0.0 again.
+// Wraps around so that once a color reaches the end, then it wraps around.
+// Speed is specified as the number of seconds to complete one cycle.
+// Positive speed shifts up, negative speed shifts down.
 class RotateModel : public Model {
   public:
-    enum Direction {
-      UP, DOWN
-    };
-  
-    RotateModel(char const *name, float revsPerSecond, Direction dir, std::shared_ptr<Model> model) 
-      : Model(name), revsPerSecond(revsPerSecond), dir(dir), model(model) {}
+    RotateModel(char const *name, float revsPerSecond, std::shared_ptr<Model> model) 
+      : Model(name), revsPerSecond(revsPerSecond), model(model) {}
     Color apply(float pos, float timeStamp);
 
   private:
     float revsPerSecond;
-    Direction dir;
     std::shared_ptr<Model> model;
 };
 
