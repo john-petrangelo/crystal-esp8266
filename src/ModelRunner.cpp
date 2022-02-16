@@ -32,5 +32,6 @@ void ModelRunner::loop(int numPixels, std::function<void(int, Color)> setPixel) 
 // Give the ModelRunner a new model to run. The old model will be deleted.
 void ModelRunner::setModel(std::shared_ptr<Model> newModel) {
   model = newModel;
-  startTimeMS = millis();
+  // Reset time
+  // startTimeMS = millis();
 }

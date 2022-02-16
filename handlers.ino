@@ -155,8 +155,19 @@ void handleFlame() {
 }
 
 void handleRainbow() {
-  auto gm = std::make_shared<MultiGradientModel>("rainbow", 8, RED, VIOLET, INDIGO, BLUE, GREEN, YELLOW, ORANGE, RED);
-  auto rm = std::make_shared<RotateModel>("rainbow rotate", 0.3, RotateModel::UP, gm);
+  StaticJsonDocument<128> doc;
+  DeserializationError error = deserializeJson(doc, server.arg("plain"));
+  if (error) {
+    Logger::logf("handleRainbow failed to parse JSON: %s\n", error.c_str());
+    server.send(400, "text/plain", error.c_str());
+    return;
+  }
+
+  String mode = doc["mode"];
+  float speed = doc["speed"];
+
+  auto gm = std::make_shared<MultiGradientModel>("rainbow gradient", 8, RED, VIOLET, INDIGO, BLUE, GREEN, YELLOW, ORANGE, RED);
+  auto rm = std::make_shared<RotateModel>("rainbow rotate", speed, RotateModel::UP, gm);
   modelRunner.setModel(rm);
 
   server.send(200, "text/plain", "");

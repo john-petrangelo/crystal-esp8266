@@ -68,7 +68,9 @@ function startup() {
     for (let upDown of upDowns) {
         let clone = upDownTemplate.content.cloneNode(true);
         upDown.appendChild(clone);
-        upDown.querySelector("span").textContent = upDown.dataset.title;
+        if (upDown.dataset.title) {
+            upDown.querySelector("span").textContent = upDown.dataset.title;
+        }
 
         upDown.querySelector("input[type='range'").id = upDown.id + "-range";
         upDown.addEventListener("input", rainbowDidChange);
@@ -76,8 +78,8 @@ function startup() {
 }
 
 function snapMin(value, minAllowed) {
-    if (value < minAllowed) {
-        value = Math.floor(2 * value / minAllowed) * minAllowed;
+    if (Math.abs(value) < minAllowed) {
+        value = Math.trunc(2 * value / minAllowed) * minAllowed;
     }
 
     return value;
@@ -143,4 +145,25 @@ function setCrystal(color) {
     crystalData.lower.color = color;
 
     fetch('/crystal', {method: 'PUT', body: JSON.stringify(crystalData)});
+}
+
+var rainbowData = {
+    mode: "classic",
+    speed: 0.3
+};
+
+function rainbowDidChange(event) {
+    switch (event.target.id) {
+        case "rb-movement-range":
+            event.target.value = snapMin(event.target.value, 0.1);
+            rainbowData.speed = event.target.value;
+            break;
+    }
+
+    fetch('/rainbow', {method: 'PUT', body: JSON.stringify(rainbowData)});
+}
+
+function setRainbow(mode) {
+    rainbowData.mode = mode;
+    fetch('/rainbow', {method: 'PUT', body: JSON.stringify(rainbowData)});
 }
