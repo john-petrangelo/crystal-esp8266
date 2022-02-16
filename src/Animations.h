@@ -59,11 +59,11 @@ class Pulsate : public Model {
 
 // An animation that rotates or shifts lights to the left or right.
 // Wraps around so that once a color reaches the end, then it wraps around.
-// The speed of rotation is given as a frequncy (freq) expressed in Hz.
-// A frequency of zero is stopped. Positive speed rotates up, negative speed rotates down.
+// The speed of rotation is given as a frequncy expressed in Hz. A frequency
+// of zero is stopped. Positive speed rotates up, negative speed rotates down.
 class Rotate : public Model {
   public:
-    Rotate(char const *name, float freq, std::shared_ptr<Model> model) 
+    Rotate(char const *name, float speed, std::shared_ptr<Model> model) 
       : Model(name), speed(speed), model(model) {}
     Color apply(float pos, float timeStamp);
 
