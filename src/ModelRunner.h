@@ -17,6 +17,7 @@ class ModelRunner {
     ModelRunner() : model(NULL) { }
     void loop(int numPixels, std::function<void(int, Color)> setPixel);
 
+    std::shared_ptr<Model> getModel() { return model; }
     void setModel(std::shared_ptr<Model> model);
 };
  

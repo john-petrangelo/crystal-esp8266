@@ -66,9 +66,12 @@ class Rotate : public Model {
     Rotate(char const *name, float speed, std::shared_ptr<Model> model) 
       : Model(name), speed(speed), model(model) {}
     Color apply(float pos, float timeStamp);
+    void setSpeed(float newSpeed) { speed = newSpeed; }
 
   private:
     float speed;
+    float rotationOffset = 0.0;
+    float prevTimeStamp = 0.0;
     std::shared_ptr<Model> model;
 };
 
