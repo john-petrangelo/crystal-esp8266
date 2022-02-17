@@ -12,13 +12,18 @@ class Model {
     Model(char const *name) : name(name) { }
     virtual ~Model() { }
 
-    // Returns the color that should be displayed at the specified pos at the specified time,
-    // given the provided predecessor model.
-    //
-    // pos          the position along the strip for which we want to determine the color, given in range 0.0-1.0
-    // timeStamp    time since the beginning of the run
-    virtual Color apply(float pos, float timeStamp) = 0;
+    // Updates the model to the current timestamp. Models that change with time (animations)
+    // will need to implement this function. A default implementation is provided for static
+    // models that do not change with time.
+    virtual void update(float timeStamp) {}
 
+    // Returns the color that should be displayed at the specified pos at the current time.
+    virtual Color apply(float pos) = 0;
+
+    // Returns the name of this model, provided in the constructor.
+    char const * getName() { return name; }
+
+  private:
     char const *name;
 };
 
@@ -30,7 +35,7 @@ class Model {
 class SolidModel : public Model {
   public:
     SolidModel(char const *name, Color color) : Model(name), color(color) {}
-    Color apply(float pos, float timeStamp) { return color; }
+    Color apply(float pos) { return color; }
 
   private:
     Color color;
@@ -44,7 +49,7 @@ class SolidModel : public Model {
 class GradientModel : public Model {
   public:
     GradientModel(char const *name, Color a, Color b) : Model(name), a(a), b(b) { }
-    Color apply(float pos, float timeStamp) { return Colors::blend(a, b, 100 * pos); }
+    Color apply(float pos) { return Colors::blend(a, b, 100 * pos); }
 
   private:
     Color a, b;
@@ -58,7 +63,7 @@ class GradientModel : public Model {
 class MultiGradientModel : public Model {
   public:
     MultiGradientModel(char const *name, int count, ...);
-    Color apply(float pos, float timeStamp);
+    Color apply(float pos);
 
   private:
     static int const MAX_COLORS = 10;
@@ -77,7 +82,8 @@ class MapModel : public Model {
         std::shared_ptr<Model> model)
       : Model(name), inRangeMin(inRangeMin), inRangeMax(inRangeMax),
         outRangeMin(outRangeMin), outRangeMax(outRangeMax), model(model) { }
-    Color apply(float pos, float timeStamp);
+    void update(float timeStamp) { model->update(timeStamp); }
+    Color apply(float pos);
 
     void setInRange(float inRangeMin, float inRangeMax) {
       this->inRangeMin = inRangeMin;
@@ -94,7 +100,8 @@ class MapModel : public Model {
 class ReverseModel : public Model {
   public:
     ReverseModel(std::shared_ptr<Model> model) : Model("ReverseModel"), model(model) { }
-    Color apply(float pos, float timeStamp) { return model->apply(1.0 - pos, timeStamp); }
+    void update(float timeStamp) { model->update(timeStamp); }
+    Color apply(float pos) { return model->apply(1.0 - pos); }
 
   private:
     std::shared_ptr<Model> model;
@@ -105,7 +112,7 @@ class ReverseModel : public Model {
 class Triangle : public Model {
   public: Triangle(char const *name, float rangeMin, float rangeMax, Color color) 
     : Model(name), rangeMin(rangeMin), rangeMax(rangeMax), color(color) { }
-  Color apply(float pos, float timeStamp);
+  Color apply(float pos);
 
   private:
     float const rangeMin;

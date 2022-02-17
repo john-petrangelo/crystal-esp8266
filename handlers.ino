@@ -167,7 +167,7 @@ void handleRainbow() {
   float speed = doc["speed"];
 
   auto model = modelRunner.getModel();
-  if (model->name == "rainbow-rotate") {
+  if (model->getName() == "rainbow-rotate") {
     auto rainbowModel = static_cast<Rotate*>(model.get());
     if (rainbowModel != NULL) {
       rainbowModel->setSpeed(speed);

@@ -8,71 +8,80 @@
 
 /***** ROTATE *****/
 
-Color Rotate::apply(float pos, float timeStamp) {
+void Rotate::update(float timeStamp) {
+  // New timestamp, calculate the new offset.
+  float deltaTime = timeStamp - prevTimeStamp;
+  prevTimeStamp = timeStamp;
+
+  // How far should we rotate given the time delta. Handle wrapping to keep
+  // offset between 0.0 and 1.0.
+  float deltaPos = -deltaTime * speed;
+  rotationOffset = fmod(rotationOffset + deltaPos, 1.0);
+  if (rotationOffset < 0.0) {
+    rotationOffset += 1.0;
+  }
+
+  // Update the wrapped model as well.
+  model->update(timeStamp);
+}
+
+Color Rotate::apply(float pos) {
   // If there's no predecessor, then there's nothing to rotate. Bail out.
   if (model == NULL) {
     return RED;
   }
 
-  if (timeStamp != prevTimeStamp) {
-    // New timestamp, calculate the new offset and save it for other positions.
-    float deltaTime = timeStamp - prevTimeStamp;
-    prevTimeStamp = timeStamp;
-
-    // How far should we rotate given the time delta. Handle wrapping to keep
-    // offset between 0.0 and 1.0.
-    float deltaPos = -deltaTime * speed;
-    rotationOffset = fmod(rotationOffset + deltaPos, 1.0);
-    if (rotationOffset < 0.0) {
-      rotationOffset += 1.0;
-    }
-  }
-
-  // Next, add the offset to the position, then correct for wrap-around
+  // Add the offset to the position, then correct for wrap-around
   float rotatedPos = fmod(pos + rotationOffset, 1.0);
   if (rotatedPos < 0.0) {
     rotatedPos += 1.0;
   }
 
-  return model->apply(rotatedPos, timeStamp);
+  return model->apply(rotatedPos);
 }
 
 /***** FLAME *****/
 
-Flame::Flame() : Model("Flame"), lastUpdateMS(-PERIOD_MS) {
-  auto mgm = std::make_shared<MultiGradientModel>("flame multigradient", 7, BLACK, C1, C2, C3, C2, C1, BLACK);
-  model = std::make_shared<MapModel>("map multigradient",0.0, 1.0, 0.0, 1.0, mgm);
+Flame::Flame() : Model("Flame"), lastUpdateMS(-PERIOD_SEC) {
+  auto mgm = std::make_shared<MultiGradientModel>("flame-multigradient", 7, BLACK, C1, C2, C3, C2, C1, BLACK);
+  model = std::make_shared<MapModel>("flame-map",0.0, 1.0, 0.0, 1.0, mgm);
 }
 
-Color Flame::apply(float pos, float timeStamp) {
-  long now = millis();
-  if ((now - lastUpdateMS) > PERIOD_MS) {
-    lastUpdateMS = now;
+void Flame::update(float timeStamp) {
+  if ((timeStamp - lastUpdateMS) > PERIOD_SEC) {
+    lastUpdateMS = timeStamp;
 
     float const lower = frand(0, 0.2);
     float const upper = frand(0.8, 1.0);
 
     model->setInRange(lower, upper);
+    model->update(timeStamp);
   }
+}
 
-  return model->apply(pos, timeStamp);
+Color Flame::apply(float pos) {
+  return model->apply(pos);
 }
 
 /***** PULSATE *****/
 
-Color Pulsate::apply(float pos, float timeStamp) {
+void Pulsate::update(float timeStamp) {
   timeStamp = fmod(timeStamp, periodSecs);
-  float dimness = 0.0;
   if (timeStamp < brightenSecs) {
     // We're getting brighter
-    dimness = fmap(timeStamp, 0.0, brightenSecs, brightest, dimmest);
+    dimmness = fmap(timeStamp, 0.0, brightenSecs, brightest, dimmest);
   } else {
     // We're getting dimmer
-    dimness = fmap(timeStamp, brightenSecs, periodSecs, dimmest, brightest);
+    dimmness = fmap(timeStamp, brightenSecs, periodSecs, dimmest, brightest);
   }
 
-  Color oldColor = model->apply(pos, timeStamp);
-  Color newColor = Colors::fade(oldColor, dimness * 100.0);
+  // Update the wrapped model as well.
+  model->update(timeStamp);
+}
+
+Color Pulsate::apply(float pos) {
+  Color oldColor = model->apply(pos);
+  Color newColor = Colors::fade(oldColor, dimmness * 100.0);
   return newColor;
 }
 

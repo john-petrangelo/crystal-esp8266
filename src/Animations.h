@@ -10,7 +10,8 @@ class Flame : public Model {
   public:
     Flame();
 
-    Color apply(float pos, float timeStamp);
+    virtual void update(float timeStamp);
+    Color apply(float pos);
 
   private:
     Color const C1 = Colors::blend(RED, YELLOW, 50);
@@ -19,8 +20,8 @@ class Flame : public Model {
 
     std::shared_ptr<MapModel> model;
 
-    long lastUpdateMS;
-    int const PERIOD_MS = 110;
+    float lastUpdateMS;
+    float const PERIOD_SEC = 0.110;
 };
 
 /*
@@ -46,9 +47,12 @@ class Pulsate : public Model {
         std::shared_ptr<Model> model)
       : Model(name), model(model), dimmest(dimmest), brightest(brightest),
         dimSecs(dimSecs), brightenSecs(brightenSecs), periodSecs(dimSecs + brightenSecs) {}
-    Color apply(float pos, float timeStamp);
+    virtual void update(float timeStamp);
+    virtual Color apply(float pos);
 
   private:
+    float dimmness = 0.0;
+
     float const dimmest;
     float const brightest;
     float const dimSecs;
@@ -65,7 +69,8 @@ class Rotate : public Model {
   public:
     Rotate(char const *name, float speed, std::shared_ptr<Model> model) 
       : Model(name), speed(speed), model(model) {}
-    Color apply(float pos, float timeStamp);
+    virtual void update(float timeStamp);
+    virtual Color apply(float pos);
     void setSpeed(float newSpeed) { speed = newSpeed; }
 
   private:

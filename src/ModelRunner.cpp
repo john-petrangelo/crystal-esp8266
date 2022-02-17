@@ -9,13 +9,17 @@ void ModelRunner::loop(int numPixels, std::function<void(int, Color)> setPixel) 
   if (model == NULL) {
     return;
   }
-  
+
+  // Update the current state of the model to match the current time.
   unsigned long const nowMS = millis();
   float const timeStamp = (nowMS - startTimeMS) / 1000.0;
+  model->update(timeStamp);
+
+  // Now apply the model to each LED position.
   for (int i = 0; i < numPixels; i++) {
     // Get the color from the model
     float const pos = ((float)i) / (numPixels - 1);
-    Color const color = model->apply(pos, timeStamp);
+    Color const color = model->apply(pos);
 
     // Apply gamma correction
     uint16_t const red = Colors::getRed(color);
