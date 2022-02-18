@@ -2,9 +2,9 @@
 
 #include "lumos-arduino/lumos-arduino/Colors.h"
 
-#include "ModelRunner.h"
+#include "Renderer.h"
 
-void ModelRunner::loop(int numPixels, std::function<void(int, Color)> setPixel) {
+void Renderer::loop(int numPixels, std::function<void(int, Color)> setPixel) {
   // If there's no model then there's nothing to do
   if (model == NULL) {
     return;
@@ -34,7 +34,7 @@ void ModelRunner::loop(int numPixels, std::function<void(int, Color)> setPixel) 
 }
 
 // Give the ModelRunner a new model to run. The old model will be deleted.
-void ModelRunner::setModel(std::shared_ptr<Model> newModel) {
+void Renderer::setModel(std::shared_ptr<Model> newModel) {
   model = newModel;
   // Reset time
   // startTimeMS = millis();

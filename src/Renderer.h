@@ -1,24 +1,24 @@
-#ifndef __MODELRUNNER__
-#define __MODELRUNNER__
+#ifndef __RENDERER__
+#define __RENDERER__
 
 #include <memory>
 
 #include "Model.h"
 #include "lumos-arduino/lumos-arduino/Colors.h"
 
-class ModelRunner {
+class Renderer {
   private:
     std::shared_ptr<Model> model;
 
     unsigned long startTimeMS;
 
   public:
-    ModelRunner(std::shared_ptr<Model> model) : model(model), startTimeMS(millis()) { }
-    ModelRunner() : model(NULL) { }
+    Renderer(std::shared_ptr<Model> model) : model(model), startTimeMS(millis()) { }
+    Renderer() : model(NULL) { }
     void loop(int numPixels, std::function<void(int, Color)> setPixel);
 
-    std::shared_ptr<Model> getModel() { return model; }
+    auto getModel() { return model; }
     void setModel(std::shared_ptr<Model> model);
 };
  
-#endif // __MODEL__
+#endif // __RENDERER__

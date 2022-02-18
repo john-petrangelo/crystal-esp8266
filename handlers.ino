@@ -10,7 +10,7 @@
 #include "src/Animations.h"
 #include "src/Combinations.h"
 #include "src/Demos.h"
-#include "src/ModelRunner.h"
+#include "src/Renderer.h"
 #include "src/utils.h"
 
 void handleRoot() {
@@ -142,7 +142,7 @@ void handleCrystal() {
   float middlePeriodSec = fmap(middleSpeed, 0.0, 1.0, 11.0, 1.0);
   float lowerPeriodSec = fmap(lowerSpeed, 0.0, 1.0, 11.0, 1.0);
 
-  modelRunner.setModel(makeCrystal(
+  renderer.setModel(makeCrystal(
     upperColor, upperPeriodSec,
     middleColor, middlePeriodSec,
     lowerColor, lowerPeriodSec));
@@ -150,7 +150,7 @@ void handleCrystal() {
 }
 
 void handleFlame() {
-  modelRunner.setModel(std::make_shared<Flame>());
+  renderer.setModel(std::make_shared<Flame>());
   server.send(200, "text/plain", "");
 }
 
@@ -166,7 +166,7 @@ void handleRainbow() {
   String mode = doc["mode"];
   float speed = doc["speed"];
 
-  auto model = modelRunner.getModel();
+  auto model = renderer.getModel();
   if (model->getName() == "rainbow-rotate") {
     auto rainbowModel = static_cast<Rotate*>(model.get());
     if (rainbowModel != NULL) {
@@ -178,7 +178,7 @@ void handleRainbow() {
 
   auto gm = std::make_shared<MultiGradientModel>("rainbow-gradient", 8, RED, VIOLET, INDIGO, BLUE, GREEN, YELLOW, ORANGE, RED);
   auto rm = std::make_shared<Rotate>("rainbow-rotate", speed, gm);
-  modelRunner.setModel(rm);
+  renderer.setModel(rm);
 
   server.send(200, "text/plain", "");
 }
@@ -191,23 +191,23 @@ void handleSolid() {
 
   String colorStr = server.arg("color");
   Color color = strtol(colorStr.c_str(), 0, 16);
-  modelRunner.setModel(std::make_shared<SolidModel>("net solid model", color));
+  renderer.setModel(std::make_shared<SolidModel>("net solid model", color));
 
   server.send(200, "text/plain", "");
 }
 
 
 void handleDemo1() {
-  modelRunner.setModel(makeDemo1());
+  renderer.setModel(makeDemo1());
   server.send(200, "text/plain", "");
 }
 
 void handleDemo2() {
-  modelRunner.setModel(makeDemo2());
+  renderer.setModel(makeDemo2());
   server.send(200, "text/plain", "");
 }
 
 void handleDemo3() {
-  modelRunner.setModel(makeDemo3());
+  renderer.setModel(makeDemo3());
   server.send(200, "text/plain", "");
 }

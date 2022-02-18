@@ -8,7 +8,7 @@
 
 #include "src/Animations.h"
 #include "src/Model.h"
-#include "src/ModelRunner.h"
+#include "src/Renderer.h"
 
 String hostname = "crystal";
 ESP8266WebServer server(80);
@@ -22,7 +22,7 @@ Adafruit_NeoPixel strip(PIXELS_COUNT, PIXELS_PIN, STRIP_FLAGS);
 Color pixels[PIXELS_COUNT];
 
 long const logDurationIntervalMS = 5000;
-ModelRunner modelRunner;
+Renderer renderer;
 
 void setup() {
   Serial.begin(115200);
@@ -38,7 +38,7 @@ void setup() {
   strip.setBrightness(255);
   strip.show(); // Initialize all pixels to 'off'
 
-  modelRunner.setModel(makeDarkCrystal());
+  renderer.setModel(makeDarkCrystal());
 }
 
 void loop() {
@@ -50,7 +50,7 @@ void loop() {
   loopNetwork();
 
   // Animate the LEDs. 
-  modelRunner.loop(strip.numPixels(), [&strip](int i, Color color) { strip.setPixelColor(i, color); });
+  renderer.loop(strip.numPixels(), [&strip](int i, Color color) { strip.setPixelColor(i, color); });
   strip.show();
 
   loopLogger();
