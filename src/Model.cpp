@@ -21,7 +21,7 @@ MultiGradientModel::MultiGradientModel(char const *name, int count, ...) : Model
   va_end(argList);
 }
 
-Color MultiGradientModel::apply(float pos) {
+Color MultiGradientModel::render(float pos) {
   float colorPos = pos * (count - 1);
 
   // Get the two colors flanking the mapped position
@@ -39,10 +39,10 @@ Color MultiGradientModel::apply(float pos) {
 
 /***** MAP *****/
 
-Color MapModel::apply(float pos) {
+Color MapModel::render(float pos) {
   if ((inRangeMin <= pos) && (pos <= inRangeMax)) {
     float outPos = fmap(pos, inRangeMin, inRangeMax, outRangeMin, outRangeMax);
-    return model->apply(outPos);
+    return model->render(outPos);
   }
 
   // Everything outside of the "in range" will be BLACK
@@ -51,7 +51,7 @@ Color MapModel::apply(float pos) {
 
 /***** TRIANGLE *****/
 
-Color Triangle::apply(float pos) {
+Color Triangle::render(float pos) {
   if (pos < rangeMin || pos > rangeMax) {
     return BLACK;
   }

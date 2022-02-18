@@ -22,7 +22,7 @@ class Add : public Model {
     Add(char const *name, std::shared_ptr<Model> a, std::shared_ptr<Model> b)
       : Model(name), modelA(a), modelB(b) { }
     void update(float timeStamp) { modelA->update(timeStamp); modelB->update(timeStamp); }
-    Color apply(float pos);
+    Color render(float pos);
 
   private:
     std::shared_ptr<Model> modelA;
@@ -41,7 +41,7 @@ class WindowModel : public Model {
       : Model(name), rangeMin(rangeMin), rangeMax(rangeMax),
         insideModel(insideModel), outsideModel(outsideModel) { }
     void update(float timeStamp) { insideModel->update(timeStamp); outsideModel->update(timeStamp); }
-    Color apply(float pos);
+    Color render(float pos);
 
   private:
     std::shared_ptr<Model> insideModel;

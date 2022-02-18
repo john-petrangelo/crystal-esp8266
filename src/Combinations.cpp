@@ -8,9 +8,9 @@
 
 /***** ADD *****/
 
-Color Add::apply(float pos) {
-  Color const colorA = modelA->apply(pos);
-  Color const colorB = modelB->apply(pos);
+Color Add::render(float pos) {
+  Color const colorA = modelA->render(pos);
+  Color const colorB = modelB->render(pos);
 
   Color const newColor = Colors::add(colorA, colorB);
   return newColor;
@@ -18,11 +18,11 @@ Color Add::apply(float pos) {
 
 /***** WINDOW *****/
 
-Color WindowModel::apply(float pos) {
+Color WindowModel::render(float pos) {
   if ((rangeMin <= pos) && (pos <= rangeMax)) {
-    return insideModel->apply(pos);
+    return insideModel->render(pos);
   }
 
   // The pos is outside the range
-  return outsideModel->apply(pos);
+  return outsideModel->render(pos);
 }

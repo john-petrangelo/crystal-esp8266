@@ -25,7 +25,7 @@ void Rotate::update(float timeStamp) {
   model->update(timeStamp);
 }
 
-Color Rotate::apply(float pos) {
+Color Rotate::render(float pos) {
   // If there's no predecessor, then there's nothing to rotate. Bail out.
   if (model == NULL) {
     return RED;
@@ -37,7 +37,7 @@ Color Rotate::apply(float pos) {
     rotatedPos += 1.0;
   }
 
-  return model->apply(rotatedPos);
+  return model->render(rotatedPos);
 }
 
 /***** FLAME *****/
@@ -59,8 +59,8 @@ void Flame::update(float timeStamp) {
   }
 }
 
-Color Flame::apply(float pos) {
-  return model->apply(pos);
+Color Flame::render(float pos) {
+  return model->render(pos);
 }
 
 /***** PULSATE *****/
@@ -79,8 +79,8 @@ void Pulsate::update(float timeStamp) {
   model->update(timeStamp);
 }
 
-Color Pulsate::apply(float pos) {
-  Color oldColor = model->apply(pos);
+Color Pulsate::render(float pos) {
+  Color oldColor = model->render(pos);
   Color newColor = Colors::fade(oldColor, dimmness * 100.0);
   return newColor;
 }

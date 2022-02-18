@@ -18,7 +18,7 @@ class Model {
     virtual void update(float timeStamp) {}
 
     // Returns the color that should be displayed at the specified pos at the current time.
-    virtual Color apply(float pos) = 0;
+    virtual Color render(float pos) = 0;
 
     // Returns the name of this model, provided in the constructor.
     char const * getName() { return name; }
@@ -35,7 +35,7 @@ class Model {
 class SolidModel : public Model {
   public:
     SolidModel(char const *name, Color color) : Model(name), color(color) {}
-    Color apply(float pos) { return color; }
+    Color render(float pos) { return color; }
 
   private:
     Color color;
@@ -49,7 +49,7 @@ class SolidModel : public Model {
 class GradientModel : public Model {
   public:
     GradientModel(char const *name, Color a, Color b) : Model(name), a(a), b(b) { }
-    Color apply(float pos) { return Colors::blend(a, b, 100 * pos); }
+    Color render(float pos) { return Colors::blend(a, b, 100 * pos); }
 
   private:
     Color a, b;
@@ -63,7 +63,7 @@ class GradientModel : public Model {
 class MultiGradientModel : public Model {
   public:
     MultiGradientModel(char const *name, int count, ...);
-    Color apply(float pos);
+    Color render(float pos);
 
   private:
     static int const MAX_COLORS = 10;
@@ -83,7 +83,7 @@ class MapModel : public Model {
       : Model(name), inRangeMin(inRangeMin), inRangeMax(inRangeMax),
         outRangeMin(outRangeMin), outRangeMax(outRangeMax), model(model) { }
     void update(float timeStamp) { model->update(timeStamp); }
-    Color apply(float pos);
+    Color render(float pos);
 
     void setInRange(float inRangeMin, float inRangeMax) {
       this->inRangeMin = inRangeMin;
@@ -101,7 +101,7 @@ class ReverseModel : public Model {
   public:
     ReverseModel(std::shared_ptr<Model> model) : Model("ReverseModel"), model(model) { }
     void update(float timeStamp) { model->update(timeStamp); }
-    Color apply(float pos) { return model->apply(1.0 - pos); }
+    Color render(float pos) { return model->render(1.0 - pos); }
 
   private:
     std::shared_ptr<Model> model;
@@ -112,7 +112,7 @@ class ReverseModel : public Model {
 class Triangle : public Model {
   public: Triangle(char const *name, float rangeMin, float rangeMax, Color color) 
     : Model(name), rangeMin(rangeMin), rangeMax(rangeMax), color(color) { }
-  Color apply(float pos);
+  Color render(float pos);
 
   private:
     float const rangeMin;

@@ -11,7 +11,7 @@ class Flame : public Model {
     Flame();
 
     virtual void update(float timeStamp);
-    Color apply(float pos);
+    Color render(float pos);
 
   private:
     Color const C1 = Colors::blend(RED, YELLOW, 50);
@@ -48,7 +48,7 @@ class Pulsate : public Model {
       : Model(name), model(model), dimmest(dimmest), brightest(brightest),
         dimSecs(dimSecs), brightenSecs(brightenSecs), periodSecs(dimSecs + brightenSecs) {}
     virtual void update(float timeStamp);
-    virtual Color apply(float pos);
+    virtual Color render(float pos);
 
   private:
     float dimmness = 0.0;
@@ -70,7 +70,7 @@ class Rotate : public Model {
     Rotate(char const *name, float speed, std::shared_ptr<Model> model) 
       : Model(name), speed(speed), model(model) {}
     virtual void update(float timeStamp);
-    virtual Color apply(float pos);
+    virtual Color render(float pos);
     void setSpeed(float newSpeed) { speed = newSpeed; }
 
   private:

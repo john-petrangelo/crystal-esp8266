@@ -19,7 +19,7 @@ void Renderer::loop(int numPixels, std::function<void(int, Color)> setPixel) {
   for (int i = 0; i < numPixels; i++) {
     // Get the color from the model
     float const pos = ((float)i) / (numPixels - 1);
-    Color const color = model->apply(pos);
+    Color const color = model->render(pos);
 
     // Apply gamma correction
     uint16_t const red = Colors::getRed(color);
