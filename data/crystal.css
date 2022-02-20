@@ -16,10 +16,11 @@ body {
 }
 
 button {
-  font-size : medium;
   width: calc(33% - 6px);
   height: 60px;
-  color: lightgray;
+  color: white;
+  text-shadow: 0px 0px 4px #000000;
+  font-size : medium;
   background-color: #606060;
   text-align: center;
   border-radius: 15px;
@@ -34,58 +35,53 @@ button {
 }
 
 #crystal-button {
-  color: lightgray;
   background: radial-gradient(ellipse 100% 80%, purple, lightgray);
 }
 #rainbow-button {
-  color: darkslategray;
-  background: linear-gradient(to bottom, red, orange, yellow, green, blue, indigo);
-}
+  background-color: #87cefa !important;
+  background: radial-gradient(circle at bottom left, rgba(0, 0, 0, 0) 35%,
+    rgba(75, 0, 130, 0.7) 40%,
+    rgba(0, 0, 255, 0.7),
+    rgba(0, 128, 0, 0.7),
+    rgba(255, 255, 0, 0.7),
+    rgba(255, 165, 0, 0.7),
+    rgba(255, 0, 0, 0.7) 65%,
+    rgba(0, 0, 0, 0) 70%);
+  }
 #flame-button {
-  color: darkslategray;
-  background: linear-gradient(to top, #ff8000, orange, yellow, orange, #ff8000);
+    background: radial-gradient(ellipse at bottom, #ff8000, orange, yellow 90%);
 }
 #other-button {
-  color: #c0c0c0;
   background: #303030;
 }
 
 #dark-crystal-button {
   width: 60%;
-  color: lightgray;
   background: radial-gradient(ellipse 100% 80%, purple, white);
   margin-bottom: 3px;
 }
 #ruby-button {
-  color: lightgray;
   background: radial-gradient(ellipse 100% 80%, #9b111e, white);
 }
 #emerald-button {
-  color: #404040;
   background: radial-gradient(ellipse 100% 80%, #10D026, white);
 }
 #saphire-button {
-  color: lightgray;
   background: radial-gradient(ellipse 100% 80%, #1020A0, white);
 }
 #topaz-button {
-  color: #404040;
   background: radial-gradient(ellipse 100% 80%, #ffa000, white);
 }
 #turquoise-button {
-  color: #404040;
   background: radial-gradient(ellipse 100% 80%, #00d0d0, white);
 }
 #diamond-button {
-  color: #404040;
   background: radial-gradient(ellipse 100% 80%, white,#b0b0b0);
 }
 #amethyst-button {
-  color: #404040;
   background: radial-gradient(ellipse 100% 80%, #9966cc, white);
 }
 #jade-button {
-  color: #404040;
   background: radial-gradient(ellipse 100% 80%, #40A630, white);
 }
 #lapis-button {
@@ -215,7 +211,7 @@ button {
     rgba(255, 165, 0, 0.7),
     rgba(255, 0, 0, 0.7) 65%,
     rgba(0, 0, 0, 0) 70%);
-  }
+}
 #rb-vivid-button {
   background: radial-gradient(circle at bottom left, rgba(0, 0, 0, 0) 35%,
     indigo 40%,
@@ -241,26 +237,15 @@ button {
   background: linear-gradient(#1020A0, white);
 }
 #rb-tv-button {
-  background: radial-gradient(circle at bottom left, rgba(0, 0, 0, 0) 39%,
-    rgb(0, 0, 0) 40%,
-    rgb(0, 0, 0) 42%,
-    rgb(0, 0, 191) 43%,
-    rgb(0, 0, 191) 45%,
-    rgb(191, 0, 1) 46%,
-    rgb(191, 0, 1) 48%,
-    rgb(191, 0, 192) 49%,
-    rgb(191, 0, 192) 51%,
-    rgb(0, 191, 0) 52%,
-    rgb(0, 191, 0) 54%,
-    rgb(0, 191, 190) 55%,
-    rgb(0, 191, 190) 57%,
-    rgb(191, 191, 0) 58%,
-    rgb(191, 191, 0) 60%,
-    rgb(191, 191, 191) 61%,
-    rgb(191, 191, 191) 63%,
-    rgb(102, 102, 102) 64%,
-    rgb(102, 102, 102) 66%,
-    rgba(0, 0, 0, 0) 67%);
+  background: linear-gradient(to right,
+    rgb(0, 0, 191) 0% 12.5%,
+    rgb(191, 0, 1) 12.5% 25%,
+    rgb(191, 0, 192) 25% 37.5%,
+    rgb(0, 191, 0) 37.5% 50%,
+    rgb(0, 191, 190) 50% 62.5%,
+    rgb(191, 191, 0) 62.5% 75%,
+    rgb(191, 191, 191) 75% 87.5%,
+    rgb(102, 102, 102) 87.5% 100%);
 }
 #rb-buttons {
   display: grid;
