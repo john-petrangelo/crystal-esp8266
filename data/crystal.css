@@ -229,13 +229,13 @@ button {
 }
 #rb-pastel-button {
   background: radial-gradient(circle at bottom left,
-    rgba(191, 191, 255, 0.0) 35%,
-    rgb(191, 191, 255), 40%,
-    rgb(191, 255, 191),
-    rgb(254, 255, 191),
-    rgb(255, 235, 191),
-    rgb(255, 191, 192) 65%,
-    rgba(255, 191, 192, 0) 70%);
+  rgba(128, 128, 255, 0.0) 35%,
+  rgb(128, 128, 255), 40%,
+  rgb(128, 255, 128),
+  rgb(255, 255, 128),
+  rgb(255, 215, 128),
+  rgb(255, 128, 128) 65%,
+  rgba(255, 128, 128, 0) 70%);
 }
 #rb-retro-button {
   background: linear-gradient(#1020A0, white);

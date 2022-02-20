@@ -72,6 +72,7 @@ class Rotate : public Model {
     virtual void update(float timeStamp);
     virtual Color render(float pos);
     void setSpeed(float newSpeed) { speed = newSpeed; }
+    void setModel(std::shared_ptr<Model> newModel) { model = newModel; }
 
   private:
     float speed;
