@@ -254,9 +254,7 @@ button {
 }
 #rb-buttons button {
   width: 30vw;
-  height: 30vw;
   place-self: center;
-  border-radius: 120px;
   background-color: #87cefa;
 }
 .rb-container {
