@@ -203,17 +203,19 @@ button {
   width: 100%;
 }
 #rb-classic-button {
-  background: radial-gradient(circle at bottom left, rgba(0, 0, 0, 0) 35%,
+  background: radial-gradient(circle at bottom left, 
+    rgba(0, 0, 0, 0.0) 35%,
     rgba(75, 0, 130, 0.7) 40%,
     rgba(0, 0, 255, 0.7),
     rgba(0, 128, 0, 0.7),
     rgba(255, 255, 0, 0.7),
     rgba(255, 165, 0, 0.7),
     rgba(255, 0, 0, 0.7) 65%,
-    rgba(0, 0, 0, 0) 70%);
+    rgba(0, 0, 0, 0.0) 70%);
 }
 #rb-vivid-button {
-  background: radial-gradient(circle at bottom left, rgba(0, 0, 0, 0) 35%,
+  background: radial-gradient(circle at bottom left, 
+    rgba(0, 0, 0, 0.0) 35%,
     indigo 40%,
     purple,
     blue,
@@ -221,20 +223,17 @@ button {
     yellow,
     orange, 
     red 65%, 
-    rgba(0, 0, 0, 0) 70%);
+    rgba(0, 0, 0, 0.0) 70%);
 }
 #rb-pastel-button {
   background: radial-gradient(circle at bottom left,
-  rgba(128, 128, 255, 0.0) 35%,
-  rgb(128, 128, 255), 40%,
-  rgb(128, 255, 128),
-  rgb(255, 255, 128),
-  rgb(255, 215, 128),
-  rgb(255, 128, 128) 65%,
-  rgba(255, 128, 128, 0) 70%);
-}
-#rb-retro-button {
-  background: linear-gradient(#1020A0, white);
+    rgba(128, 128, 255, 0.0) 35%,
+    rgb(128, 128, 255) 40%,
+    rgb(128, 255, 128),
+    rgb(255, 255, 128),
+    rgb(255, 215, 128),
+    rgb(255, 128, 128) 65%,
+    rgba(255, 128, 128, 0.0) 70%);
 }
 #rb-tv-button {
   background: linear-gradient(to right,
@@ -246,6 +245,34 @@ button {
     rgb(191, 191, 0) 62.5% 75%,
     rgb(191, 191, 191) 75% 87.5%,
     rgb(102, 102, 102) 87.5% 100%);
+}
+#rb-vintage-button {
+
+}
+#rb-50s-button {
+  background: radial-gradient(circle at bottom left,
+    rgba(246, 204, 208, 0.0) 35%,
+    #F6CCD0 40%,
+    #BBDCCB,
+    #B4DCE3,
+    #FDEEB3,
+    #D9CBC2 65%,
+    rgba(217, 203, 194, 0.0) 70%);
+}
+#rb-60s-button {
+
+}
+#rb-70s-button {
+
+}
+#rb-80s-button {
+  
+}
+#rb-90s-button {
+  
+}
+#rb-00s-button {
+  
 }
 #rb-buttons {
   display: grid;

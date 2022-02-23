@@ -168,18 +168,17 @@ void handleRainbow() {
 
   std::shared_ptr<Model> gm = nullptr;
   if (mode == "vivid") {
-    gm = std::make_shared<MultiGradientModel>("rainbow-gradient",
+    gm = std::make_shared<MultiGradientModel>("vivid-gradient",
       8, RED, VIOLET, INDIGO, BLUE, GREEN, YELLOW, ORANGE, RED);
   } else if (mode == "pastel") {
-    gm = std::make_shared<MultiGradientModel>("rainbow-gradient",
-      5, 0x8080FF, 0x80FF80, 0xFFFF80, 0xFFD780, 0xFF8080);
-  // } else if (mode == "retro") {
-  // }
+    gm = std::make_shared<MultiGradientModel>("pastel-gradient",
+      6, 0x8080FF, 0x80FF80, 0xFFFF80, 0xFFD780, 0xFF8080, 0x8080FF);
   } else if (mode == "tv") {
-    gm = std::make_shared<MultiGradientModel>("rainbow-gradient",
+    gm = std::make_shared<MultiGradientModel>("tv-gradient",
       8, 0x0000BF, 0xBF0000, 0xBF00C0, 0x00BF00, 0x00BFBE, 0xBFBF00, 0xBFBFBF, 0x666666);
-  // }
-  // } else if (mode == "monochrome") {
+  } else if (mode == "50s") {
+    gm = std::make_shared<MultiGradientModel>("50s-gradient",
+      6, 0xB26463, 0x79C874, 0x8AC5BD, 0x9A942E, 0x937535, 0xB26463);
   } else {
     // Assume "classic" as a default
     gm = std::make_shared<MultiGradientModel>("rainbow-gradient",
