@@ -251,7 +251,7 @@ button {
 }
 #rb-50s-button {
   background: radial-gradient(circle at bottom left,
-    rgba(246, 204, 208, 0.0) 35%,
+    rgba(246,204,208,0.0) 35%,
     #F6CCD0 40%,
     #BBDCCB,
     #B4DCE3,
@@ -260,10 +260,24 @@ button {
     rgba(217, 203, 194, 0.0) 70%);
 }
 #rb-60s-button {
-
+  background: radial-gradient(circle at bottom left,
+    rgba(252,213,58,0.0) 35%,
+    #FCD53A 40%,
+    #BFC847,
+    #F7790B,
+    #DC4E80,
+    #7BD0EC 65%,
+    rgba(123,208,236,0.0) 70%);
 }
 #rb-70s-button {
-
+  background: radial-gradient(circle at bottom left,
+    rgba(229,159,35,0.0) 35%,
+    #E59F23 40%,
+    #925E18,
+    #758C32,
+    #CE985A,
+    #E15623 65%,
+    rgba(225,86,35,0.0) 70%);
 }
 #rb-80s-button {
   

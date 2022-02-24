@@ -179,6 +179,12 @@ void handleRainbow() {
   } else if (mode == "50s") {
     gm = std::make_shared<MultiGradientModel>("50s-gradient",
       6, 0xB26463, 0x79C874, 0x8AC5BD, 0x9A942E, 0x937535, 0xB26463);
+  } else if (mode == "60s") {
+    gm = std::make_shared<MultiGradientModel>("60s-gradient",
+      6, 0xFCD53A, 0xBFC847, 0xF7790B, 0xDC4E80, 0x7BD0EC, 0xFCD53A);
+  } else if (mode == "70s") {
+    gm = std::make_shared<MultiGradientModel>("70s-gradient",
+      6, 0xE59F23, 0x925E18, 0x758C32, 0xCE985A, 0xE15623, 0xE59F23);
   } else {
     // Assume "classic" as a default
     gm = std::make_shared<MultiGradientModel>("rainbow-gradient",
