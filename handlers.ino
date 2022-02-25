@@ -167,12 +167,9 @@ void handleRainbow() {
   float speed = doc["speed"];
 
   std::shared_ptr<Model> gm = nullptr;
-  if (mode == "vivid") {
+  if (mode == "classic") {
     gm = std::make_shared<MultiGradientModel>("vivid-gradient",
       8, RED, VIOLET, INDIGO, BLUE, GREEN, YELLOW, ORANGE, RED);
-  } else if (mode == "pastel") {
-    gm = std::make_shared<MultiGradientModel>("pastel-gradient",
-      6, 0x8080FF, 0x80FF80, 0xFFFF80, 0xFFD780, 0xFF8080, 0x8080FF);
   } else if (mode == "tv") {
     gm = std::make_shared<MultiGradientModel>("tv-gradient",
       8, 0x0000BF, 0xBF0000, 0xBF00C0, 0x00BF00, 0x00BFBE, 0xBFBF00, 0xBFBFBF, 0x666666);
@@ -198,7 +195,7 @@ void handleRainbow() {
     gm = std::make_shared<MultiGradientModel>("10s-gradient",
       6, 0xF0A2A3, 0x62656D, 0x8E6E29, 0x725A47, 0x4F7018, 0xF0A2A3);
   } else {
-    // Assume "classic" as a default
+    // We shouldn't get here, but assume "classic" as a default in case we do.
     gm = std::make_shared<MultiGradientModel>("rainbow-gradient",
       8, RED, VIOLET, INDIGO, BLUE, GREEN, YELLOW, ORANGE, RED);
   }
