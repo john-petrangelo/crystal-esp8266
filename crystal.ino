@@ -58,6 +58,6 @@ void loop() {
   if (beforeMS - lastUpdateMS >= logDurationIntervalMS) {
     lastUpdateMS = beforeMS;
     long afterMS = millis();
-    Logger::logf("Completed loop, duration %dms\n", afterMS - beforeMS);
+    Logger::logf("%0.3f Completed loop, duration %dms, free heap %d bytes\n", afterMS / 1000.0, afterMS - beforeMS, ESP.getFreeHeap());
   }
 }
