@@ -48,16 +48,29 @@ void loop() {
   
   // Check for network activity.
   loopNetwork();
+  long afterNetworkMS = millis();
 
   // Animate the LEDs. 
   renderer.loop(strip.numPixels(), [&strip](int i, Color color) { strip.setPixelColor(i, color); });
+  long afterRenderMS = millis();
+  yield();
+  long afterYieldMS = millis();
   strip.show();
+  long afterShowMS = millis();
 
   loopLogger();
+  long afterAllMS = millis();
 
   if (beforeMS - lastUpdateMS >= logDurationIntervalMS) {
     lastUpdateMS = beforeMS;
-    long afterMS = millis();
-    Logger::logf("%0.3f Completed loop, duration %dms, free heap %d bytes\n", afterMS / 1000.0, afterMS - beforeMS, ESP.getFreeHeap());
+    Logger::logf("%0.3f Completed loop, total %dms(network %dms, render %dms, yield %dms, show %dms, logger %dms), free heap %d bytes\n",
+      afterAllMS / 1000.0,
+      afterAllMS - beforeMS,
+      afterNetworkMS - beforeMS,
+      afterRenderMS - afterNetworkMS,
+      afterYieldMS - afterRenderMS,
+      afterShowMS - afterYieldMS,
+      afterAllMS - afterShowMS,
+      ESP.getFreeHeap());
   }
 }
