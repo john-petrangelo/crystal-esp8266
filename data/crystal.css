@@ -89,7 +89,8 @@ button {
 }
 
 .home-img {
-  width: 100px;
+  width: 128px;
+  height 128px;
   border: 1px solid gray;
   background-color: lightgray;
   padding: 5px;
