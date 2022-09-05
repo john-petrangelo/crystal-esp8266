@@ -1,4 +1,9 @@
 #include <ESP8266WebServer.h>
+
+#ifdef ENABLE_GDB_STUB
+#include <GDBStub.h>
+#endif
+
 #include <LittleFS.h>
 
 #include <Adafruit_NeoPixel.h>
@@ -27,6 +32,10 @@ Renderer renderer;
 void setup() {
   Serial.begin(115200);
   Serial.println("");
+
+#ifdef ENABLE_GDB_STUB
+  gdbstub_init();
+#endif
 
   if (!LittleFS.begin()) {
     Serial.println("Failed to start LittleFS");
